@@ -1,7 +1,6 @@
 $(document).ready(function (){
     $('#profileSellButton').on("click", getToSellTickets);
     $('#profileBuyButton').on("click", getBuyedTickets);
-    $('#profileFavsButton').on("click", getLikedTickets);
 });
 
 function getToSellTickets(){
@@ -11,6 +10,13 @@ function getToSellTickets(){
 function getBuyedTickets(){
 }
 
-function getLikedTickets(){
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
+
+function closePopup() {
+    $("#popup").hide();
 }
 

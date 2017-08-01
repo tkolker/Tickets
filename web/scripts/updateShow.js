@@ -1,5 +1,6 @@
 $(document).ready(function (){
     $('#buttonUpdateShow').on("click", updateShow);
+    $('#buttonUpdateShow').on("click", updateShow);
 });
 
 function updateShow(){
@@ -29,4 +30,13 @@ function updateShow(){
             createShowPage(show);
         }
     });
+}
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
+
+function closePopup() {
+    $("#popup").hide();
 }

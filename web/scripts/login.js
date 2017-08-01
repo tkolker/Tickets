@@ -65,3 +65,12 @@ function gotoLogin(){
 function gotoSignup(){
     window.location.replace("signup.html")
 }
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
+
+function closePopup() {
+    $("#popup").hide();
+}

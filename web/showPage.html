@@ -75,13 +75,14 @@
     <nav id="toc">
         <ul>
             <li>
-                <a href="indexSignedUser.html">הופעות</a></li>
+                <a href="index.html">הופעות</a></li>
             <li>
-                <a href="profile.html" id="myProfileButton">אזור אישי</a></li>
+                <a href="login.html">אזור אישי</a></li>
             <li>
-                <a href="addShow.html">מכירה</a></li>
+                <a href="login.html">מכירה</a></li>
         </ul>
 	</nav>
+
     
   <script src="ajax/jquery-1.11.0.min.js"></script>
     <script src="lib/underscore-min.js"></script>  
@@ -97,7 +98,12 @@
     </script>
     
     <script src="scripts/work-bio.js"></script>
- 
+
+    <div id="popup">
+        <div id="popupBg" onclick="closePopup()"/>
+        <div id="message"></div>
+    </div>
+
 
 </body>
 </html>

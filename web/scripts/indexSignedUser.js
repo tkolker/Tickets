@@ -27,5 +27,25 @@ function addUsername(name){
 }
 
 function gotoLogout(){
+    var actionType = "logout"
 
+    $.ajax({
+        url: "login",
+        type: "POST",
+        data: {
+            "ActionType": actionType,
+        },
+        success: function (user) {
+            window.location.replace("index.html");
+        }
+    });
+}
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
+
+function closePopup() {
+    $("#popup").hide();
 }

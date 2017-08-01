@@ -49,8 +49,8 @@ function addShow(){
 function setTimeLimits(){
     var today = new Date();
     var nextweek = new Date(today.getDate() + 7);
-    $('#showDate').Attr("min", today);
-    $('#showDate').Attr("max", nextweek);
+    $('#showDate').attr("min", today);
+    $('#showDate').attr("max", nextweek);
 }
 
 
@@ -67,4 +67,13 @@ function showResponse(i, show) {
     }
 }
 
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
+
+function closePopup() {
+    $("#popup").hide();
+}
 

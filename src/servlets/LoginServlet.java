@@ -127,7 +127,7 @@ public class LoginServlet extends HttpServlet{
             }
             else {
                 int ind = users.indexOf(signedUser);
-                if(!users.get(ind).getPassword().equals(signedUser.getPassword())) {
+                if(!users.get(ind).getPassword().equals(user.getPassword())) {
                     isNameExist = Constants.WRONG_PASSWORD;
                 }
                 else if(!user.emailValidation(user.getEmail()))

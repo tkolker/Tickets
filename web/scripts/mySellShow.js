@@ -55,3 +55,12 @@ function showResponse(i, show) {
 
     }
 }
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
+
+function closePopup() {
+    $("#popup").hide();
+}

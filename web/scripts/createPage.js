@@ -7,3 +7,4 @@ function createShowPage(show){
     $('#showAbout').text(show.m_About);
     $('#showPicture').attr("src", show.m_PictureUrl);
 }
+

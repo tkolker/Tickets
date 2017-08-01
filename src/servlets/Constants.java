@@ -39,4 +39,5 @@ public enum Constants {
     public static final String GET_USER = "getUserFromSession";
     public static final String LOGIN = "login";
     public static final String SHOW_ABOUT = "showAbout";
+    public static final String LOGOUT = "logout";
 }

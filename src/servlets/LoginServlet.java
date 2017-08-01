@@ -108,8 +108,7 @@ public class LoginServlet extends HttpServlet{
 
         Gson gson = new Gson();
         String res = gson.toJson(validInput);
-        String signedUserStr = gson.toJson(signedUser);
-
+        String signedUserStr = gson.toJson(user);
         response.getWriter().write("["+res+","+signedUserStr+"]");
         response.getWriter().flush();
     }

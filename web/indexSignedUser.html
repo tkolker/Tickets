@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+
+
+    <!-- Meta info -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מכרטסים - כרטיסים בדקה ה90</title>
+    <meta content="" name="description">
+    <meta name="author" content="SivanIzhar_&_TalKolker">
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round&amp;subset=hebrew" rel="stylesheet" type='text/css'>
+    <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css">
+    <script src="lib/modernizr-2.6.2.js"></script>
+</head>
+<body style="align:right"; dir="rtl">
+<div id="container" style="left: 0px;">
+    <section id="content">
+
+        <header>
+            <div id="pfd">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="מכרטסים">
+                </a>
+                <span>
+                    <button id="buttonLogOutWindow">התנתק</button>
+                </span>
+                <span>
+                    <h2 id="loggedInUserName" class="headerData"></h2>
+                </span>
+            </div>
+
+            <div style="text-align:center" id="searchContainer" class="home">
+        <span>
+            <input type="text" id="searchBar" placeholder="חיפוש הופעות...">
+        </span>
+                <span>
+        <button class="button">חפש</button>
+        </span>
+            </div>
+        </header>
+
+        <div id="our-shows">
+            <ul>
+                <li><a href="showPage.html"><img src="images/work/asaf.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>אסף אבידן</h2><h3>13/6/17<br>היכל התרבות תל אביב</h3></summary><div class="loves"><span>140</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/evita.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>אוויטה</h2><h3>13/6/17<br>תיאטרון הבימה</h3></summary><div class="loves"><span>22</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/rita.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>ריטה</h2><h3>13/6/17<br>היכל התרבות תל אביב</h3></summary><div class="loves"><span>12</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/idan.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>עידן רייכל</h2><h3>13/6/17<br>זאפה תל אביב</h3></summary><div class="loves"><span>77</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/memune.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>הממונה על משאבי אנוש</h2><h3>13/6/17<br>תיאטרון הקאמרי</h3></summary><div class="loves"><span>22</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/britney.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>בריטני ספירס</h2><h3>13/6/17<br>פארק הירקון</h3></summary><div class="loves"><span>12</span></div></div></a></li><br>
+                <li><a href="showPage.html"><img src="images/work/shlomo.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>שלמה ארצי</h2><h3>13/6/17<br>אמפי קיסריה</h3></summary><div class="loves"><span>77</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/tikva6.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>התקווה 6</h2><h3>13/6/17<br>זאפה ירושלים</h3></summary><div class="loves"><span>22</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/tziporela.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>ציפורלה</h2><h3>13/6/17<br>צוותא</h3></summary><div class="loves"><span>12</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/yuval.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>יובל דיין</h2><h3>13/6/17<br>זאפה הרצליה</h3></summary><div class="loves"><span>22</span></div></div></a></li>
+                <li><a href="showPage.html"><img src="images/work/carolina.jpg" alt="מכרטסים"><div class="overlay"><summary><h2>קרולינה</h2><h3>13/6/17<br>זאפה תל אביב</h3></summary><div class="loves"><span>12</span></div></div></a></li>
+
+            </ul>
+        </div>
+    </section>
+
+    <footer id="msf">
+        <div class="wrapper">
+            <div id="legal">
+                <span>מכרטסים<br>2017</span>
+            </div>
+
+        </div><!-- wrapper -->
+    </footer><!-- footer -->
+</div><!-- container -->
+
+
+<nav id="toc">
+    <ul>
+        <li>
+            <a href="indexSignedUser.html">הופעות</a></li>
+        <li>
+            <a href="profile.html">אזור אישי</a></li>
+        <li>
+            <a href="addShow.html">מכירה</a></li>
+    </ul>
+</nav>
+
+
+
+<script src="ajax/jquery-1.11.0.min.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/menu.js"></script>
+<script src="scripts/index.js"></script>
+<script src="scripts/login.js"></script>
+<script src="scripts/signup.js"></script>
+<script src="scripts/indexSignedUser.js"></script>
+<script>
+    $(document).ready(function () {
+        PfdMenu._ctor();
+    });
+</script>
+
+
+<script>
+    $(document).ready(function(){
+        ReadMore.init();
+    })
+</script>
+
+
+</body>
+</html>

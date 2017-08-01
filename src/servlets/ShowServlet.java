@@ -1,0 +1,233 @@
+
+package servlets;
+
+import appManager.ShowsManager;
+import appManager.UserShowsManager;
+import appManager.db_manager.DBTrans;
+import com.google.gson.Gson;
+import logic.Show;
+import logic.ShowNumber;
+import logic.User;
+import logic.UserShows;
+import utils.ServletUtils;
+import utils.SessionUtils;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
+
+@WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
+public class ShowServlet extends HttpServlet {
+
+    EntityManagerFactory emf;
+    EntityManager em;
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        em = emf.createEntityManager();
+
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        String actionType = request.getParameter(Constants.ACTION_TYPE);
+        /*ArrayList<Ticket> ticketsList = new ArrayList<>();
+        while (request.getAttribute(Constants.TICKET_LIST) != null)
+        {
+            ticketsList.add((Ticket) request.getAttribute(Constants.TICKET_LIST));
+        }*/
+        ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
+        getShowDetails(request, response, showsManager, em);
+    }
+
+    private void getShowDetails(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException{
+        response.setContentType("application/json");
+        int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
+        Show show = showsManager.getShowByID(em, showID);
+/*
+        Show showExist = null;
+        int isShowExist = Constants.SHOW_EXIST;
+        Show userFromSession = SessionUtils.getParameterForShow(request);
+        if(userFromSession == null) {
+            List<Show> shows = showsManager.getAllShows(em);
+            showExist = showsManager.showExist(shows, show);
+            if (showExist == null) {
+                isShowExist = Constants.SHOW_NOT_EXIST;
+            }
+        }
+        else {
+        }
+*/
+        Gson gson = new Gson();
+        String showStr = gson.toJson(show);
+        response.getWriter().write(showStr);
+        response.getWriter().flush();
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        em = emf.createEntityManager();
+
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        String actionType = request.getParameter(Constants.ACTION_TYPE);
+        /*ArrayList<Ticket> ticketsList = new ArrayList<>();
+        while (request.getAttribute(Constants.TICKET_LIST) != null)
+        {
+            ticketsList.add((Ticket) request.getAttribute(Constants.TICKET_LIST));
+        }*/
+        //TODO: if action is update the parameters will be different (need to pull parameters inside cases
+        Show show;
+        ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
+
+        switch (actionType)
+        {
+            case Constants.ADD_SHOW:
+                addShowToDB(request, response, showsManager);
+                break;
+            case Constants.UPDATE_SHOW:
+                show = (Show) request.getSession(false).getAttribute(Constants.SHOW);
+                updateShow(request, response, show, showsManager);
+                break;
+            case Constants.DELETE_SHOW:
+                show = (Show) request.getSession(false).getAttribute(Constants.SHOW);
+                removeShowFromDB(request, response, show, showsManager);
+                break;
+        }
+
+    }
+
+    //TODO: function needs to be checked after shows aren't fictive
+    private void updateShow(HttpServletRequest request, HttpServletResponse response, Show showToUpdate, ShowsManager showsManager) throws IOException {
+        response.setContentType("application/json");
+
+        Show showToDelete = null;
+        Show showToDeleteFromSession = SessionUtils.getParameterForShow(request);
+        int validInput = Constants.SHOW_UPDATE_SUCCESSFULLY;
+
+        if (showToDeleteFromSession == null) {
+            List<Show> shows = showsManager.getAllShows(em);
+            showToDelete = showsManager.showIDExist(shows, showToUpdate);
+
+            if(showToDelete != null)
+            {
+                Show.updateShowDetails(showToUpdate, showToDelete);
+
+                showsManager.deleteShow(showToDelete);
+                showsManager.addShow(showToUpdate);
+                DBTrans.remove(em, showToDelete);
+                request.getSession(true).setAttribute(Constants.SHOW, showToUpdate);
+                DBTrans.persist(em, showToUpdate);
+            }
+            else
+            {
+                validInput = Constants.SHOW_NOT_EXIST;
+            }
+        }
+        else
+        {
+            //TODO: what happen when showToDeleteFromSession return not null????
+        }
+
+        Gson gson = new Gson();
+        String res = gson.toJson(validInput);
+        String showJson = gson.toJson(showToUpdate);
+        response.getWriter().write("["+res+","+showJson+"]");
+        response.getWriter().flush();
+    }
+
+    private void addShowToDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException{
+        response.setContentType("application/json");
+
+        Show show = null;
+        Show showToAdd = null;
+        Show showToAddFromSession = SessionUtils.getParameterForShow(request);
+        int validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+
+        if (showToAddFromSession == null)
+        {
+            List<Show> shows = showsManager.getAllShows(em);
+            ShowNumber.showNumber = shows.size() + 1;
+            show = new Show(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)),Date.valueOf(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
+            showToAdd = showsManager.showExist(shows, show);
+
+            if(showToAdd == null) {
+                validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+                request.getSession(true).setAttribute(Constants.SHOW, show);
+                DBTrans.persist(em, show);
+            }
+            else {
+                User userFromSession = SessionUtils.getParameter(request);
+                if (userFromSession != null)
+                {
+                    UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
+                    UserShows userShowsFound = userShowsManager.userIDExist(userFromSession);
+                    if (userShowsFound != null)
+                    {
+                        if (userShowsFound.getShowToSellID().contains(show.getShowID()))
+                        {
+                            validInput = Constants.SHOW_EXIST;
+                        }
+                        else //if user is logged in, and want to add show, need to update userShowsManager, and do persist
+                        {
+                            userShowsFound.getShowToSellID().add(show.getShowID());
+                            validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+                            DBTrans.persist(em, show);
+                        }
+                    }
+                }
+
+            }
+        }
+        else {
+            //TODO: what happen when showToAddFromSession return not null from SessionUtils
+        }
+
+        Gson gson = new Gson();
+        String res = gson.toJson(validInput);
+        String showJson = gson.toJson(show);
+        response.getWriter().write("["+res+","+showJson+"]");
+        response.getWriter().flush();
+    }
+
+    private void removeShowFromDB(HttpServletRequest request, HttpServletResponse response, Show show, ShowsManager showsManager) throws IOException {
+        response.setContentType("application/json");
+
+        Show showToRemove = null;
+        Show showToRemoveFromSession = SessionUtils.getParameterForShow(request);
+        int validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
+
+        if (showToRemoveFromSession == null)
+        {
+            List<Show> shows = showsManager.getAllShows(em);
+            showToRemove = showsManager.showExist(shows, show);
+
+            if(showToRemove == null) {
+                validInput = Constants.SHOW_NOT_EXIST;
+            }
+            else {
+                validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
+                DBTrans.remove(em, show);
+            }
+        }
+        else {
+            //TODO: what happen when showToRemoveFromSession return not null from SessionUtils
+        }
+
+        Gson gson = new Gson();
+        String res = gson.toJson(validInput);
+
+        response.getWriter().write("["+res+","+showToRemove+"]");
+        response.getWriter().flush();
+    }
+
+}

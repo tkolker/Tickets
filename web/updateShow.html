@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="no-js">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+
+    <!-- Meta info -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>מופע שלי</title>
+    <meta content="" name="description" />
+    <link rel="Shortcut Icon" type="image/x-icon" href="#" />
+
+    <link href="showPage.html" rel="next" />
+    <link href="index.html" rel="prev" />
+
+    <!-- Styles -->
+    <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css" />
+    <script src="lib/modernizr-2.6.2.js"></script>
+</head>
+<body style="align:right"; dir="rtl">
+<div id="container">
+    <section id="content">
+
+        <div id="pfd-work">
+            <div id="work-bio">
+                <header>
+                    <div id="pfd">
+                        <a href="index.html">
+                            <img src="images/logo.png" alt="מכרטסים">
+                        </a>
+                    </div>
+
+                    <div id="preamble">
+                        <a id="showID">ID</a>
+                        <form>
+                            שם הופעה:<input id="showName" type="text" name="showName" class="inputBox"><br>
+                            תאריך:<input id="showDate" type="date" name="showDate" class="inputBox"><br>
+                            מיקום:<input id="showLocation" type="text" name="showLocation" class="inputBox"><br>
+                            מחיר:<input id="showPrice" type="number" name="showPrice" class="inputBox"><br>
+                            תמונה:<input id="pictureUrl" type="text" name="pictureUrl" class="inputBox"><br>
+                            מספר כרטיסים:<input id="numOfTickets" type="number" name="numOfTickets" class="inputBox"><br>
+                            על המופע:<input id="showAbout" type="text" name="showAbout" class="inputBox"><br>
+                        </form>
+                        <input id="buttonUpdateShow" type="submit" value="עדכן" class="button" width="110" style="alignment: left">
+                    </div>
+
+                    <ul id="links">
+                        <li>
+                            <a href="index.html" id="home">Home</a>
+                        </li>
+                        <li>
+                            <a id="ilovethis"><span>סטטי</span></a>
+                        </li>
+                    </ul>
+                </header>
+            </div>
+
+            <section id="work-visuals">
+                <ul>
+                    <li data-visual="website-design-florentina-norfolk"><img id="showPicture" src="images/work/project-detail-1.jpg">
+                        &nbsp;</li>
+                </ul>
+            </section>
+        </div>
+    </section>
+
+
+    <footer id="msf">
+        <div class="wrapper">
+            <div id="legal">
+                <span>מכרטסים<br>2017</span>
+            </div>
+        </div>
+    </footer>
+</div><!-- container -->
+
+<nav id="toc">
+    <ul>
+        <li>
+            <a href="indexSignedUser.html">הופעות</a></li>
+        <li>
+            <a href="profile.html">אזור אישי</a></li>
+        <li>
+            <a href="addShow.html">מכירה</a></li>
+    </ul>
+</nav>
+
+<script src="ajax/jquery-1.11.0.min.js"></script>
+<script src="lib/underscore-min.js"></script>
+<script src="lib/jquery-ext.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/menu.js"></script>
+<script src="scripts/profile.js"></script>
+<script src="scripts/updateShow.js"></script>
+<script src="scripts/createPage.js"></script>
+
+<script>
+    $(document).ready(function () {
+        PfdMenu._ctor();
+    });
+</script>
+
+<script src="scripts/work-bio.js"></script>
+
+
+</body>
+</html>

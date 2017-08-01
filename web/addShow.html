@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+
+
+    <!-- Meta info -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מכירה</title>
+    <meta content="" name="description">
+
+    <!-- Styles -->
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css">
+    <script src="lib/modernizr-2.6.2.js"></script>
+
+
+</head>
+<body style="align:right"; dir="rtl">
+<div id="container">
+    <section id="content">
+
+        <div id="what-we-do">
+            <header>
+                <div id="pfd">
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="מכרטסים">
+                    </a>
+                </div>
+            </header>
+
+
+            <section id="web-design">
+                <div id="signupPopup">
+                    <h2 name="headerSignup">הוסף כרטיס למכירה</h2>
+                    <form id="signupForm">
+                        שם הופעה:<input id="showName" type="text" name="showName" class="inputBox"><br>
+                        תאריך:<input id="showDate" type="datetime-local" min="" max="" name="showDate" class="inputBox"><br>
+                        מיקום:<input id="showLocation" type="text" name="showLocation" class="inputBox"><br>
+                        מחיר:<input id="showPrice" type="number" name="showPrice" class="inputBox"><br>
+                        תמונה:<input id="pictureUrl" type="text" name="pictureUrl" class="inputBox"><br>
+                        מספר כרטיסים:<input id="numOfTickets" type="number" name="numOfTickets" class="inputBox"><br>
+                        על המופע:<input id="showAbout" type="text" name="showAbout" class="inputBox"><br>
+                    </form>
+                    <input id="buttonAddShow" type="submit" value="הוסף" class="button">
+                </div>
+            </section>
+        </div><!-- what we do -->
+
+
+        <footer id="msf">
+            <div class="wrapper">
+                <div id="legal">
+                    <span>מכרטסים<br>2017</span>
+                </div>
+            </div><!-- wrapper -->
+        </footer><!-- footer -->
+    </section><!-- content -->
+</div><!-- container -->
+
+
+<nav id="toc">
+    <ul>
+        <li>
+            <a href="indexSignedUser.html">הופעות</a></li>
+        <li>
+            <a href="profile.html">אזור אישי</a></li>
+        <li>
+            <a href="addShow.html">מכירה</a></li>
+    </ul>
+</nav>
+
+
+<script src="ajax/jquery-1.11.0.min.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/menu.js"></script>
+<script src="scripts/index.js"></script>
+<script src="scripts/addShow.js"></script>
+<script src="scripts/createPage.js"></script>
+<script>
+    $(document).ready(function () {
+        PfdMenu._ctor();
+    });
+</script>
+
+
+<script>
+    $(document).ready(function(){
+        ReadMore.init();
+    })
+</script>
+
+
+</body>
+</html>

@@ -41,11 +41,12 @@ function gotoLogout(){
     });
 }
 
+
 function openPopup(msg) {
     $("#message").html(msg);
     $("#popup").show();
 }
 
 function closePopup() {
-    $("#popup").hide();
+    window.hide();
 }

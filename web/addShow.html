@@ -78,6 +78,7 @@
 <script src="scripts/index.js"></script>
 <script src="scripts/addShow.js"></script>
 <script src="scripts/createPage.js"></script>
+
 <script>
     $(document).ready(function () {
         PfdMenu._ctor();
@@ -91,9 +92,19 @@
     })
 </script>
 
-<div id="popup">
-    <div id="popupBg" onclick="closePopup()"/>
-    <div id="message"></div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2></h2>
+        </div>
+        <div class="modal-body">
+            <p id="message"></p>
+        </div>
+        <div class="modal-footer">
+            <h3></h3>
+        </div>
+    </div>
 </div>
 
 

@@ -1,5 +1,4 @@
 $(document).ready(function (){
-
     $('#buttonLogin').on("click", performLogin);
 });
 
@@ -66,11 +65,21 @@ function gotoSignup(){
     window.location.replace("signup.html")
 }
 
+
 function openPopup(msg) {
     $("#message").html(msg);
-    $("#popup").show();
+    document.getElementById('myModal').style.display = "block";
 }
 
 function closePopup() {
-    $("#popup").hide();
+    $('#username').reset();
+    $('#userPassword').reset();
+    document.getElementById('myModal').style.display = "none";
+}
+
+window.onclick = function(event) {
+    var modal = document.getElementById('myModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }

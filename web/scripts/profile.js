@@ -17,6 +17,5 @@ function openPopup(msg) {
 }
 
 function closePopup() {
-    $("#popup").hide();
+    window.hide();
 }
-

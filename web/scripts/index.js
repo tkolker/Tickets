@@ -3,14 +3,6 @@ $(document).ready(function (){
         $('#buttonSingupWindow').on("click", gotoSignup);
 });
 
-function openPopup(msg) {
-    $("#message").html(msg);
-    $("#popup").show();
-}
-
-function closePopup() {
-    $("#popup").hide();
-}
 
 
 //TODO: make it a popup
@@ -22,7 +14,14 @@ function gotoSignup(){
     window.location.replace("signup.html")
 }
 
+function openPopup(msg) {
+    $("#message").html(msg);
+    $("#popup").show();
+}
 
+function closePopup() {
+    window.hide();
+}
 
 
 

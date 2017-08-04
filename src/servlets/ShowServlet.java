@@ -38,33 +38,34 @@ public class ShowServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String actionType = request.getParameter(Constants.ACTION_TYPE);
-        /*ArrayList<Ticket> ticketsList = new ArrayList<>();
-        while (request.getAttribute(Constants.TICKET_LIST) != null)
-        {
-            ticketsList.add((Ticket) request.getAttribute(Constants.TICKET_LIST));
-        }*/
         ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
-        getShowDetails(request, response, showsManager, em);
+
+        switch(actionType) {
+            case Constants.GET_SHOW:
+                getShowDetails(request, response, showsManager, em);
+                break;
+            case Constants.GET_SHOWS:
+                getAllShows(response, showsManager, em);
+                break;
+        }
+    }
+
+    private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
+        response.setContentType("application/json");
+        List<Show> shows = showsManager.getAllShowsByDates(em);
+
+        Gson gson = new Gson();
+        String showsStr = gson.toJson(shows);
+        String showNum = gson.toJson(shows.size());
+        response.getWriter().write("["+showNum+","+showsStr+"]");
+        response.getWriter().flush();
     }
 
     private void getShowDetails(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException{
         response.setContentType("application/json");
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
         Show show = showsManager.getShowByID(em, showID);
-/*
-        Show showExist = null;
-        int isShowExist = Constants.SHOW_EXIST;
-        Show userFromSession = SessionUtils.getParameterForShow(request);
-        if(userFromSession == null) {
-            List<Show> shows = showsManager.getAllShows(em);
-            showExist = showsManager.showExist(shows, show);
-            if (showExist == null) {
-                isShowExist = Constants.SHOW_NOT_EXIST;
-            }
-        }
-        else {
-        }
-*/
+
         Gson gson = new Gson();
         String showStr = gson.toJson(show);
         response.getWriter().write(showStr);

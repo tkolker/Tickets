@@ -1,4 +1,7 @@
+var id;
+
 $(document).ready(function (){
+    id = getURLParameter('id');
     $('#buttonUpdateShow').on("click", updateShow);
     $('#buttonUpdateShow').on("click", updateShow);
 });

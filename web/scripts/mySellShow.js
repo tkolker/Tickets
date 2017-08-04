@@ -32,20 +32,6 @@ function deleteShow(){
     });
 }
 
-function getShow(id){
-    var actionType = "getShow";
-
-    $.ajax({
-        url: "SellTicket",
-        data: {
-            "showID" : id,
-            "ActionType": actionType,
-        },
-        success: function (show) {
-            createShowPage(show);
-        }
-    });
-}
 
 function showResponse(i, show) {
     if (i === "0") {

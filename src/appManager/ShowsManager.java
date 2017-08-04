@@ -52,4 +52,9 @@ public class ShowsManager {
         TypedQuery<Show> query = entityManager.createQuery("SELECT s FROM Show s WHERE s.m_ShowID=:showID", Show.class);
         return query.getSingleResult();
     }
+
+    public List<Show> getAllShowsByDates(EntityManager em) {
+        TypedQuery<Show> query = em.createQuery("SELECT s FROM Show s ORDER BY s.m_Date asc", Show.class);
+        return query.getResultList();
+    }
 }

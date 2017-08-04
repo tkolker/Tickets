@@ -1,6 +1,7 @@
 $(document).ready(function (){
-        $('#buttonLoginWindow').on("click",gotoLogin);
-        $('#buttonSingupWindow').on("click", gotoSignup);
+    getShows();
+    $('#buttonLoginWindow').on("click",gotoLogin);
+    $('#buttonSingupWindow').on("click", gotoSignup);
 });
 
 

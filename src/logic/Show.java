@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -14,7 +15,7 @@ public class Show implements Serializable {
     private String m_Location;
     private String m_PictureUrl;
     private int m_Price;
-    private Date m_Date;
+    private LocalDateTime m_Date;
     private String m_About;
     //private ArrayList<Ticket> m_Tickets;
     private int m_NumOfTickets;
@@ -23,7 +24,7 @@ public class Show implements Serializable {
         m_ShowID = ShowNumber.showNumber++;
     }
 
-    public Show(String name, String location, String url, int numOfTickets, int price, Date date, String about /*ArrayList<Ticket> tickets*/){
+    public Show(String name, String location, String url, int numOfTickets, int price, LocalDateTime date, String about /*ArrayList<Ticket> tickets*/){
         m_ShowID = ShowNumber.showNumber++;
         m_ShowName = name;
         m_Location = location;
@@ -35,11 +36,12 @@ public class Show implements Serializable {
         //m_Tickets = tickets;
     }
 
+
     public int getShowPrice() { return  m_Price; }
 
     public void setShowPrice(int price) { m_Price = price; }
 
-    public Date getShowDate() { return m_Date; }
+    public LocalDateTime getShowDate() { return m_Date; }
 
     public String getShowName()
     {
@@ -74,7 +76,7 @@ public class Show implements Serializable {
         this.m_PictureUrl = pictureUrl;
     }
 
-    public void setShowDate(Date showDate) {
+    public void setShowDate(LocalDateTime showDate) {
         this.m_Date = showDate;
     }
 

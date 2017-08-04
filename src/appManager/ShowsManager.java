@@ -14,9 +14,10 @@ public class ShowsManager {
         return shows;
     }
 
-    public Show showExist(List<Show> shows, Show showToSerch) {
+    public Show showLocationAndDateExist(List<Show> shows, Show showToSerch) {
         for(Show s: shows){
-            if(s.getShowID() == showToSerch.getShowID()){
+            if(s.getShowDate() == showToSerch.getShowDate() && s.getLocation() == showToSerch.getLocation() &&
+                    (s.getShowName().contains(showToSerch.getShowName()) || showToSerch.getShowName().contains(s.getShowName()))){
                 return s;
             }
         }
@@ -26,6 +27,15 @@ public class ShowsManager {
     public Show showIDExist(List<Show> shows, Show show) {
         for(Show s: shows){
             if(s.getShowID() == show.getShowID()){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Show showIDExist(List<Show> shows, int showID) {
+        for(Show s: shows){
+            if(s.getShowID() == showID){
                 return s;
             }
         }

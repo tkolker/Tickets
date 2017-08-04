@@ -23,7 +23,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../objectdb.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../objectdb-2.7.1/bin/objectdb.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

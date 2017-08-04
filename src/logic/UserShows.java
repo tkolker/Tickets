@@ -1,40 +1,28 @@
 package logic;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 
-
+@Entity
 public class UserShows {
+    @Id
+    String m_UserEmail;
+    private int m_ShowID;
+    private int m_Type;
 
-    private String m_UserEmail;
-    private ArrayList<Integer> m_ShowToSellID;
-    private ArrayList<Integer> m_PurchaseShowsID;
-
-    public UserShows(String id)
+    public UserShows(String id, int showid, int type)
     {
         m_UserEmail = id;
-        m_PurchaseShowsID = new ArrayList<Integer>();
-        m_ShowToSellID = new ArrayList<Integer>();
+        m_ShowID = showid;
+        m_Type = type;
+    }
+
+    public UserShows() {
     }
 
     public String getUserID() { return m_UserEmail; }
 
-    public void addShowToSell(int showId)
-    {
-        m_ShowToSellID.add(showId);
-    }
+    public int getShowId() {return  m_ShowID;}
 
-    public void addPurchaseShow(int showId)
-    {
-        m_PurchaseShowsID.add(showId);
-    }
-
-    public ArrayList<Integer> getShowToSellID()
-    {
-        return m_ShowToSellID;
-    }
-
-    public ArrayList<Integer> getPurchaseShow()
-    {
-        return m_PurchaseShowsID;
-    }
 }

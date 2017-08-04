@@ -32,12 +32,17 @@ public enum Constants {
     public static final int SHOW_UPDATE_SUCCESSFULLY = 3;
     public static final int SHOW_NOT_EXIST = 4;
     public static final int SHOW_DELETE_SUCCESSFULLY = 5;
+    public static final int UserDB = 1;
+    public static final int ShowsDB = 2;
     public static final String LOGIN_USER = "loginUser";
     public static final String SHOW = "currShow";
     public static final String GET_USER = "getUserFromSession";
     public static final String LOGIN = "login";
     public static final String SHOW_ABOUT = "showAbout";
     public static final String LOGOUT = "logout";
+    public static final String SIGNUP = "signup";
+    public static final int SHOW_TO_SELL = 1;
+    public static final int SHOW_TO_BUY = 2;
     public static final String GET_SHOWS = "getShows";
     public static final String GET_SHOW = "getShow";
 }

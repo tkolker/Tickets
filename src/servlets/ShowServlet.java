@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
@@ -126,8 +127,10 @@ public class ShowServlet extends HttpServlet {
                 showsManager.deleteShow(showToDelete);
                 showsManager.addShow(showToUpdate);
                 DBTrans.remove(em, showToDelete);
+                em.close();
                 request.getSession(true).setAttribute(Constants.SHOW, showToUpdate);
                 DBTrans.persist(em, showToUpdate);
+                em.close();
             }
             else
             {
@@ -151,47 +154,42 @@ public class ShowServlet extends HttpServlet {
 
         Show show = null;
         Show showToAdd = null;
-        Show showToAddFromSession = SessionUtils.getParameterForShow(request);
+        UserShows userShowToUpdate = null;
         int validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
 
-        if (showToAddFromSession == null)
-        {
-            List<Show> shows = showsManager.getAllShows(em);
-            ShowNumber.showNumber = shows.size() + 1;
-            show = new Show(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)),Date.valueOf(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
-            showToAdd = showsManager.showExist(shows, show);
+        List<Show> shows = showsManager.getAllShows(em);
+        ShowNumber.showNumber = shows.size() + 1;
+        show = new Show(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
+        showToAdd = showsManager.showLocationAndDateExist(shows, show);
+        User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
 
-            if(showToAdd == null) {
-                validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
-                request.getSession(true).setAttribute(Constants.SHOW, show);
-                DBTrans.persist(em, show);
-            }
-            else {
-                User userFromSession = SessionUtils.getParameter(request);
-                if (userFromSession != null)
-                {
-                    UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
-                    UserShows userShowsFound = userShowsManager.userIDExist(userFromSession);
-                    if (userShowsFound != null)
-                    {
-                        if (userShowsFound.getShowToSellID().contains(show.getShowID()))
-                        {
-                            validInput = Constants.SHOW_EXIST;
-                        }
-                        else //if user is logged in, and want to add show, need to update userShowsManager, and do persist
-                        {
-                            userShowsFound.getShowToSellID().add(show.getShowID());
-                            validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
-                            DBTrans.persist(em, show);
-                        }
-                    }
-                }
+        if(showToAdd == null) {
+            validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+            request.getSession(true).setAttribute(Constants.SHOW, show);
+            DBTrans.persist(em, show);
+            em.close();
+            userShowToUpdate = new UserShows(userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+            em = emf.createEntityManager();
+            DBTrans.persist(em, userShowToUpdate);
+            em.close();
 
-            }
         }
         else {
-            //TODO: what happen when showToAddFromSession return not null from SessionUtils
+            if (UserShowsManager.showIDExistInUser(em, userFromSession.getEmail(), showToAdd.getShowID())) {
+                validInput = Constants.SHOW_EXIST;
+            } else //if user is logged in, and want to add show, need to update userShowsManager, and do persist
+            {
+                request.getSession(true).setAttribute(Constants.SHOW, show);
+                validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+                DBTrans.persist(em, show);
+                em.close();
+                userShowToUpdate = new UserShows(userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+                em = emf.createEntityManager();
+                DBTrans.persist(em, userShowToUpdate);
+                em.close();
+            }
         }
+
 
         Gson gson = new Gson();
         String res = gson.toJson(validInput);
@@ -203,32 +201,30 @@ public class ShowServlet extends HttpServlet {
     private void removeShowFromDB(HttpServletRequest request, HttpServletResponse response, Show show, ShowsManager showsManager) throws IOException {
         response.setContentType("application/json");
 
-        Show showToRemove = null;
-        Show showToRemoveFromSession = SessionUtils.getParameterForShow(request);
-        int validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
+        Show showToRemove;
+        int validInput;
+        int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
 
-        if (showToRemoveFromSession == null)
-        {
-            List<Show> shows = showsManager.getAllShows(em);
-            showToRemove = showsManager.showExist(shows, show);
+        List<Show> shows = showsManager.getAllShows(em);
+        showToRemove = showsManager.showIDExist(shows, showID);
+        User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
 
-            if(showToRemove == null) {
-                validInput = Constants.SHOW_NOT_EXIST;
-            }
-            else {
-                validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
-                DBTrans.remove(em, show);
-            }
+        if (showToRemove == null) {
+            validInput = Constants.SHOW_NOT_EXIST;
         }
         else {
-            //TODO: what happen when showToRemoveFromSession return not null from SessionUtils
+            validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
+            DBTrans.remove(em, show);
+            UserShows userShowToUpdate = new UserShows(userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+            DBTrans.remove(em, userShowToUpdate);
         }
+
 
         Gson gson = new Gson();
         String res = gson.toJson(validInput);
 
-        response.getWriter().write("["+res+","+showToRemove+"]");
+        response.getWriter().write("[" + res + "," + showToRemove + "]");
         response.getWriter().flush();
-    }
 
+    }
 }

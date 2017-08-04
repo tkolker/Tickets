@@ -47,10 +47,8 @@ public class LoginServlet extends HttpServlet{
 
     private void getUserFromSessionData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         User user = (User)request.getSession(false).getAttribute(Constants.LOGIN_USER);
-        Gson gson = new Gson();
-        String userJson = gson.toJson(user.getFirstName());
 
-        response.getWriter().write(userJson);
+        response.getWriter().write(user.getFirstName());
         response.getWriter().flush();
     }
 
@@ -59,6 +57,7 @@ public class LoginServlet extends HttpServlet{
 
         emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
+        String actionType = request.getParameter(Constants.ACTION_TYPE);
 
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
@@ -68,12 +67,26 @@ public class LoginServlet extends HttpServlet{
             ia.validate();
             User user = new User(request.getParameter(Constants.EMAIL), request.getParameter(Constants.USER_FIRST_NAME),  request.getParameter(Constants.USER_LAST_NAME),  request.getParameter(Constants.USER_PASSWORD));
             UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
-            performSignUp(request, response, user, usersManager);
+            switch (actionType) {
+                case Constants.SIGNUP:
+                    performSignUp(request, response, user, usersManager);
+                    break;
+                case Constants.LOGOUT:
+                    performLogout(request, response, user, usersManager);
+            }
         }
         catch (javax.mail.internet.AddressException ae)
         {
 
         }
+
+    }
+
+    private void performLogout(HttpServletRequest request, HttpServletResponse response, User user, UsersManager usersManager) throws IOException {
+        response.setContentType("application/json");
+        User LoggedInUser = (User)request.getSession(false).getAttribute(Constants.LOGIN_USER);
+
+
 
     }
 
@@ -98,6 +111,7 @@ public class LoginServlet extends HttpServlet{
             else {
                 validInput = Constants.SIGNUP_SUCCESS;
                 DBTrans.persist(em, user);
+                em.close();
                 request.getSession(true).setAttribute(Constants.LOGIN_USER, user);
             }
 

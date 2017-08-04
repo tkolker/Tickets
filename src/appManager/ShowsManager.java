@@ -59,7 +59,7 @@ public class ShowsManager {
     }
 
     public Show getShowByID(EntityManager entityManager, int showID) {
-        TypedQuery<Show> query = entityManager.createQuery("SELECT s FROM Show s WHERE s.m_ShowID=:showID", Show.class);
+        TypedQuery<Show> query = entityManager.createQuery("SELECT s FROM Show s WHERE s.m_ShowID=:"+showID, Show.class);
         return query.getSingleResult();
     }
 

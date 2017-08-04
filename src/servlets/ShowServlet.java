@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -152,14 +151,15 @@ public class ShowServlet extends HttpServlet {
     private void addShowToDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException{
         response.setContentType("application/json");
 
+        int showUserKey;
         Show show = null;
         Show showToAdd = null;
         UserShows userShowToUpdate = null;
-        int validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+        int validInput;
 
         List<Show> shows = showsManager.getAllShows(em);
         ShowNumber.showNumber = shows.size() + 1;
-        show = new Show(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
+        show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
         showToAdd = showsManager.showLocationAndDateExist(shows, show);
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
 
@@ -167,9 +167,10 @@ public class ShowServlet extends HttpServlet {
             validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
             request.getSession(true).setAttribute(Constants.SHOW, show);
             DBTrans.persist(em, show);
-            em.close();
-            userShowToUpdate = new UserShows(userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
-            em = emf.createEntityManager();
+            //em.close();
+            int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
+            userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+            //em = emf.createEntityManager();
             DBTrans.persist(em, userShowToUpdate);
             em.close();
 
@@ -183,7 +184,8 @@ public class ShowServlet extends HttpServlet {
                 validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
                 DBTrans.persist(em, show);
                 em.close();
-                userShowToUpdate = new UserShows(userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+                int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
+                userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
                 em = emf.createEntityManager();
                 DBTrans.persist(em, userShowToUpdate);
                 em.close();
@@ -215,7 +217,8 @@ public class ShowServlet extends HttpServlet {
         else {
             validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
             DBTrans.remove(em, show);
-            UserShows userShowToUpdate = new UserShows(userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+            int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
+            UserShows userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
             DBTrans.remove(em, userShowToUpdate);
         }
 

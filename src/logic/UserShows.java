@@ -2,19 +2,21 @@ package logic;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.ArrayList;
+
 
 @Entity
 public class UserShows {
     @Id
+    int m_Key;
     String m_UserEmail;
     private int m_ShowID;
     private int m_Type;
 
-    public UserShows(String id, int showid, int type)
+    public UserShows(int key, String id, int showId, int type)
     {
+        m_Key = key;
         m_UserEmail = id;
-        m_ShowID = showid;
+        m_ShowID = showId;
         m_Type = type;
     }
 

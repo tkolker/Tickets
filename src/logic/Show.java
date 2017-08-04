@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -15,7 +17,7 @@ public class Show implements Serializable {
     private String m_Location;
     private String m_PictureUrl;
     private int m_Price;
-    private LocalDateTime m_Date;
+    private Date m_Date;
     private String m_About;
     //private ArrayList<Ticket> m_Tickets;
     private int m_NumOfTickets;
@@ -24,7 +26,7 @@ public class Show implements Serializable {
         m_ShowID = ShowNumber.showNumber++;
     }
 
-    public Show(String name, String location, String url, int numOfTickets, int price, LocalDateTime date, String about /*ArrayList<Ticket> tickets*/){
+    public Show(String name, String location, String url, int numOfTickets, int price, Date date, String about /*ArrayList<Ticket> tickets*/){
         m_ShowID = ShowNumber.showNumber++;
         m_ShowName = name;
         m_Location = location;
@@ -41,7 +43,7 @@ public class Show implements Serializable {
 
     public void setShowPrice(int price) { m_Price = price; }
 
-    public LocalDateTime getShowDate() { return m_Date; }
+    public Date getShowDate() { return m_Date; }
 
     public String getShowName()
     {
@@ -76,7 +78,7 @@ public class Show implements Serializable {
         this.m_PictureUrl = pictureUrl;
     }
 
-    public void setShowDate(LocalDateTime showDate) {
+    public void setShowDate(Date showDate) {
         this.m_Date = showDate;
     }
 
@@ -104,5 +106,10 @@ public class Show implements Serializable {
             showToUpdate.setAbout(showToDelete.getAbout());
 
         showToUpdate.setShowId(showToDelete.getShowID());
+    }
+
+    public static Show createShow(String name, String loc, String url, int numOfTickets, int price, LocalDateTime date, String about) {
+        Date showDate = Date.from(ZonedDateTime.of(date, ZoneId.systemDefault()).toInstant());
+        return new Show(name, loc, url, numOfTickets, price, showDate, about);
     }
 }

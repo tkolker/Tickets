@@ -1,6 +1,5 @@
 package appManager;
 
-import logic.Show;
 import logic.User;
 import logic.UserShows;
 
@@ -39,7 +38,7 @@ public class UserShowsManager {
 
     public static boolean showIDExistInUser(EntityManager entityManager, String userId, int showId)
     {
-        TypedQuery<UserShows> query = entityManager.createQuery("SELECT s FROM UserShows s WHERE s.m_ShowID =: showid and s.m_UserEmail =: userId", UserShows.class);
+        TypedQuery<UserShows> query = entityManager.createQuery("SELECT s FROM UserShows s WHERE s.m_ShowID =:"+ showId +" and s.m_UserEmail =:" + userId, UserShows.class);
         //return query.getResultList();
         if (query.getSingleResult() != null)
         {
@@ -59,6 +58,11 @@ public class UserShowsManager {
             }
         }
         return false;
+    }
+
+    public int countAll(EntityManager em) {
+        TypedQuery<UserShows> query = em.createQuery("SELECT s.m_Key FROM UserShows s ORDER BY s.m_Key desc", UserShows.class);
+        return query.getFirstResult();
     }
 }
 

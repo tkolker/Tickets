@@ -5,22 +5,33 @@ $(document).ready(function (){
 
 function addShow(){
     var invalidInput = 0;
+    var formData;
 
     var showName = $('#showName').val();
     var showDate = $('#showDate').val();
     var showLocation = $('#showLocation').val();
     var showPrice = $('#showPrice').val();
     var pictureUrl = $('#pictureUrl').val();
+    var showPicFile = $("#showPic").val();
     var numOfTickets = $('#numOfTickets').val();
     var showAbout = $('#showAbout').val();
     var actionType = "addShow";
+    var showPic = pictureUrl;
 
-    //noinspection JSAnnotator
-    if (showName === "" || showDate === "" || showLocation === "" || pictureUrl === "" || numOfTickets === "") {
+    if (showName === "" || showDate === "" || showLocation === "" || (pictureUrl === "" && showPicFile === "") || numOfTickets === "") {
         openPopup("נא למלא את כל השדות");
         invalidInput = 1;
     }
 
+    /*
+    if(pictureUrl === "") {
+        showPic = showPicFile;
+        if (validFileExtension(showPic)) {
+            formData = new FormData();
+            formData.append('fileName', $('#showPic')[0].files[0]);
+        }
+    }
+*/
 
     if(invalidInput === 0) {
         $.ajax({
@@ -31,7 +42,7 @@ function addShow(){
                 "showName": showName,
                 "showDate": showDate,
                 "showLocation": showLocation,
-                "pictureUrl": pictureUrl,
+                "pictureUrl":showPic,
                 "numOfTickets": numOfTickets,
                 "showPrice" : showPrice,
                 "showAbout": showAbout,
@@ -43,6 +54,20 @@ function addShow(){
             }
         });
     }
+}
+
+function validFileExtension(file) {
+
+    var ext = file.split(".");
+    ext = ext[ext.length-1].toLocaleLowerCase();
+    var arrayExtensions = ["jpg", "png"];
+
+    if(arrayExtensions.lastIndexOf(ext) == -1){
+        openPopup("קובץ מסוג זה לא נתמך. הכנס קובץ מסוג jpg או png." +
+            "או קישור לתמונה מאתר");
+        return false;
+    }
+    return true;
 }
 
 

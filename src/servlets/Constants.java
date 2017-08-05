@@ -45,4 +45,5 @@ public enum Constants {
     public static final int SHOW_TO_BUY = 2;
     public static final String GET_SHOWS = "getShows";
     public static final String GET_SHOW = "getShow";
+    public static final String GET_SELL_SHOWS = "getMySellShows";
 }

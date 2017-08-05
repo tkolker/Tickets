@@ -38,8 +38,8 @@ public class UserShowsManager {
 
     public static boolean showIDExistInUser(EntityManager entityManager, String userId, int showId)
     {
-        TypedQuery<UserShows> query = entityManager.createQuery("SELECT s FROM UserShows s WHERE s.m_ShowID =:"+ showId +" and s.m_UserEmail =:" + userId, UserShows.class);
-        //return query.getResultList();
+        TypedQuery<UserShows> query = entityManager.createQuery("SELECT s FROM UserShows s WHERE s.m_ShowID =:showId and s.m_UserEmail =:userId", UserShows.class);
+        query = query.setParameter("userId", userId).setParameter("showId", showId);
         if (query.getSingleResult() != null)
         {
             return true;
@@ -63,6 +63,18 @@ public class UserShowsManager {
     public int countAll(EntityManager em) {
         TypedQuery<UserShows> query = em.createQuery("SELECT s.m_Key FROM UserShows s ORDER BY s.m_Key desc", UserShows.class);
         return query.getFirstResult();
+    }
+
+    public List<UserShows> getShowByUserID(EntityManager em, String userId) {
+        TypedQuery<UserShows> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShows.class);
+
+        return query.setParameter("mail", userId).getResultList();
+    }
+
+    public List<UserShows> getShowByUserIDDesc(EntityManager em, String userId) {
+        TypedQuery<UserShows> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID desc", UserShows.class);
+
+        return query.setParameter("mail", userId).getResultList();
     }
 }
 

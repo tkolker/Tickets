@@ -6,7 +6,8 @@ $(document).ready(function (){
 });
 
 function passId(){
-    window.location.replace("updateShow.html");
+    var id = $('#showID').attr("showNum");
+    window.location.replace("updateShow.html?id="+id);
 }
 
 function getURLParameter(name) {

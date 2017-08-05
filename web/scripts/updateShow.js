@@ -1,7 +1,6 @@
-var id;
-
 $(document).ready(function (){
-    id = getURLParameter('id');
+    var id = getURLParameter('id');
+    getShow(id);
     $('#buttonUpdateShow').on("click", updateShow);
     $('#buttonUpdateShow').on("click", updateShow);
 });
@@ -52,4 +51,8 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }

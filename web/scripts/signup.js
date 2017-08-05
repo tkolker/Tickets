@@ -9,6 +9,7 @@ function performSignup(){
     var userLname = $('#userLname').val();
     var userPassword = $('#userPassword').val();
     var userEmail = $('#userEmail').val();
+    var actionType = "signup";
 
     //noinspection JSAnnotator
     if (userFname === "" || userLname === "" || userPassword === "" || userEmail === "") {
@@ -23,6 +24,7 @@ function performSignup(){
             url: "login",
             cache: false,
             data: {
+                "ActionType" : actionType,
                 "firstName": userFname,
                 "lastName": userLname,
                 "email": userEmail,

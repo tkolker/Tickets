@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
@@ -47,12 +48,38 @@ public class ShowServlet extends HttpServlet {
             case Constants.GET_SHOWS:
                 getAllShows(response, showsManager, em);
                 break;
+            case Constants.GET_SELL_SHOWS:
+                getMySellShows(request, response, showsManager, em);
+                break;
         }
+    }
+
+    private void getMySellShows(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
+        response.setContentType("application/json");
+        ArrayList<Show> res = new ArrayList<>();
+        String userId = ((User)request.getSession(false).getAttribute(Constants.LOGIN_USER)).getEmail();
+        UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
+        List<Show> shows = showsManager.getAllShows(em);
+        List<UserShows> userShows = userShowsManager.getShowByUserID(em, userId);
+        int i = 0;
+
+        for(Show s:shows){
+            if(s.getShowID() == userShows.get(i).getShowId()) {
+                res.add(s);
+                i++;
+            }
+        }
+
+        Gson gson = new Gson();
+        String showsStr = gson.toJson(res);
+        String showNum = gson.toJson(res.size());
+        response.getWriter().write("["+showNum+","+showsStr+"]");
+        response.getWriter().flush();
     }
 
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
-        List<Show> shows = showsManager.getAllShowsByDates(em);
+        List<Show> shows = showsManager.getAllShows(em);
 
         Gson gson = new Gson();
         String showsStr = gson.toJson(shows);
@@ -151,7 +178,6 @@ public class ShowServlet extends HttpServlet {
     private void addShowToDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException{
         response.setContentType("application/json");
 
-        int showUserKey;
         Show show = null;
         Show showToAdd = null;
         UserShows userShowToUpdate = null;
@@ -168,7 +194,7 @@ public class ShowServlet extends HttpServlet {
             request.getSession(true).setAttribute(Constants.SHOW, show);
             DBTrans.persist(em, show);
             //em.close();
-            int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
+            int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).getAllShows(em).size() + 1;
             userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
             //em = emf.createEntityManager();
             DBTrans.persist(em, userShowToUpdate);

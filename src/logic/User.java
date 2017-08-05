@@ -2,11 +2,9 @@ package logic;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MailDateFormat;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 @Entity
 public class User implements Serializable {

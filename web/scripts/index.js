@@ -1,5 +1,5 @@
 $(document).ready(function (){
-    getShows();
+    //getShows();
     $('#buttonLoginWindow').on("click",gotoLogin);
     $('#buttonSingupWindow').on("click", gotoSignup);
 });
@@ -21,6 +21,7 @@ function getShows(){
     });
 }
 
+
 function buildIndex(numOfShows, shows){
     var n = 15;
     var ref;
@@ -39,10 +40,11 @@ function buildIndex(numOfShows, shows){
         date = "date" + (i+1);
         price = "price" + (i+1);
 
+
         $('#' + ref).attr("href", "showPage.html?id=" + shows[i].m_ShowID);
         $('#' + img).attr("src", shows[i].m_PictureUrl);
         $('#' + show).text(shows[i].m_ShowName);
-        $('#' + date).text(shows[i].m_Date + "<br>" + shows[i].m_Location);
+        $('#' + date).text(shows[i].m_Date + "\n" + shows[i].m_Location);
         $('#' + price).text(shows[i].m_Price);
     }
 }

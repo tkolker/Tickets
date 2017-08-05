@@ -4,7 +4,7 @@ $(document).ready(function (){
 });
 
 function getToSellTickets(){
-    window.location.replace("mySellShow.html");
+    window.location.replace("myShows.html");
 }
 
 function getBuyedTickets(){

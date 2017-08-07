@@ -38,6 +38,18 @@ public class Show implements Serializable {
         //m_Tickets = tickets;
     }
 
+    public Show(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about /*ArrayList<Ticket> tickets*/){
+        m_ShowID = id;
+        m_ShowName = name;
+        m_Location = location;
+        m_Price = price;
+        m_Date = date;
+        m_PictureUrl = url;
+        m_NumOfTickets = numOfTickets;
+        m_About = about;
+        //m_Tickets = tickets;
+    }
+
 
     public int getShowPrice() { return  m_Price; }
 
@@ -98,10 +110,12 @@ public class Show implements Serializable {
             showToUpdate.setShowLocation(showToDelete.getLocation());
         if(showToUpdate.getPictureUrl().isEmpty())
             showToUpdate.setPictureUrl(showToDelete.getPictureUrl());
-        if(showToUpdate.getShowDate().toString().isEmpty())
+        if(showToUpdate.getShowDate() == null)
             showToUpdate.setShowDate(showToDelete.getShowDate());
-        if(Integer.toString(showToUpdate.getShowPrice()).isEmpty())
+        if(showToUpdate.getShowPrice() < 0)
             showToUpdate.setShowPrice(showToDelete.getShowPrice());
+        if(showToUpdate.getNumOfTickets() < 0)
+            showToUpdate.setNumOfTickets(showToDelete.getNumOfTickets());
         if(showToUpdate.getAbout().isEmpty())
             showToUpdate.setAbout(showToDelete.getAbout());
 
@@ -111,5 +125,37 @@ public class Show implements Serializable {
     public static Show createShow(String name, String loc, String url, int numOfTickets, int price, LocalDateTime date, String about) {
         Date showDate = Date.from(ZonedDateTime.of(date, ZoneId.systemDefault()).toInstant());
         return new Show(name, loc, url, numOfTickets, price, showDate, about);
+    }
+
+    public static Show createShowToUpdate(String id, String name, String loc, String pic, String numOfTickets, String price, String date, String about) {
+        int tid = Integer.parseInt(id);
+        int tnum;
+        int tprice;
+        Date tdate;
+
+        if(numOfTickets.equals(""))
+            tnum = -1;
+        else
+            tnum = Integer.parseInt(numOfTickets);
+
+        if(price.equals(""))
+            tprice = -1;
+        else
+            tprice = Integer.parseInt(price);
+
+        if(date.equals(""))
+            tdate = null;
+        else
+            tdate = Date.from(ZonedDateTime.of(LocalDateTime.parse(date), ZoneId.systemDefault()).toInstant());
+
+        return new Show(tid, name, loc, pic, tnum, tprice, tdate, about);
+    }
+
+    public int getNumOfTickets() {
+        return m_NumOfTickets;
+    }
+
+    public void setNumOfTickets(int numOfTickets) {
+        this.m_NumOfTickets = numOfTickets;
     }
 }

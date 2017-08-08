@@ -3,6 +3,7 @@
   -moz-border-radius: 0;
   -webkit-appearance: none;
   -webkit-border-radius: 0;
+    font-family: Gisha;
   margin: 0;
   padding: 0; }
 
@@ -29,7 +30,9 @@ a:focus {
   outline: thin dotted; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-size: 100%; }
+  font-size: 100%;
+    font-family: Gisha;
+}
 
 img {
   border-style: none;
@@ -58,15 +61,15 @@ audio, canvas, video {
 
 
 #no-script{background-color:#212328;color:#80807e;display:none;left:0;height:130px;position:fixed;top:0;width:100%;z-index:10000}
-#no-script div{font-size:14px;font-weight:300;line-height:1em;padding:60px;text-align:left;width:100%;}
+#no-script div{font-family: Gisha; font-size:14px;font-weight:300;line-height:1em;padding:60px;text-align:left;width:100%;}
 #no-script a{color:#fff;text-decoration:underline;}
 #no-script a:active,#no-script a:hover{color:#80807e;text-decoration:none;}
 .no-js #no-script{display:block;}
 .no-js body{margin-top:75px;}
-#container{min-height:100%;position:relative;}
+#container{min-height:100%;position:relative; font-family: Gisha;}
 section#content{padding-bottom:194px;}
 section#content .strong{color:#212328;}
-section#content header{padding:0 30px 30px;}
+section#content header{padding:0 30px 30px; font-family: Gisha;}
 section#content #pfd{padding:30px 0}
 section#content #pfd img{height:127px;width:270px;margin-right:70px}
 section#content #preamble,section#content article{max-width:1200px}
@@ -186,7 +189,7 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     border-radius: 4px;
 }
 
-.loginForm{
+.loginForm, .signupForm, .addShowForm{
     font-size: 1.5em;
     text-align: right;
     font-family: Gisha;

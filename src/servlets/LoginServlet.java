@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet{
     EntityManagerFactory emf;
     EntityManager em;
 
+
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

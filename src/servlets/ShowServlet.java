@@ -5,6 +5,7 @@ import appManager.ShowsManager;
 import appManager.UserShowsManager;
 import appManager.db_manager.DBTrans;
 import com.google.gson.Gson;
+import com.objectdb.o.FIL;
 import logic.*;
 import utils.ServletUtils;
 
@@ -15,7 +16,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -167,6 +171,26 @@ public class ShowServlet extends HttpServlet {
         response.getWriter().flush();
     }
 
+    private void saveImageToDB(String showUrl, String showName, int showId) throws IOException
+    {
+        System.setProperty("http.agent", "Chrome");
+        //try(InputStream in = new URL(showUrl).openStream()){
+            String pathToSave = "/web/images/work/" + showId + ".jpg";
+            //FileOutputStream fileToCopy = new FileOutputStream(pathToSave + showId);
+            //Files.copy(in, Paths.get(pathToSave));
+            URL url = new URL(showUrl);
+            InputStream in1 = new BufferedInputStream(url.openStream());
+            String imageName = showId + ".jpg";
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(imageName));
+
+            for ( int i; (i = in1.read()) != -1; ) {
+                out.write(i);
+            }
+            in1.close();
+            out.close();
+        }
+    //}
+
     private void addShowToDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException{
         response.setContentType("application/json");
 
@@ -176,7 +200,7 @@ public class ShowServlet extends HttpServlet {
         int validInput;
 
         List<Show> shows = showsManager.getAllShows(em);
-        ShowNumber.showNumber = shows.size() + 1;
+        ShowNumber.showNumber = shows.get(shows.size()-1).getShowID() + 1;
         show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
         showToAdd = showsManager.showLocationAndDateExist(shows, show);
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
@@ -189,7 +213,7 @@ public class ShowServlet extends HttpServlet {
             userShowToUpdate = new UserShows(UserShowsNumber.userShowNumber++, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
             DBTrans.persist(em, userShowToUpdate);
             em.close();
-
+            saveImageToDB(show.getPictureUrl(), show.getShowName(), show.getShowID());
         }
         else {
             if (UserShowsManager.showIDExistInUser(em, userFromSession.getEmail(), showToAdd.getShowID())) {

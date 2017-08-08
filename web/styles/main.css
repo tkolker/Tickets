@@ -117,7 +117,7 @@ section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #l
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
 section#content #work-bio #links #ilovethis.loved:hover{background-image:none}
 section#content #work-bio #links #ilovethis.loved:hover span{display:inline}
-section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/pfd-sprites.png) no-repeat 50% -250px;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
+section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/home2.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
 section#content #work-visuals{float:right;width:60%}
 section#content #work-visuals ul{list-style:none}
 section#content #work-visuals ul li{line-height:0;margin-bottom:10px}
@@ -162,7 +162,22 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     border-radius: 4px;
  }
 
-#buttonLoginWindow, #buttonSingupWindow, #buttonLogOutWindow{
+#buttonUpdateShow, #buttonGoToUpdate, #buttonDeleteShow{
+    font-family: Gisha;
+    -webkit-appearance: none;
+    float: left;
+    font-size: 1.5em;
+    width: 14%;
+    height: 5%;
+    color: #FA8072;
+    background-color: #f8f8f8;
+    padding-bottom:3px;
+    padding-top:3px;
+    border: solid 1.5px #778899;
+    border-radius: 4px;
+}
+
+#buttonLoginWindow, #buttonSingupWindow, #buttonLogOutWindow {
     font-family: Gisha;
     -webkit-appearance: none;
     float: left;
@@ -189,7 +204,7 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     border-radius: 4px;
 }
 
-.loginForm, .signupForm, .addShowForm{
+.loginForm, .signupForm, .addShowForm, .updateShowForm{
     font-size: 1.5em;
     text-align: right;
     font-family: Gisha;
@@ -198,7 +213,7 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
 .inputBox{
     font-family: Gisha;
     font-size: 1.5em;
-    width: 20%;
+    width: 30%;
     height: 5%;
     padding-bottom:3px;
     padding-top:3px;
@@ -255,7 +270,6 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 
 .close {
     color: #aaa;

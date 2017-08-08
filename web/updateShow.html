@@ -17,7 +17,7 @@
     <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css" />
     <script src="lib/modernizr-2.6.2.js"></script>
 </head>
-<body style="align:right"; dir="rtl">
+<body style="align:right; font-family: Gisha"; dir="rtl">
 <div id="container">
     <section id="content">
 
@@ -31,15 +31,25 @@
                     </div>
 
                     <div id="preamble">
-                        <form>
+                        <h2 name="headerUpdate" style="font-size: large; padding-top: 30px">עדכון</h2>
+                        <form id="updateShowForm" style="line-height:1.2; font-size: small">
                                 <p id="showId"></p>
-                            שם הופעה:<input id="showName" type="text" name="showName" class="inputBox"><br>
-                            תאריך:<input id="showDate" type="date" name="showDate" class="inputBox"><br>
-                            מיקום:<input id="showLocation" type="text" name="showLocation" class="inputBox"><br>
-                            מחיר:<input id="showPrice" type="number" name="showPrice" class="inputBox"><br>
-                            תמונה:<input id="pictureUrl" type="text" name="pictureUrl" class="inputBox"><br>
-                            מספר כרטיסים:<input id="numOfTickets" type="number" name="numOfTickets" class="inputBox"><br>
-                            על המופע:<input id="showAbout" type="text" name="showAbout" class="inputBox"><br>
+                            <label style="float: right; clear: left">שם הופעה:</label><br>
+                            <input id="showName" type="text" name="showName" class="inputBox"><br>
+                            <label style="float: right; clear: left">תאריך:</label><br>
+                            <input id="showDate" type="datetime-local" min="" max="" name="showDate" class="inputBox"><br>
+                            <label style="float: right; clear: left">מיקום:</label><br>
+                            <input id="showLocation" type="text" name="showLocation" class="inputBox"><br>
+                            <label style="float: right; clear: left">מחיר:</label><br>
+                            <input id="showPrice" type="number" name="showPrice" class="inputBox"><br>
+                            <label style="float: right; clear: left">תמונה:</label><br>
+                            <input id="pictureUrl" type="text" name="pictureUrl" class="inputBox"><br>
+                            <label style="float: right; clear: left">תמונה:</label><br>
+                            <input id="showPic" type="file" accept=".jpg" accept=".png" name="showPic" class="inputBox"><br>
+                            <label style="float: right; clear: left">מספר כרטיסים:</label><br>
+                            <input id="numOfTickets" type="number" name="numOfTickets" class="inputBox"><br>
+                            <label style="float: right; clear: left">על המופע:</label><br>
+                            <input id="showAbout" type="text" name="showAbout" class="inputBox"><br>
                         </form>
                         <input id="buttonUpdateShow" type="submit" value="עדכן" class="button" width="110" style="alignment: left">
                     </div>

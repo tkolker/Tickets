@@ -15,6 +15,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/gson-2.6.2.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/javax.mail-1.6.0.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/../objectdb-2.7.1/bin/objectdb.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/imgscalr-lib-4.2.jar" />
         </element>
       </element>
     </root>

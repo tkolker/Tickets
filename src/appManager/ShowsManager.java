@@ -52,6 +52,13 @@ public class ShowsManager {
         shows.add(showToAdd);
     }
 
+    public List<Show> getAllShowsWithName(EntityManager entityManager, String showName)
+    {
+        TypedQuery<Show> query = entityManager.createQuery("SELECT s FROM Show s WHERE s.m_ShowName LIKE '%"+showName+"%' ORDER BY s.m_ShowID", Show.class);
+        query = query.setParameter("showName", showName);
+        return query.getResultList();
+    }
+
     public List<Show> getAllShows(EntityManager entityManager)
     {
         TypedQuery<Show> query = entityManager.createQuery("SELECT s FROM Show s ORDER BY s.m_ShowID", Show.class);

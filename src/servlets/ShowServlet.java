@@ -51,6 +51,32 @@ public class ShowServlet extends HttpServlet {
             case Constants.GET_SELL_SHOWS:
                 getMySellShows(request, response, showsManager, em);
                 break;
+            case Constants.GET_SEARCH_SHOW:
+                getSearchShow(request, response, showsManager, em);
+                break;
+        }
+    }
+
+    private void getSearchShow(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
+        response.setContentType("application/json");
+        ArrayList<Show> res = new ArrayList<>();
+        String showNameToSearch = request.getParameter(Constants.SHOW_NAME);
+        List<Show> showsFound = showsManager.getAllShowsWithName(em, showNameToSearch);
+
+        if(!showsFound.isEmpty()) {
+            res.addAll(showsFound);
+
+            Gson gson = new Gson();
+            String showsStr = gson.toJson(res);
+            String showNum = gson.toJson(res.size());
+            response.getWriter().write("[" + showNum + "," + showsStr + "]");
+            response.getWriter().flush();
+        }
+        else {
+            Gson gson = new Gson();
+            String result = gson.toJson(Constants.SHOW_NOT_EXIST);
+            response.getWriter().write("[" + result +"]");
+            response.getWriter().flush();
         }
     }
 

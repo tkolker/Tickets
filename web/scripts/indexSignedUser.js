@@ -97,15 +97,24 @@ function logout(){
 
 function gotoSearchShow() {
     var showNameToSearch = $('#searchBar').val();
-    window.location.replace("searchShowSignedUser.html?search=" + showNameToSearch);
+    if (showNameToSearch == "")
+    {
+        openPopup("נא להקליד שם הופעה");
+        invalidInput = 1;
+    }
+    else {
+        window.location.replace("searchShowSignedUser.html?search=" + showNameToSearch);
+    }
 }
 
 
 function openPopup(msg) {
     $("#message").html(msg);
-    $("#popup").show();
+    document.getElementById('myModal').style.display = "block";
 }
 
 function closePopup() {
-    window.hide();
+    $('#username').html("");
+    $('#userPassword').html("");
+    document.getElementById('myModal').style.display = "none";
 }

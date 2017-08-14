@@ -72,8 +72,8 @@ function openPopup(msg) {
 }
 
 function closePopup() {
-    $('#username').reset();
-    $('#userPassword').reset();
+    $('#username').html("");
+    $('#userPassword').html("");
     document.getElementById('myModal').style.display = "none";
 }
 

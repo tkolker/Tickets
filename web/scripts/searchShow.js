@@ -12,12 +12,6 @@ function searchShow(showNameToSearch) {
     var invalidInput = 0;
     var actionType = "getSearchShow";
 
-    if (showNameToSearch == "")
-    {
-        openPopup("נא להקליד שם הופעה");
-        invalidInput = 1;
-    }
-
     if (invalidInput == 0) {
         $.ajax({
             url: "SellTicket",
@@ -26,9 +20,16 @@ function searchShow(showNameToSearch) {
                 "showName": showNameToSearch,
             },
             success: function (shows) {
-                var numOfShows = shows[0];
-                var showsArr = shows[1];
-                buildSearchShows(numOfShows, showsArr);
+                if (Object.keys(shows).length == 2) {
+                    var numOfShows = shows[0];
+                    var showsArr = shows[1];
+                    buildSearchShows(numOfShows, showsArr);
+                }
+                else
+                {
+                    window.location.replace("index.html");
+                    openPopup("לא נמצאה הופעה");
+                }
             }
         });
     }
@@ -92,4 +93,14 @@ function buildSearchShows(n, shows){
 function redirect(event){
     var show = event.data.param;
     window.location.replace("showPage.html?id="+show.m_ShowID);
+}
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    document.getElementById('myModal').style.display = "block";
+}
+
+function closePopup() {
+    $('#searchBar').html("");
+    document.getElementById('myModal').style.display = "none";
 }

@@ -97,13 +97,27 @@ function logout(){
 
 function gotoSearchShow() {
     var showNameToSearch = $('#searchBar').val();
+    var actionType = "getShowExist";
     if (showNameToSearch == "")
     {
         openPopup("נא להקליד שם הופעה");
-        invalidInput = 1;
     }
     else {
-        window.location.replace("searchShowSignedUser.html?search=" + showNameToSearch);
+        $.ajax({
+            url: "SellTicket",
+            data: {
+                "ActionType": actionType,
+                "showName": showNameToSearch,
+            },
+            success: function (isExist) {
+                if (isExist[0]) {
+                    window.location.replace("searchShowSignedUser.html?search=" + showNameToSearch);
+                }
+                else {
+                    openPopup("לא נמצאה הופעה");
+                }
+            }
+        });
     }
 }
 

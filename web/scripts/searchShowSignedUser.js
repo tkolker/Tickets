@@ -9,31 +9,19 @@ function getURLParameter(name) {
 }
 
 function searchShow(showNameToSearch) {
-    var invalidInput = 0;
     var actionType = "getSearchShow";
-
-
-    if (invalidInput == 0) {
-        $.ajax({
-            url: "SellTicket",
-            data: {
-                "ActionType": actionType,
-                "showName": showNameToSearch,
-            },
-            success: function (shows) {
-                if (Object.keys(shows).length == 2) {
-                    var numOfShows = shows[0];
-                    var showsArr = shows[1];
-                    buildSearchShows(numOfShows, showsArr);
-                }
-                else
-                {
-                    window.location.replace("indexSignedUser.html");
-                    openPopup("לא נמצאה הופעה");
-                }
-            }
-        });
-    }
+    $.ajax({
+        url: "SellTicket",
+        data: {
+            "ActionType": actionType,
+            "showName": showNameToSearch,
+        },
+        success: function (shows) {
+            var numOfShows = shows[0];
+            var showsArr = shows[1];
+            buildSearchShows(numOfShows, showsArr);
+        }
+    });
 }
 
 function buildSearchShows(n, shows){

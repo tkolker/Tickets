@@ -2,7 +2,7 @@ $(document).ready(function (){
     var id = getURLParameter('id');
     $('#showId').attr("showNum", id);
     $('#showId').hide();
-    getShow(id);
+    getShow(id, 0);
     $('#buttonUpdateShow').on("click", updateShow);
 });
 

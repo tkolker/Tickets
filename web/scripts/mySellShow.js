@@ -1,6 +1,6 @@
 $(document).ready(function (){
     var id = getURLParameter('id');
-    getShow(id);
+    getShow(id, 0);
     $('#buttonDeleteShow').on("click", deleteShow);
     $('#buttonGoToUpdate').on("click", passId);
 });

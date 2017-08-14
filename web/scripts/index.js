@@ -1,5 +1,5 @@
 $(document).ready(function (){
-    //getShows();
+    getShows();
     $('#buttonLoginWindow').on("click",gotoLogin);
     $('#buttonSingupWindow').on("click", gotoSignup);
 });
@@ -41,12 +41,16 @@ function buildIndex(numOfShows, shows){
         price = "price" + (i+1);
 
 
-        $('#' + ref).attr("href", "showPage.html?id=" + shows[i].m_ShowID);
+        buildHref(ref, shows[i]);
         $('#' + img).attr("src", shows[i].m_PictureUrl);
         $('#' + show).text(shows[i].m_ShowName);
         $('#' + date).text(shows[i].m_Date + "\n" + shows[i].m_Location);
         $('#' + price).text(shows[i].m_Price);
     }
+}
+
+function buildHref(ref, show){
+    $('#' + ref).attr("href", "showPage.html?id=" + show.m_ShowID)
 }
 
 function gotoLogin(){

@@ -6,7 +6,7 @@
     <!-- Meta info -->
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>מופע</title>
+    <title>רכישה</title>
     <meta content="" name="description" />
     <link rel="Shortcut Icon" type="image/x-icon" href="#" />
 
@@ -17,27 +17,52 @@
     <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css" />
     <script src="lib/modernizr-2.6.2.js"></script>
 </head>
-<body style="align:right" dir="rtl">
+<body style="align:right"; dir="rtl">
 <div id="container">
     <section id="content">
+
         <div id="pfd-work">
             <div id="work-bio">
-                <header class="showList">
+                <header>
                     <div id="pfd">
                         <a href="indexSignedUser.html">
                             <img src="images/logo.png" alt="מכרטסים">
                         </a>
                     </div>
+
                     <div id="preamble">
-                        <ul id="myShowsList" style="list-style-type: none"></ul>
+                        <a id="showID"></a>
+                        <h1 id="showName">כאן צריך את שם ההופעה</h1>
+                        <span>
+                    <h2 id="showPrice">כאן צריך מחיר</h2><br>
+                    <h2 id="showDate">כאן צריך תאריך</h2><br>
+                    <h2 id="showLocation">כאן צריך מיקום</h2>
+                </span>
+                        <p id="showAbout" class="space-after">כאן נכנסי פירוט על ההופעה</p>
                     </div>
+
+                    <ul id="links">
+                        <li>
+                            <a href="indexSignedUser.html" id="home">Home</a>
+                        </li>
+                        <li>
+                            <a id="ilovethis" class="signed"><span></span></a>
+                        </li>
+                    </ul>
                 </header>
             </div>
+
+            <section id="work-visuals">
+                <ul>
+                    <li data-visual="website-design-florentina-norfolk"><img id="showPicture" src="images/work/project-detail-1.jpg">
+                        &nbsp;</li>
+                </ul>
+            </section>
+
         </div>
     </section>
-</div><!-- container -->
 
-<!--
+
     <footer id="msf">
         <div class="wrapper">
             <div id="legal">
@@ -45,8 +70,7 @@
             </div>
         </div>
     </footer>
--->
-
+</div><!-- container -->
 
 <nav id="toc">
     <ul>
@@ -66,7 +90,7 @@
 <script src="scripts/main.js"></script>
 <script src="scripts/menu.js"></script>
 <script src="scripts/createShow.js"></script>
-<script src="scripts/myShows.js"></script>
+<script src="scripts/showPage.js"></script>
 
 <script>
     $(document).ready(function () {

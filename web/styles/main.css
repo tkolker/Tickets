@@ -5,7 +5,7 @@
   -webkit-border-radius: 0;
     font-family: Gisha;
   margin: 0;
-  padding: 0; }
+  padding: 0;  }
 
 .cf {
   zoom: 1; }
@@ -97,6 +97,7 @@ section#content #our-shows ul li .overlay summary h2{background:url(../images/pf
 section#content #our-shows ul li .overlay summary h3{color:#813815;font:300 15px/0.9em Source Sans Pro,sans-serif;padding-top:12px}
 section#content #our-shows ul li .overlay .loves{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fff;border-radius:40px;height:80px;position:absolute;right:60px;text-align:center;top:60px;width:80px}
 section#content #our-shows ul li .overlay .loves span{background:transparent url(../images/ils221.png) no-repeat right ;color:#ed7b47;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
+section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.notsigned:hover{background:#212328 url(../images/login.png) no-repeat center}
 section#content #pfd-work{position:relative;zoom:1}
 section#content #pfd-work footer{bottom:-80px;padding:50px 60px 0;position:absolute;right:0}
 section#content #pfd-work footer #other-projects{float:right;list-style:none}
@@ -112,8 +113,8 @@ section#content #work-bio #preamble h2,section#content #work-bio #preamble p.spa
 section#content #work-bio #links{height:80px;list-style:none;margin:40px 0}
 section#content #work-bio #links li{float:left;margin-right:40px}
 section#content #work-bio #links #ilovethis{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fc3e3c;border-radius:40px;cursor:pointer;display:block;height:80px;text-align:center;width:80px}
-section#content #work-bio #links #ilovethis span{background:transparent url(../images/ils221.png) no-repeat right -201px;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
-section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis:hover{background:#212328 url(../images/ils221.png) no-repeat 10px -170px}
+section#content #work-bio #links #ilovethis span{background:transparent url(../images/ils221.png) no-repeat;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
+section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.signed:hover{background:#212328 url(../images/buy.png) no-repeat center}
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
 section#content #work-bio #links #ilovethis.loved:hover{background-image:none}
 section#content #work-bio #links #ilovethis.loved:hover span{display:inline}
@@ -127,7 +128,7 @@ section #what-we-do header{background:transparent url(../images/concert_crowd.jp
 section#content #what-we-do header #preamble{padding-bottom:60px}
 section #what-we-do article{padding:120px 60px}
 section #what-we-do article h2{color:#212328;font:300 22px/1.2em Source Sans Pro,sans-serif}
-section#content footer#msf{bottom:0;left:0;position:absolute;width:100%}
+section#content footer#msf{bottom:0;left:0;position:absolute;width:100%;height: auto !important;}
 footer#msf .wrapper{border-top:1px solid #e4e4e4;height:73px;margin:0 60px}
 footer#msf ul#lets-be-social{float:left;width:230px;list-style:none}
 footer#msf ul#lets-be-social li{float:left;padding-right:8px}
@@ -145,8 +146,6 @@ nav#toc ul li a.active,nav#toc ul li a:hover{color:#fff}  nav#toc ul li:first-ch
 nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repeat left top;cursor:pointer;display:block;height:30px;left:-94px;position:absolute;text-indent:-8000px;top:60px;width:34px;z-index:5000}
 @media screen and (max-width:1200px){footer#msf .wrapper{margin:0 30px}  section#content header{padding:0 30px 60px}  section#content #pfd{padding-top:30px}  section#content #our-shows ul li .overlay summary{left:30px}  section#content #our-shows ul li .overlay .loves{right:30px;top:30px}  section#content #pfd-work footer{padding:50px 30px 0}  section#content #what-we-do header{padding:0 30px}  section#content #what-we-do article{padding:120px 30px}  section#content #what-we-do #web-design .parallax{background:#ededeb url(/images/logo.png) no-repeat 50% 0!important;height:750px}  section#content #what-we-do #identity article{padding:120px 30px}  nav#toc ul{padding-top:30px}  nav#toc a#toc-actuator{left:-64px;top:30px}}@media screen and (max-width:768px){section#content #work-bio{float:none;position:relative;width:auto}  section#content #work-visuals{float:none;width:auto}  section#content #pfd-work #links{display:none}  section#content #what-we-do section{height:auto!important}  section#content #what-we-do section article{padding:60px 30px}  section#content #what-we-do #web-design .parallax{background:#ededeb url(/images/logo.png) no-repeat 50% 0!important;height:460px}  section#content #what-we-do #identity{border-bottom:none}  section#content #what-we-do #identity article{padding:60px 30px}  section#content #pfd-about #example-photographs li,section#content #what-we-do #photography #example-photographs li{width:100%!important}  section#content p.em{font:300 15px/1.4em museo-sans,sans-serif!important}}@media screen and (max-width:460px){section#content{padding-bottom:234px}section#content #what-we-do #photography #example-photographs li{min-height:50px}footer#msf .wrapper{padding:20px 0}footer#msf ul#lets-be-social{float:none;width:auto;zoom:1}footer#msf ul#lets-be-social:after,footer#msf ul#lets-be-social:before{content:' ';display:table}footer#msf ul#lets-be-social:after{clear:both}footer#msf div#legal{float:none;width:auto}footer#msf div#legal span{display:block;padding-left:0;text-align:left}footer#msf li a,footer#msf span{line-height:2em}}
 
-
-.myShows{right:5%;position:fixed;width:100%;list-style-type: none;}
 
 .button{
     font-family: Gisha;
@@ -236,28 +235,6 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     padding-top:8px;
 }
 
-/*
-#popup {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-}
-
-#popupBg, #popupFinish {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 0;
-    cursor: pointer;
-}
-*/
-
-
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -270,6 +247,18 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+
+.showList {
+    float: right;
+    right: 20px;
+    position: fixed; !important;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; !important;
+}
+
 
 .close {
     color: #aaa;

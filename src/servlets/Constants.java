@@ -16,6 +16,7 @@ public enum Constants {
     public static final int USER_EXIST = 2;
     public static final int LOGIN_SUCCESS = 1;
     public static final int SIGNUP_SUCCESS = 3;
+    public static final int LOGOUT_SUCCESS = 4;
     public static final String SHOW_ID = "showID";
     public static final String SHOW_NAME = "showName";
     public static final String SHOW_LOCATION = "showLocation";

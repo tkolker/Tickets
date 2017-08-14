@@ -1,7 +1,7 @@
 $(document).ready(function (){
     loadUserName();
     getShows();
-    $('#buttonLogOutWindow').on("click",gotoLogout);
+    $('#buttonLogOutWindow').on("click",logout);
     $('#buttonSearchShow').on("click", gotoSearchShow);
     $('#buttonSearchShow').on("click", gotoSearchShow);
 });
@@ -74,11 +74,15 @@ function buildIndex(numOfShows, shows){
 }
 
 function buildHref(ref, show){
-    $('#' + ref).attr("href", "showPageSignedUser.html?id=" + show.m_ShowID)
+    $('#' + ref).attr("href", "showPageSignedUser.html?id=" + show.m_ShowID);
 }
 
 function gotoLogout(){
-    var actionType = "logout"
+    window.location.replace("index.html");
+}
+
+function logout(){
+    var actionType = "logout";
 
     $.ajax({
         url: "login",
@@ -86,9 +90,8 @@ function gotoLogout(){
         data: {
             "ActionType": actionType,
         },
-        success: function (user) {
-            window.location.replace("index.html");
-        }
+        success:
+            window.location.replace("index.html")
     });
 }
 

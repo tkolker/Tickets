@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static servlets.Constants.LOGOUT_SUCCESS;
+
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet{
 
@@ -62,18 +64,18 @@ public class LoginServlet extends HttpServlet{
 
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
+        UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
         try {
-            String email = request.getParameter(Constants.EMAIL);
-            javax.mail.internet.InternetAddress ia = new InternetAddress(email);
-            ia.validate();
-            User user = new User(request.getParameter(Constants.EMAIL), request.getParameter(Constants.USER_FIRST_NAME),  request.getParameter(Constants.USER_LAST_NAME),  request.getParameter(Constants.USER_PASSWORD));
-            UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
             switch (actionType) {
                 case Constants.SIGNUP:
+                    String email = request.getParameter(Constants.EMAIL);
+                    javax.mail.internet.InternetAddress ia = new InternetAddress(email);
+                    ia.validate();
+                    User user = new User(request.getParameter(Constants.EMAIL), request.getParameter(Constants.USER_FIRST_NAME),  request.getParameter(Constants.USER_LAST_NAME),  request.getParameter(Constants.USER_PASSWORD));
                     performSignUp(request, response, user, usersManager);
                     break;
                 case Constants.LOGOUT:
-                    performLogout(request, response, user, usersManager);
+                    performLogout(request, response, usersManager);
             }
         }
         catch (javax.mail.internet.AddressException ae)
@@ -83,12 +85,12 @@ public class LoginServlet extends HttpServlet{
 
     }
 
-    private void performLogout(HttpServletRequest request, HttpServletResponse response, User user, UsersManager usersManager) throws IOException {
+    private void performLogout(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
         response.setContentType("application/json");
         User LoggedInUser = (User)request.getSession(false).getAttribute(Constants.LOGIN_USER);
-
-
-
+        usersManager.getUsers().remove(LoggedInUser);
+        request.getSession(true).removeAttribute(Constants.LOGIN_USER);
+        response.getWriter().flush();
     }
 
     private void performSignUp(HttpServletRequest request, HttpServletResponse response, User user, UsersManager manager) throws IOException{

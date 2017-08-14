@@ -2,6 +2,7 @@ $(document).ready(function (){
     getShows();
     $('#buttonLoginWindow').on("click",gotoLogin);
     $('#buttonSingupWindow').on("click", gotoSignup);
+    $('#buttonSearchShow').on("click", gotoSearchShow);
 });
 
 
@@ -47,6 +48,11 @@ function buildIndex(numOfShows, shows){
         $('#' + date).text(shows[i].m_Date + "\n" + shows[i].m_Location);
         $('#' + price).text(shows[i].m_Price);
     }
+}
+
+function gotoSearchShow() {
+    var showNameToSearch = $('#searchBar').val();
+    window.location.replace("searchShow.html?search=" + showNameToSearch);
 }
 
 function buildHref(ref, show){

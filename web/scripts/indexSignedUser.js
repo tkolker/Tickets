@@ -2,6 +2,8 @@ $(document).ready(function (){
     loadUserName();
     getShows();
     $('#buttonLogOutWindow').on("click",gotoLogout);
+    $('#buttonSearchShow').on("click", gotoSearchShow);
+    $('#buttonSearchShow').on("click", gotoSearchShow);
 });
 
 function loadUserName(){
@@ -88,6 +90,11 @@ function gotoLogout(){
             window.location.replace("index.html");
         }
     });
+}
+
+function gotoSearchShow() {
+    var showNameToSearch = $('#searchBar').val();
+    window.location.replace("searchShowSignedUser.html?search=" + showNameToSearch);
 }
 
 

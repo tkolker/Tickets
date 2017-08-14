@@ -18,7 +18,7 @@ function createShowPage(show, i){
     }
 }
 
-function getShow(id){
+function getShow(id, i){
     var actionType = "getShow";
 
     $.ajax({
@@ -28,7 +28,7 @@ function getShow(id){
             "ActionType": actionType,
         },
         success: function (show) {
-            createShowPage(show);
+            createShowPage(show, i);
         }
     });
 }

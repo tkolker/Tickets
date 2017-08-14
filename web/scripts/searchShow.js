@@ -1,26 +1,40 @@
 $(document).ready(function (){
-    getMyShows();
+    var searchNameShow = getURLParameter('search');
+    searchShow(searchNameShow);
 });
 
 
-function getMyShows(){
-    var actionType = "getMySellShows";
-
-    $.ajax({
-        url: "SellTicket",
-        data: {
-            "ActionType": actionType,
-        },
-        success: function (shows) {
-            var numOfShows = shows[0];
-            var showsArr = shows[1];
-            buildMyShows(numOfShows, showsArr);
-        }
-    });
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
 
-function buildMyShows(n, shows){
+function searchShow(showNameToSearch) {
+    var invalidInput = 0;
+    var actionType = "getSearchShow";
 
+    if (showNameToSearch == "")
+    {
+        openPopup("נא להקליד שם הופעה");
+        invalidInput = 1;
+    }
+
+    if (invalidInput == 0) {
+        $.ajax({
+            url: "SellTicket",
+            data: {
+                "ActionType": actionType,
+                "showName": showNameToSearch,
+            },
+            success: function (shows) {
+                var numOfShows = shows[0];
+                var showsArr = shows[1];
+                buildSearchShows(numOfShows, showsArr);
+            }
+        });
+    }
+}
+
+function buildSearchShows(n, shows){
     var id;
     var name;
     var date;
@@ -77,5 +91,5 @@ function buildMyShows(n, shows){
 
 function redirect(event){
     var show = event.data.param;
-    window.location.replace("mySellShow.html?id="+show.m_ShowID);
+    window.location.replace("showPage.html?id="+show.m_ShowID);
 }

@@ -16,7 +16,7 @@ function getURLParameter(name) {
 
 function deleteShow(){
     var actionType = "deleteShow";
-    var showID = document.getElementById("showID");
+    var showID = $('#showID').attr("showNum");
 
     $.ajax({
         type: "POST",
@@ -26,20 +26,21 @@ function deleteShow(){
             "showID": showID,
         },
         success: function (result) {
-            var addShowRes = result[0];
+            var removeShowRes = result[0];
             var show = result[1];
-            showResponse(addShowRes, show);
+            showResponse(removeShowRes, show);
         }
     });
 }
 
 
 function showResponse(i, show) {
-    if (i === "0") {
-        openPopup();
+    if (i === "5") {
+        openPopup("ההופעה של "+show+ " נמחקה בהצלחה");
+        window.location.replace("myShows.html");
     }
-    else if (i === "1") {
-
+    else if (i === "4") {
+        openPopup("אופס! קרתה תקלה. ההופעה לא נמחקה. נסה שוב");
     }
 }
 

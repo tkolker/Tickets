@@ -292,6 +292,7 @@ public class ShowServlet extends HttpServlet {
         Show showToRemove;
         int validInput;
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
+        String showName = "";
 
         List<Show> shows = showsManager.getAllShows(em);
         showToRemove = showsManager.showIDExist(shows, showID);
@@ -302,9 +303,11 @@ public class ShowServlet extends HttpServlet {
         }
         else {
             validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
-            DBTrans.remove(em, show);
+            showName = showToRemove.getShowName();
+            DBTrans.remove(em, showToRemove);
             int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
-            UserShows userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+            UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
+            UserShows userShowToUpdate = userShowsManager.getUserShow(userFromSession.getEmail(), showID);
             DBTrans.remove(em, userShowToUpdate);
         }
 
@@ -312,7 +315,7 @@ public class ShowServlet extends HttpServlet {
         Gson gson = new Gson();
         String res = gson.toJson(validInput);
 
-        response.getWriter().write("[" + res + "," + showToRemove + "]");
+        response.getWriter().write("[" + res + "," + showName + "]");
         response.getWriter().flush();
 
     }

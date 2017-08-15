@@ -16,6 +16,18 @@ public class UserShowsManager {
         return m_UserShowsList;
     }
 
+    public UserShows getUserShow(String userEmail, int showID)
+    {
+        for(UserShows u: m_UserShowsList){
+            if(u.getUserID().equals(userEmail)){
+                if(u.getShowId() == showID){
+                    return u;
+                }
+            }
+        }
+        return null;
+    }
+
     public UserShows userIDExist(User user) {
         for(UserShows u: m_UserShowsList){
             if(u.getUserID().equals(user.getEmail())){

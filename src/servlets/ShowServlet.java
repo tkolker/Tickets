@@ -249,7 +249,13 @@ public class ShowServlet extends HttpServlet {
         int validInput;
 
         List<Show> shows = showsManager.getAllShows(em);
-        ShowNumber.showNumber = shows.get(shows.size()-1).getShowID() + 1;
+        if (shows.size() > 0) {
+            ShowNumber.showNumber = shows.get(shows.size() - 1).getShowID() + 1;
+        }
+        else
+        {
+            ShowNumber.showNumber = 0;
+        }
         show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
         showToAdd = showsManager.showLocationAndDateExist(shows, show);
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
@@ -259,10 +265,10 @@ public class ShowServlet extends HttpServlet {
             request.getSession(true).setAttribute(Constants.SHOW, show);
             DBTrans.persist(em, show);
             UserShowsNumber.userShowNumber = ServletUtils.getUserShowsManager(getServletContext()).getAllShows(em).size();
-            userShowToUpdate = new UserShows(UserShowsNumber.userShowNumber++, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+            userShowToUpdate = new UserShows(UserShowsNumber.userShowNumber++, userFromSession.getEmail(), show.getShowID());
             DBTrans.persist(em, userShowToUpdate);
             em.close();
-            saveImageToDB(show.getPictureUrl(), show.getShowName(), show.getShowID());
+            //saveImageToDB(show.getPictureUrl(), show.getShowName(), show.getShowID());
         }
         else {
             if (UserShowsManager.showIDExistInUser(em, userFromSession.getEmail(), showToAdd.getShowID())) {
@@ -274,7 +280,7 @@ public class ShowServlet extends HttpServlet {
                 DBTrans.persist(em, show);
                 em.close();
                 int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
-                userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID(), Constants.SHOW_TO_SELL);
+                userShowToUpdate = new UserShows(numOfShowUser, userFromSession.getEmail(), show.getShowID());
                 em = emf.createEntityManager();
                 DBTrans.persist(em, userShowToUpdate);
                 em.close();

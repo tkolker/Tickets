@@ -42,7 +42,7 @@ function buildIndex(numOfShows, shows){
         price = "price" + (i+1);
 
 
-        buildHref(ref, shows[i]);
+        $('#' + ref).attr("href", "showPage.html?id=" + shows[i].m_ShowID);
         $('#' + img).attr("src", shows[i].m_PictureUrl);
         $('#' + show).text(shows[i].m_ShowName);
         $('#' + date).text(shows[i].m_Date + "\n" + shows[i].m_Location);

@@ -3,7 +3,7 @@ $(document).ready(function (){
     getShows();
     $('#buttonLogOutWindow').on("click",logout);
     $('#buttonSearchShow').on("click", gotoSearchShow);
-    $('#buttonSearchShow').on("click", gotoSearchShow);
+
 });
 
 function loadUserName(){
@@ -65,20 +65,12 @@ function buildIndex(numOfShows, shows){
         price = "price" + (i+1);
 
 
-        buildHref(ref, shows[i]);
+        $('#' + ref).attr("href", "showPageSignedUser.html?id=" + shows[i].m_ShowID);
         $('#' + img).attr("src", shows[i].m_PictureUrl);
         $('#' + show).text(shows[i].m_ShowName);
         $('#' + date).text(shows[i].m_Date + "\n" + shows[i].m_Location);
         $('#' + price).text(shows[i].m_Price);
     }
-}
-
-function buildHref(ref, show){
-    $('#' + ref).attr("href", "showPageSignedUser.html?id=" + show.m_ShowID);
-}
-
-function gotoLogout(){
-    window.location.replace("index.html");
 }
 
 function logout(){

@@ -13,7 +13,8 @@ function getURLParameter(name) {
 
 function gotoBuyPage(){
     var id = $('#showID').attr("showNum");
-    window.location.replace("buyPage.html?id=" + id);
+    var num = $('#comboBox').val();
+    window.location.replace("buyPage.html?id=" + id + "&quantity=" + num);
 }
 
 

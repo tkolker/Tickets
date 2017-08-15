@@ -5,7 +5,6 @@ import appManager.ShowsManager;
 import appManager.UserShowsManager;
 import appManager.db_manager.DBTrans;
 import com.google.gson.Gson;
-import com.objectdb.o.FIL;
 import logic.*;
 import utils.ServletUtils;
 
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

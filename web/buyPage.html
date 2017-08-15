@@ -16,6 +16,10 @@
     <!-- Styles -->
     <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css" />
     <script src="lib/modernizr-2.6.2.js"></script>
+
+    <!-- paypal button-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 </head>
 <body style="align:right"; dir="rtl">
 <div id="container">
@@ -34,11 +38,10 @@
                         <a id="showID"></a>
                         <h1 id="showName">כאן צריך את שם ההופעה</h1>
                         <span>
-                    <h2 id="showPrice">כאן צריך מחיר</h2><br>
-                    <h2 id="showDate">כאן צריך תאריך</h2><br>
-                    <h2 id="showLocation">כאן צריך מיקום</h2>
-                </span>
-                        <p id="showAbout" class="space-after">כאן נכנסי פירוט על ההופעה</p>
+                            <h2 id="showDate">כאן צריך תאריך</h2><br>
+                            <h2 id="showLocation">כאן צריך מיקום</h2>
+                        </span>
+                        <p id="total"></p>
                     </div>
 
                     <ul id="links">
@@ -46,7 +49,40 @@
                             <a href="indexSignedUser.html" id="home">Home</a>
                         </li>
                         <li>
-                            <a id="ilovethis" class="signed"><span></span></a>
+                            <div id="paypal-button"></div>
+
+                            <script>
+                                paypal.Button.render({
+
+                                    env: 'sandbox', // Or 'sandbox',
+
+                                    client: {
+                                        sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+                                        production: 'AWicKAm0vKAGpR9ltaqnY71II_KK6kyieiREQxtGt4NCle7xqgLXHY-hgBAREARC5hTld7yiTBj1ut2h'
+                                    },
+
+                                    commit: true, // Show a 'Pay Now' button
+
+                                    payment: function(data, actions) {
+                                        return actions.payment.create({
+                                            payment: {
+                                                transactions: [
+                                                    {
+                                                        amount: { total: data, currency: 'ILS' }
+                                                    }
+                                                ]
+                                            }
+                                        });
+                                    },
+
+                                    onAuthorize: function(data, actions) {
+                                        return actions.payment.execute().then(function() {
+                                            window.alert('Payment Complete!');
+                                        });
+                                    }
+
+                                }, '#paypal-button');
+                            </script>
                         </li>
                     </ul>
                 </header>
@@ -90,7 +126,7 @@
 <script src="scripts/main.js"></script>
 <script src="scripts/menu.js"></script>
 <script src="scripts/createShow.js"></script>
-<script src="scripts/showPage.js"></script>
+<script src="scripts/buyPage.js"></script>
 
 <script>
     $(document).ready(function () {

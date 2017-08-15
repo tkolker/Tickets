@@ -18,7 +18,7 @@ function addShow(){
     var actionType = "addShow";
     var showPic = pictureUrl;
 
-    if (showName === "" || showDate === "" || showLocation === "" || (pictureUrl === "" || showPicFile === "") || numOfTickets === "") {
+    if (showName === "" || showDate === "" || showLocation === "" || (pictureUrl === "" && showPicFile === "") || numOfTickets === "") {
         openPopup("נא למלא את כל השדות");
         invalidInput = 1;
     }

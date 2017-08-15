@@ -1,7 +1,9 @@
 var id;
 var num;
+var price;
 
 $(document).ready(function (){
+    $('#paypal-button').on("click", performPurchase);
     id = getURLParameter('id');
     num = getURLParameter('quantity');
     getShow(id, 0);
@@ -12,11 +14,15 @@ function getURLParameter(name) {
 }
 
 function createBuyShowPage(show, i){
+    price = show.m_Price;
     $('#showID').attr("showNum", show.m_ShowID);
     $('#showName').text(show.m_ShowName);
     $('#showDate').text(show.m_Date);
     $('#showLocation').text(show.m_Location);
-    $('#total').text(show.m_Price + " * " + num + " = " + show.m_Price*num);
+    $('#price').text("מחיר: " + show.m_Price + "ש\"ח");
+    $('#quantity').text("מספר כרטיסים: " + num);
+    $('#total').text("סך הכל לתשלום: " + show.m_Price*num + "ש\"ח");
+    $('#total').attr("totalAmount", show.m_Price*num);
     $('#showPicture').attr("src", show.m_PictureUrl);
     $('#ilovethis').text(show.m_Price);
 
@@ -47,3 +53,17 @@ function getShow(id, i){
     });
 }
 
+function performPurchase(){
+    var actionType = "buyTicket";
+
+    $.ajax({
+        url: "SellTicket",
+        type: 'POST',
+        data: {
+            "showID" : id,
+            "ActionType": actionType,
+        },
+        success: window.location.replace("myBoughtTickets.html")
+
+    });
+}

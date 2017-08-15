@@ -41,6 +41,8 @@
                             <h2 id="showDate">כאן צריך תאריך</h2><br>
                             <h2 id="showLocation">כאן צריך מיקום</h2>
                         </span>
+                        <p id="price"></p>
+                        <p id="quantity"></p>
                         <p id="total"></p>
                     </div>
 
@@ -68,7 +70,7 @@
                                             payment: {
                                                 transactions: [
                                                     {
-                                                        amount: { total: data, currency: 'ILS' }
+                                                        amount: { total: $('#total').attr("totalAmount"), currency: 'ILS' }
                                                     }
                                                 ]
                                             }

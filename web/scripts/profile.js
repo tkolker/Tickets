@@ -8,6 +8,7 @@ function getToSellTickets(){
 }
 
 function getBuyedTickets(){
+    window.location.replace("myBoughtTickets.html");
 }
 
 

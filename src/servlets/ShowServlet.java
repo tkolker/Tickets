@@ -54,6 +54,9 @@ public class ShowServlet extends HttpServlet {
             case Constants.GET_SHOW_EXIST:
                 isShowFound(request, response, showsManager, em);
                 break;
+            case Constants.GET_BOUGHT_TICKETS:
+                //TODO: implement get bought tickets
+                break;
         }
     }
 
@@ -175,6 +178,9 @@ public class ShowServlet extends HttpServlet {
             case Constants.DELETE_SHOW:
                 show = (Show) request.getSession(false).getAttribute(Constants.SHOW);
                 removeShowFromDB(request, response, show, showsManager);
+                break;
+            case Constants.BUY_TICKET:
+                //TODO: implement buy
                 break;
         }
 

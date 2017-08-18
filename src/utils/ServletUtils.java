@@ -1,9 +1,6 @@
 package utils;
 
-import appManager.ShowsManager;
-import appManager.UserShowBoughtManager;
-import appManager.UserShowsManager;
-import appManager.UsersManager;
+import appManager.*;
 import logic.UserShowBought;
 
 import javax.servlet.ServletContext;
@@ -14,6 +11,7 @@ public class ServletUtils {
     private static final String SHOWS_MANAGER_ATTRIBUTE_NAME = "showsManager";
     private static final String USER_SHOWS_MANAGER_ATTRIBUTE_NAME = "userShowsManager";
     private static final String USER_SHOW_BOUGHT_MANAGER_ATTRIBUTE_NAME = "userShowBoughtManager";
+    private static final String SHOWS_ARCHIVE_MANAGER_ATTRIBUTE_NAME = "userShowsArchiveManager";
 
     public static UsersManager getUsersManager(ServletContext servletContext) {
         if (servletContext.getAttribute(USERS_MANAGER_ATTRIBUTE_NAME) == null) {
@@ -34,6 +32,13 @@ public class ServletUtils {
             servletContext.setAttribute(SHOWS_MANAGER_ATTRIBUTE_NAME, new ShowsManager());
         }
         return (ShowsManager) servletContext.getAttribute(SHOWS_MANAGER_ATTRIBUTE_NAME);
+    }
+
+    public static ShowsArchiveManager getShowsArchiveManager(ServletContext servletContext) {
+        if (servletContext.getAttribute(SHOWS_ARCHIVE_MANAGER_ATTRIBUTE_NAME) == null) {
+            servletContext.setAttribute(SHOWS_ARCHIVE_MANAGER_ATTRIBUTE_NAME, new ShowsArchiveManager());
+        }
+        return (ShowsArchiveManager) servletContext.getAttribute(SHOWS_ARCHIVE_MANAGER_ATTRIBUTE_NAME);
     }
 
     public static UserShowsManager getUserShowsManager(ServletContext servletContext) {

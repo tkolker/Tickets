@@ -3,12 +3,13 @@ package logic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
 import static logic.ShowArchiveNumber.showArchiveNumber;
 
 @Entity
-public class ShowArchive {
+public class ShowArchive implements Serializable, ShowInterface{
     @Id
     @GeneratedValue
     private int m_ShowID;

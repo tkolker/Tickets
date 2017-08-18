@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
 public class ShowServlet extends HttpServlet {
@@ -70,10 +71,10 @@ public class ShowServlet extends HttpServlet {
         }
     }
 
-    private void createShowArrayResult(List<Show> shows, List<UserShowsInterface> userShowInList, ArrayList<Show> res)
+    private void createShowArrayResult(List<ShowInterface> shows, List<UserShowsInterface> userShowInList, ArrayList<ShowInterface> res)
     {
         int i = 0;
-        for (Show s : shows) {
+        for (ShowInterface s : shows) {
             if (s.getShowID() == userShowInList.get(i).getShowId()) {
                 res.add(s);
                 if (i < userShowInList.size() - 1)
@@ -83,16 +84,24 @@ public class ShowServlet extends HttpServlet {
             }
         }
     }
+
+    private void createShowArchiveArrayResult(List<ShowInterface> shows, List<UserShowsInterface> userShowInList, ArrayList<ShowInterface> res)
+    {
+        for (UserShowsInterface u : userShowInList) {
+            res.addAll(shows.stream().filter(s -> s.getShowID() == u.getShowId()).collect(Collectors.toList()));
+        }
+    }
     //TODO : need to change to showArchive !!!! sivan's work :)
     private void getBoughtTickets(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
-        ArrayList<Show> res = new ArrayList<>();
+        ArrayList<ShowInterface> res = new ArrayList<>();
         String userId = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getEmail();
         UserShowsManagerInterface userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());
-        List<Show> shows = showsManager.getAllShows(em);
+        ShowsArchiveManager showsArchiveManager = ServletUtils.getShowsArchiveManager(getServletContext());
+        List<ShowInterface> shows = showsArchiveManager.getAllShows(em);
         List<UserShowsInterface> userShowBought = userShowBoughtManager.getShowByUserID(em, userId);
 
-        createShowArrayResult(shows, userShowBought, res);
+        createShowArchiveArrayResult(shows, userShowBought, res);
 
         Gson gson = new Gson();
         if(!res.isEmpty()) {
@@ -149,10 +158,10 @@ public class ShowServlet extends HttpServlet {
 
     private void getMySellShows(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
-        ArrayList<Show> res = new ArrayList<>();
+        ArrayList<ShowInterface> res = new ArrayList<>();
         String userId = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getEmail();
         UserShowsManagerInterface userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
-        List<Show> shows = showsManager.getAllShows(em);
+        List<ShowInterface> shows = showsManager.getAllShows(em);
         List<UserShowsInterface> userShows = userShowsManager.getShowByUserID(em, userId);
 
         createShowArrayResult(shows, userShows, res);
@@ -166,7 +175,7 @@ public class ShowServlet extends HttpServlet {
 
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
-        List<Show> shows = showsManager.getAllShows(em);
+        List<ShowInterface> shows = showsManager.getAllShows(em);
 
         Gson gson = new Gson();
         String showsStr = gson.toJson(shows);
@@ -297,7 +306,7 @@ public class ShowServlet extends HttpServlet {
 
         int validInput = Constants.SHOW_UPDATE_SUCCESSFULLY;
 
-        List<Show> shows = showsManager.getAllShows(em);
+        List<ShowInterface> shows = showsManager.getAllShows(em);
         showToDelete = showsManager.showIDExist(shows, showToUpdate);
 
         if (showToDelete != null) {
@@ -348,7 +357,7 @@ public class ShowServlet extends HttpServlet {
         UserShows userShowToUpdate = null;
         int validInput;
 
-        List<Show> shows = showsManager.getAllShows(em);
+        List<ShowInterface> shows = showsManager.getAllShows(em);
         if (shows.size() > 0) {
             ShowNumber.showNumber = shows.get(shows.size() - 1).getShowID() + 1;
         }
@@ -403,7 +412,7 @@ public class ShowServlet extends HttpServlet {
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
         String showName = "";
 
-        List<Show> shows = showsManager.getAllShows(em);
+        List<ShowInterface> shows = showsManager.getAllShows(em);
         showToRemove = showsManager.showIDExist(shows, showID);
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
 

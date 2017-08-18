@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
-public class Show implements Serializable {
+public class Show implements Serializable, ShowInterface {
     @Id @GeneratedValue
     private int m_ShowID;
     private String m_ShowName;

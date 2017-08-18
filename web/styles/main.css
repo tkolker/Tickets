@@ -98,6 +98,7 @@ section#content #our-shows ul li .overlay summary h3{color:#813815;font:300 15px
 section#content #our-shows ul li .overlay .loves{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fff;border-radius:40px;height:80px;position:absolute;right:60px;text-align:center;top:60px;width:80px}
 section#content #our-shows ul li .overlay .loves span{background:transparent url(../images/ils221.png) no-repeat right ;color:#ed7b47;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
 section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.notsigned:hover{background:#212328 url(../images/login.png) no-repeat center}
+section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.notsigned span{color:#fff; font-family: Gisha; font-size: large}
 section#content #pfd-work{position:relative;zoom:1}
 section#content #pfd-work footer{bottom:-80px;padding:50px 60px 0;position:absolute;right:0}
 section#content #pfd-work footer #other-projects{float:right;list-style:none}
@@ -113,7 +114,7 @@ section#content #work-bio #preamble h2,section#content #work-bio #preamble p.spa
 section#content #work-bio #links{height:80px;list-style:none;margin:40px 0}
 section#content #work-bio #links li{float:left;margin-right:40px}
 section#content #work-bio #links #ilovethis{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fc3e3c;border-radius:40px;cursor:pointer;display:block;height:80px;text-align:center;width:80px}
-section#content #work-bio #links #ilovethis span{background:transparent url(../images/ils221.png) no-repeat;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
+section#content #work-bio #links #ilovethis span{background:transparent;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
 section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.signed:hover{background:#212328 url(../images/buy.png) no-repeat center}
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
 section#content #work-bio #links #ilovethis.loved:hover{background-image:none}
@@ -124,7 +125,7 @@ section#content #work-visuals ul{list-style:none}
 section#content #work-visuals ul li{line-height:0;margin-bottom:10px}
 section#content #work-visuals ul li img{width:100%}
 section#content #preamble a.read-more{border-style:none;color:#212328;font:300 15px/1.4em Source Sans Pro,sans-serif;text-decoration:none}  section#content #preamble a.read-more:hover{color:#80807e}
-section #what-we-do header{background:transparent url(../images/concert_crowd.jpg) no-repeat 50% top fixed;padding:0 60px}
+section #what-we-do header{background:transparent url(../images/concert_crowd.jpg) no-repeat 50% bottom fixed;padding:0 60px}
 section#content #what-we-do header #preamble{padding-bottom:60px}
 section #what-we-do article{padding:120px 60px}
 section #what-we-do article h2{color:#212328;font:300 22px/1.2em Source Sans Pro,sans-serif}

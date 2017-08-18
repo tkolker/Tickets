@@ -2,6 +2,7 @@ package appManager;
 
 import logic.User;
 import logic.UserShowBought;
+import logic.UserShowsInterface;
 
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserShowBoughtManager {
+public class UserShowBoughtManager implements UserShowsManagerInterface {
     ArrayList<UserShowBought> m_UserShowsBoughtList =  new ArrayList<>();
 
     public ArrayList<UserShowBought> getUsers(){
@@ -77,10 +78,10 @@ public class UserShowBoughtManager {
         return query.getFirstResult();
     }
 
-    public List<UserShowBought> getShowByUserID(EntityManager em, String userId) {
-        TypedQuery<UserShowBought> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShowBought.class);
-
-        return query.setParameter("mail", userId).getResultList();
+    public List<UserShowsInterface> getShowByUserID(EntityManager em, String userId) {
+        TypedQuery<UserShowsInterface> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShowsInterface.class);
+        query.setParameter("mail", userId);
+        return query.getResultList();
     }
 
     public List<UserShowBought> getShowByUserIDDesc(EntityManager em, String userId) {

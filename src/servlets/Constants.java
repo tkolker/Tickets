@@ -53,4 +53,5 @@ public enum Constants {
     public static final boolean SHOW_NAME_NOT_EXIST = false;
     public static final String BUY_TICKET = "buyTicket";
     public static final String GET_BOUGHT_TICKETS = "getMyBoughtShows";
+    public static final String NUMBERS_OF_TICKETS_TO_BUY = "numOfTicketsToBuy";
 }

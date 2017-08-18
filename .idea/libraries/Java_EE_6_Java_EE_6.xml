@@ -15,7 +15,6 @@
       <root url="jar://$PROJECT_DIR$/javax.mail-1.6.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/objectdb.jar!/" />
       <root url="jar://$PROJECT_DIR$/../objectdb-2.7.1/bin/objectdb.jar!/" />
-      <root url="jar://$PROJECT_DIR$/imgscalr-lib-4.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,7 +1,7 @@
 package utils;
 
 
-import org.imgscalr.*;
+/*//import org.imgscalr.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -15,4 +15,4 @@ public class ImageUtils {
         return scaledImage;
     }
 
-}
+}*/

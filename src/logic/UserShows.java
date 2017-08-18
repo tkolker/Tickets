@@ -5,7 +5,7 @@ import javax.persistence.Id;
 
 
 @Entity
-public class UserShows {
+public class UserShows implements UserShowsInterface {
     @Id
     int m_Key;
     String m_UserEmail;

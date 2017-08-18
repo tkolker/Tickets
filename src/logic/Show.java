@@ -19,14 +19,13 @@ public class Show implements Serializable {
     private int m_Price;
     private Date m_Date;
     private String m_About;
-    //private ArrayList<Ticket> m_Tickets;
     private int m_NumOfTickets;
 
     public Show(){
         m_ShowID = ShowNumber.showNumber++;
     }
 
-    public Show(String name, String location, String url, int numOfTickets, int price, Date date, String about /*ArrayList<Ticket> tickets*/){
+    public Show(String name, String location, String url, int numOfTickets, int price, Date date, String about){
         m_ShowID = ShowNumber.showNumber++;
         m_ShowName = name;
         m_Location = location;
@@ -35,10 +34,9 @@ public class Show implements Serializable {
         m_PictureUrl = url;
         m_NumOfTickets = numOfTickets;
         m_About = about;
-        //m_Tickets = tickets;
     }
 
-    public Show(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about /*ArrayList<Ticket> tickets*/){
+    public Show(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about){
         m_ShowID = id;
         m_ShowName = name;
         m_Location = location;
@@ -47,7 +45,6 @@ public class Show implements Serializable {
         m_PictureUrl = url;
         m_NumOfTickets = numOfTickets;
         m_About = about;
-        //m_Tickets = tickets;
     }
 
 

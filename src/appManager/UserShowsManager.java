@@ -2,13 +2,18 @@ package appManager;
 
 import logic.User;
 import logic.UserShows;
+import logic.UserShowsInterface;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserShowsManager {
+public class UserShowsManager implements UserShowsManagerInterface{
 
     ArrayList<UserShows> m_UserShowsList =  new ArrayList<>();
 
@@ -77,10 +82,16 @@ public class UserShowsManager {
         return query.getFirstResult();
     }
 
-    public List<UserShows> getShowByUserID(EntityManager em, String userId) {
-        TypedQuery<UserShows> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShows.class);
+    public List<UserShowsInterface> getShowByUserID(EntityManager em, String userId) {
+        TypedQuery<UserShowsInterface> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShowsInterface.class);
 
         return query.setParameter("mail", userId).getResultList();
+    }
+
+    public String getUserByShowId(EntityManager em, int ShowId) {
+        TypedQuery<UserShows> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_ShowID=:showID", UserShows.class);
+        query.setParameter("showID", ShowId);
+        return query.getSingleResult().getUserID();
     }
 
     public List<UserShows> getShowByUserIDDesc(EntityManager em, String userId) {

@@ -1,5 +1,7 @@
 package appManager.db_manager;
 
+import logic.Show;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
@@ -20,6 +22,21 @@ public class DBTrans {
             if (em.getTransaction().isActive())
                 em.getTransaction().rollback();
             //em.close();
+        }
+    }
+
+    public static void updateShow(EntityManager em, int showId, int numberTickets)
+    {
+        try{
+            Show showToUpdate = em.find(Show.class, showId);
+            em.getTransaction().begin();
+            showToUpdate.setNumOfTickets(numberTickets);
+            em.getTransaction().commit();
+        }
+        finally {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            em.close();
         }
     }
 

@@ -62,6 +62,7 @@ function performPurchase(){
         data: {
             "showID" : id,
             "ActionType": actionType,
+            "numOfTicketsToBuy" : num,
         },
         success: window.location.replace("myBoughtTickets.html")
 

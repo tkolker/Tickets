@@ -68,11 +68,13 @@
                                     commit: true, // Show a 'Pay Now' button
 
                                     payment: function(data, actions) {
+                                        //performPurchase();
                                         return actions.payment.create({
                                             payment: {
                                                 transactions: [
                                                     {
                                                         amount: { total: $('#total').attr("totalAmount"), currency: 'ILS' }
+
                                                     }
                                                 ]
                                             }
@@ -80,9 +82,10 @@
                                     },
 
                                     onAuthorize: function(data, actions) {
-                                        return actions.payment.execute().then(function() {
-                                            window.alert('Payment Complete!');
-                                        });
+                                        //return actions.payment.execute().then(function() {
+                                        //window.alert('Payment Complete!');
+                                        //});
+                                        performPurchase();
                                     }
 
                                 }, '#paypal-button');

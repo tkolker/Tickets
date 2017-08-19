@@ -44,15 +44,14 @@ function showResponse(i, user) {
         openPopup("לא קיים שם המשתמש במערכת");
     }
     else if(i === 1) {
-        $("#loggedInUserName").text(user.m_fName); <!-- TODO: doesnt work -->
+        $("#loggedInUserName").text(user.m_fName);
         window.location.replace("indexSignedUser.html");
     }
     else if(i === 2) {
         openPopup("משתמש קיים במערכת");
     }
     else if (i === 3){
-        $("#loggedInUserName").text(user.m_fName); <!-- TODO: doesnt work -->
-        openPopup("הרשמה בוצעה בהצלחה");
+        $("#loggedInUserName").text(user.m_fName);
         window.location.replace("indexSignedUser.html");
     }
     else if (i == 4)
@@ -64,7 +63,6 @@ function showResponse(i, user) {
     }
 }
 
-//TODO: make it a popup
 function gotoLogin(){
     window.location.replace("login.html")
 }

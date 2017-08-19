@@ -58,20 +58,25 @@ public class ServletUtils {
     public static String uploadImageToCloud(HttpServletRequest request, int type) throws IOException {
         String publicId;
         Map uploadResult = null;
+
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "tickets",
                 "api_key", "363777688854323",
                 "api_secret", "Ug-k08JZjiPTcwcXEShfkLO1Eeo"));
 
+
         try {
             if (type == Constants.IMG)
+
                 uploadResult = cloudinary.uploader().upload(new File(saveImageTemporary(request.getPart(Constants.PICTURE_URL))), ObjectUtils.emptyMap());
-            else
+            else {
                 uploadResult = cloudinary.uploader().upload(request.getParameter(Constants.PICTURE_URL), ObjectUtils.emptyMap());
+            }
         } catch (Exception e) {
             int i = 0;
         }
-        publicId = (String) uploadResult.get("url").toString();
+
+        publicId = uploadResult.get("url").toString();
         return publicId;
     }
 

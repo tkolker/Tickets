@@ -1,8 +1,12 @@
 package logic;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -155,4 +159,23 @@ public class Show implements Serializable, ShowInterface {
     public void setNumOfTickets(int numOfTickets) {
         this.m_NumOfTickets = numOfTickets;
     }
+
+    //TODO: doesn't work, maybe resize in js?
+    public void setPicSizeIndex(Cloudinary cloudinary) throws IOException {
+        cloudinary.url().transformation(new Transformation()
+                .width(419).height(335).crop("fill").quality("100")).secure(true).imageTag(this.getPictureUrl());
+    }
+
+    //TODO: doesn't work, maybe resize in js?
+    public void setPicSizeShowPage(Cloudinary cloudinary) {
+        this.setPictureUrl(cloudinary.url().transformation(new Transformation()
+                .width(1600).height(1250).crop("fill").quality("100")).imageTag(this.getPictureUrl()));
+    }
+
+    //TODO: doesn't work, maybe resize in js?
+    public void setPicSizeList(Cloudinary cloudinary) {
+        this.setPictureUrl(cloudinary.url().transformation(new Transformation()
+                .width(220).height(160).crop("fill").quality("100")).imageTag(this.getPictureUrl()));
+    }
 }
+

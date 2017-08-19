@@ -7,34 +7,68 @@ $(document).ready(function (){
 });
 
 function updateShow(){
-    var actionType = "updateShow";
-    var id = $('#showId').attr("showNum");
-    var showName = $('#showName').val();
-    var showDate = $('#showDate').val();
-    var showLocation = $('#showLocation').val();
-    var showPrice = $('#showPrice').val();
+    var invalidInput = 0;
+    var formData = new FormData();
     var pictureUrl = $('#pictureUrl').val();
-    var numOfTickets = $('#numOfTickets').val();
-    var showAbout = $('#showAbout').val();
+    var showPicFile = $('#showPic').val();
+    var picType, showPic;
 
-    $.ajax({
-        type: "POST",
-        url: "SellTicket",
-        data: {
-            "ActionType": actionType,
-            "showID" : id,
-            "showName": showName,
-            "showDate": showDate,
-            "showLocation": showLocation,
-            "pictureUrl": pictureUrl,
-            "numOfTickets": numOfTickets,
-            "showPrice" : showPrice,
-            "showAbout": showAbout,
-        },
-        success: function (res) {
-            gotoShowPage(res[1]);
+    if(pictureUrl != "" || showPicFile != "") {
+        if (pictureUrl === "") {
+            if (validFileExtension(showPicFile)) {
+                formData.append('pictureUrl', document.getElementById('showPic').files[0]);
+                formData.append('picType', 0);
+            }
         }
-    });
+        else {
+            if (validFileExtension(pictureUrl)) {
+                formData.append('pictureUrl', pictureUrl);
+                formData.append('picType', 1);
+            }
+            else
+                invalidInput = 1;
+        }
+    }
+    else{
+        formData.append('pictureUrl', "");
+        formData.append('picType', 2);
+    }
+
+    formData.append("ActionType", "updateShow");
+    formData.append("showID", $('#showId').attr("showNum"));
+    formData.append("showName", $('#showName').val());
+    formData.append("showDate", $('#showDate').val());
+    formData.append("showLocation", $('#showLocation').val());
+    formData.append("showPrice", $('#showPrice').val());
+    formData.append("numOfTickets", $('#numOfTickets').val());
+    formData.append("showAbout", $('#showAbout').val());
+
+    if(!invalidInput) {
+        $.ajax({
+            type: "POST",
+            url: "SellTicket",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                gotoShowPage(res[1]);
+            }
+        });
+    }
+}
+
+function validFileExtension(file) {
+
+    var ext = file.split(".");
+    ext = ext[ext.length-1].toLocaleLowerCase();
+    var arrayExtensions = ["jpg", "png"];
+
+    if(arrayExtensions.lastIndexOf(ext) == -1){
+        openPopup("קובץ מסוג זה לא נתמך. הכנס קובץ מסוג jpg או png." +
+            "או קישור לתמונה מאתר");
+        return false;
+    }
+    return true;
 }
 
 function gotoShowPage(show){

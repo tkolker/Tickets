@@ -56,7 +56,7 @@ function showResponse(i, user) {
     }
 }
 
-//TODO: make it a popup
+
 function gotoLogin(){
     window.location.replace("login.html")
 }

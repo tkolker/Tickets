@@ -56,4 +56,5 @@ public enum Constants {
     public static final String PIC_TYPE = "picType";
     public static final int IMG = 0;
     public static final String NUMBERS_OF_TICKETS_TO_BUY = "numOfTicketsToBuy";
+    public static final int EMPTY_IMG = 2;
 }

@@ -3,6 +3,8 @@ package servlets;
 
 import appManager.*;
 import appManager.db_manager.DBTrans;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.google.gson.Gson;
 import logic.*;
 import utils.ServletUtils;
@@ -33,6 +35,10 @@ public class ShowServlet extends HttpServlet {
 
     EntityManagerFactory emf;
     EntityManager em;
+    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", "tickets",
+            "api_key", "363777688854323",
+            "api_secret", "Ug-k08JZjiPTcwcXEShfkLO1Eeo"));
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,6 +52,7 @@ public class ShowServlet extends HttpServlet {
         ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
 
         switch (actionType) {
+            //TODO: resize photo of show in every doGet method
             case Constants.GET_SHOW:
                 getShowDetails(request, response, showsManager, em);
                 break;
@@ -163,6 +170,10 @@ public class ShowServlet extends HttpServlet {
 
         createShowArrayResult(shows, userShows, res);
 
+        for(ShowInterface show: res){
+            ((Show)show).setPicSizeList(cloudinary);
+        }
+
         Gson gson = new Gson();
         String showsStr = gson.toJson(res);
         String showNum = gson.toJson(res.size());
@@ -173,6 +184,10 @@ public class ShowServlet extends HttpServlet {
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
         List<ShowInterface> shows = showsManager.getAllShows(em);
+
+        for(ShowInterface show: shows) {
+            ((Show)show).setPicSizeIndex(cloudinary);
+        }
 
         Gson gson = new Gson();
         String showsStr = gson.toJson(shows);
@@ -185,6 +200,8 @@ public class ShowServlet extends HttpServlet {
         response.setContentType("application/json");
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
         Show show = showsManager.getShowByID(em, showID);
+
+        show.setPicSizeShowPage(cloudinary);
 
         Gson gson = new Gson();
         String showStr = gson.toJson(show);
@@ -292,9 +309,12 @@ public class ShowServlet extends HttpServlet {
     private void updateShow(HttpServletRequest request, HttpServletResponse response, int showID, ShowsManager showsManager) throws IOException {
         response.setContentType("application/json");
 
-        Show showToDelete = null;
-        //TODO: get picture then upload to cloud
-        Show showToUpdate = Show.createShowToUpdate(request.getParameter(Constants.SHOW_ID),request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), request.getParameter(Constants.NUMBER_OF_TICKETS), request.getParameter(Constants.SHOW_PRICE), request.getParameter(Constants.SHOW_DATE), request.getParameter(Constants.SHOW_ABOUT));
+        String picture = "";
+        Show showToDelete;
+        if(Integer.parseInt(request.getParameter(Constants.PIC_TYPE)) != Constants.EMPTY_IMG)
+            picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
+
+        Show showToUpdate = Show.createShowToUpdate(request.getParameter(Constants.SHOW_ID),request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), picture, request.getParameter(Constants.NUMBER_OF_TICKETS), request.getParameter(Constants.SHOW_PRICE), request.getParameter(Constants.SHOW_DATE), request.getParameter(Constants.SHOW_ABOUT));
 
         int validInput = Constants.SHOW_UPDATE_SUCCESSFULLY;
 

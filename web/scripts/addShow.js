@@ -8,14 +8,6 @@ function addShow(){
     var formData = new FormData();
     var pictureUrl = $('#pictureUrl').val();
     var showPicFile = $('#showPic').val();
-
-    var actionType = "addShow";
-    var showName = $('#showName').val();
-    var showDate = $('#showDate').val();
-    var showLocation = $('#showLocation').val();
-    var showPrice = $('#showPrice').val();
-    var numOfTickets = $('#numOfTickets').val();
-    var showAbout = $('#showAbout').val();
     var picType, showPic;
 
     if ($('#showName').val() === "" || $('#showDate').val() === "" || $('#showLocation').val() === "" || (pictureUrl === "" && showPicFile === "") || $('#showPrice').val() === "" || $('#numOfTickets').val() === "" || $('#showAbout').val() === "") {
@@ -25,8 +17,6 @@ function addShow(){
 
     if(pictureUrl === "") {
         if (validFileExtension(showPicFile)) {
-            //picType = "0";
-            //showPic = document.getElementById('showPic').files[0];
             formData.append('pictureUrl', document.getElementById('showPic').files[0]);
             formData.append('picType', 0);
         }
@@ -35,8 +25,6 @@ function addShow(){
     }
     else {
         if (validFileExtension(pictureUrl)) {
-            //picType = "1";
-            //showPic = pictureUrl;
             formData.append('pictureUrl', pictureUrl);
             formData.append('picType', 1);
         }

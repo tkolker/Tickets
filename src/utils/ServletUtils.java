@@ -1,17 +1,15 @@
 package utils;
 
 import appManager.*;
-import logic.UserShowBought;
-import appManager.ShowsManager;
-import appManager.UserShowsManager;
-import appManager.UsersManager;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import servlets.Constants;
 
 import javax.servlet.ServletContext;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.util.Map;
 
 public class ServletUtils {
@@ -57,20 +55,75 @@ public class ServletUtils {
         return (UserShowsManager) servletContext.getAttribute(USER_SHOWS_MANAGER_ATTRIBUTE_NAME);
     }
 
-    public static String uploadImageToCloud(String img, int type) throws IOException {
+    public static String uploadImageToCloud(HttpServletRequest request, int type) throws IOException {
         String publicId;
-        Cloudinary cloudinary = new Cloudinary();
         Map uploadResult = null;
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "tickets",
+                "api_key", "363777688854323",
+                "api_secret", "Ug-k08JZjiPTcwcXEShfkLO1Eeo"));
 
         try {
             if (type == Constants.IMG)
-                uploadResult = cloudinary.uploader().upload(new File(img), ObjectUtils.emptyMap());
+                uploadResult = cloudinary.uploader().upload(new File(saveImageTemporary(request.getPart(Constants.PICTURE_URL))), ObjectUtils.emptyMap());
             else
-                uploadResult = cloudinary.uploader().upload(img, ObjectUtils.emptyMap());
-        } catch (Exception e){
+                uploadResult = cloudinary.uploader().upload(request.getParameter(Constants.PICTURE_URL), ObjectUtils.emptyMap());
+        } catch (Exception e) {
             int i = 0;
         }
-        publicId = (String) uploadResult.get("public_id");
+        publicId = (String) uploadResult.get("url").toString();
         return publicId;
     }
+
+
+    private static String saveImageTemporary(Part filePart)
+            throws ServletException, IOException {
+
+        String fileName = getFileName(filePart);
+        if (fileName == null)
+            return null;
+
+        String filePath = null;
+        OutputStream out = null;
+        InputStream fileContent = null;
+        String tempDirPath = System.getProperty("java.io.tmpdir");
+
+        try {
+            filePath = tempDirPath + File.separator + fileName;
+            out = new FileOutputStream(new File(filePath));
+            fileContent = filePart.getInputStream();
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = fileContent.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+        } catch (FileNotFoundException fne) {
+            //Problems during file upload
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+            if (fileContent != null) {
+                fileContent.close();
+            }
+        }
+
+        return filePath;
+    }
+
+    private static String getFileName(final Part part) {
+        String partHeader = part.getHeader("content-disposition");
+
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+
+        return null;
+    }
 }
+

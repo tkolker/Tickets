@@ -2,8 +2,17 @@ package utils;
 
 import appManager.*;
 import logic.UserShowBought;
+import appManager.ShowsManager;
+import appManager.UserShowsManager;
+import appManager.UsersManager;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import servlets.Constants;
 
 import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 public class ServletUtils {
 
@@ -46,5 +55,22 @@ public class ServletUtils {
             servletContext.setAttribute(USER_SHOWS_MANAGER_ATTRIBUTE_NAME, new UserShowsManager());
         }
         return (UserShowsManager) servletContext.getAttribute(USER_SHOWS_MANAGER_ATTRIBUTE_NAME);
+    }
+
+    public static String uploadImageToCloud(String img, int type) throws IOException {
+        String publicId;
+        Cloudinary cloudinary = new Cloudinary();
+        Map uploadResult = null;
+
+        try {
+            if (type == Constants.IMG)
+                uploadResult = cloudinary.uploader().upload(new File(img), ObjectUtils.emptyMap());
+            else
+                uploadResult = cloudinary.uploader().upload(img, ObjectUtils.emptyMap());
+        } catch (Exception e){
+            int i = 0;
+        }
+        publicId = (String) uploadResult.get("public_id");
+        return publicId;
     }
 }

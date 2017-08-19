@@ -60,6 +60,7 @@ function performPurchase(){
         url: "SellTicket",
         type: 'POST',
         data: {
+            "numOfTicketsToBuy": num,
             "showID" : id,
             "ActionType": actionType,
             "numOfTicketsToBuy" : num,

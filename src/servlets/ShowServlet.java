@@ -10,14 +10,11 @@ import utils.ServletUtils;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.lang.model.element.Element;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.metamodel.Type;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -202,14 +199,8 @@ public class ShowServlet extends HttpServlet {
         em = emf.createEntityManager();
 
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
+        //response.setContentType("text/html;charset=UTF-8");
         String actionType = request.getParameter(Constants.ACTION_TYPE);
-        /*ArrayList<Ticket> ticketsList = new ArrayList<>();
-        while (request.getAttribute(Constants.TICKET_LIST) != null)
-        {
-            ticketsList.add((Ticket) request.getAttribute(Constants.TICKET_LIST));
-        }*/
-        //TODO: if action is update the parameters will be different (need to pull parameters inside cases
         Show show;
         ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
 
@@ -302,6 +293,7 @@ public class ShowServlet extends HttpServlet {
         response.setContentType("application/json");
 
         Show showToDelete = null;
+        //TODO: get picture then upload to cloud
         Show showToUpdate = Show.createShowToUpdate(request.getParameter(Constants.SHOW_ID),request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), request.getParameter(Constants.NUMBER_OF_TICKETS), request.getParameter(Constants.SHOW_PRICE), request.getParameter(Constants.SHOW_DATE), request.getParameter(Constants.SHOW_ABOUT));
 
         int validInput = Constants.SHOW_UPDATE_SUCCESSFULLY;
@@ -349,7 +341,7 @@ public class ShowServlet extends HttpServlet {
         }
     //}
 
-    private void addShowToDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException{
+    private void addShowToDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException, ServletException {
         response.setContentType("application/json");
 
         Show show = null;
@@ -365,7 +357,8 @@ public class ShowServlet extends HttpServlet {
         {
             ShowNumber.showNumber = 0;
         }
-        show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
+        String picture = ServletUtils.uploadImageToCloud(request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
+        show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), picture, Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
         showToAdd = showsManager.showLocationAndDateExist(shows, show);
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
 
@@ -377,7 +370,6 @@ public class ShowServlet extends HttpServlet {
             userShowToUpdate = new UserShows(UserShowsNumber.userShowNumber++, userFromSession.getEmail(), show.getShowID());
             DBTrans.persist(em, userShowToUpdate);
             em.close();
-            //saveImageToDB(show.getPictureUrl(), show.getShowName(), show.getShowID());
         }
         else {
             if (UserShowsManager.showIDExistInUser(em, userFromSession.getEmail(), showToAdd.getShowID())) {

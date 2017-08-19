@@ -5,48 +5,60 @@ $(document).ready(function (){
 
 function addShow(){
     var invalidInput = 0;
-    var formData;
+    var formData = new FormData();
+    var pictureUrl = $('#pictureUrl').val();
+    var showPicFile = $('#showPic').val();
 
+    var actionType = "addShow";
     var showName = $('#showName').val();
     var showDate = $('#showDate').val();
     var showLocation = $('#showLocation').val();
     var showPrice = $('#showPrice').val();
-    var pictureUrl = $('#pictureUrl').val();
-    var showPicFile = $("#showPic").val();
     var numOfTickets = $('#numOfTickets').val();
     var showAbout = $('#showAbout').val();
-    var actionType = "addShow";
-    var showPic = pictureUrl;
+    var picType, showPic;
 
-    if (showName === "" || showDate === "" || showLocation === "" || (pictureUrl === "" && showPicFile === "") || numOfTickets === "") {
+    if ($('#showName').val() === "" || $('#showDate').val() === "" || $('#showLocation').val() === "" || (pictureUrl === "" && showPicFile === "") || $('#showPrice').val() === "" || $('#numOfTickets').val() === "" || $('#showAbout').val() === "") {
         openPopup("נא למלא את כל השדות");
         invalidInput = 1;
     }
 
-    /*
     if(pictureUrl === "") {
-        showPic = showPicFile;
-        if (validFileExtension(showPic)) {
-            formData = new FormData();
-            formData.append('fileName', $('#showPic')[0].files[0]);
+        if (validFileExtension(showPicFile)) {
+            //picType = "0";
+            //showPic = document.getElementById('showPic').files[0];
+            formData.append('pictureUrl', document.getElementById('showPic').files[0]);
+            formData.append('picType', 0);
         }
+        else
+            invalidInput = 1;
     }
-*/
+    else {
+        if (validFileExtension(pictureUrl)) {
+            //picType = "1";
+            //showPic = pictureUrl;
+            formData.append('pictureUrl', pictureUrl);
+            formData.append('picType', 1);
+        }
+        else
+            invalidInput = 1;
+    }
+
+    formData.append("ActionType", "addShow");
+    formData.append("showName", $('#showName').val());
+    formData.append("showDate", $('#showDate').val());
+    formData.append("showLocation", $('#showLocation').val());
+    formData.append("showPrice", $('#showPrice').val());
+    formData.append("numOfTickets", $('#numOfTickets').val());
+    formData.append("showAbout", $('#showAbout').val());
 
     if(invalidInput === 0) {
         $.ajax({
             type: "POST",
             url: "SellTicket",
-            data: {
-                "ActionType": actionType,
-                "showName": showName,
-                "showDate": showDate,
-                "showLocation": showLocation,
-                "pictureUrl":showPic,
-                "numOfTickets": numOfTickets,
-                "showPrice" : showPrice,
-                "showAbout": showAbout,
-            },
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (result) {
                 var addShowRes = result[0];
                 var show = result[1];

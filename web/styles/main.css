@@ -260,6 +260,33 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     overflow: auto; !important;
 }
 
+.indexPic {
+    width: auto;
+    height: 360px; !important;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+    margin: auto;
+}
+
+.showListPic {
+    width: 220px;
+    height: 160px; !important;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+    margin: auto;
+}
+
+.showPagePic {
+    width: 1600px; !important;
+    height: auto;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+    margin: auto;
+}
+
 
 .close {
     color: #aaa;

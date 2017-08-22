@@ -32,6 +32,7 @@ function buildIndex(numOfShows, shows){
     var price;
     var i;
 
+
     if(numOfShows < n){ n = numOfShows; }
 
     for(i = 0; i < n; i++){
@@ -40,7 +41,6 @@ function buildIndex(numOfShows, shows){
         show = "show" + (i+1);
         date = "date" + (i+1);
         price = "price" + (i+1);
-
 
         $('#' + ref).attr("href", "showPage.html?id=" + shows[i].m_ShowID);
         $('#' + img).attr("src", shows[i].m_PictureUrl);

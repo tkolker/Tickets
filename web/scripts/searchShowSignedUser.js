@@ -47,8 +47,9 @@ function buildSearchShows(n, shows){
         div1.setAttribute("style", "display: inline-block");
         img.setAttribute("name", "showPicture");
         img.setAttribute("src", shows[i].m_PictureUrl);
-        img.setAttribute("width", "220");
-        img.setAttribute("height", "160");
+        img.setAttribute("class", "showListPic");
+        //img.setAttribute("width", "220");
+        //img.setAttribute("height", "160");
         $(img).on("click", {param: shows[i]}, redirect);
 
 

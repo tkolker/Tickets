@@ -170,10 +170,6 @@ public class ShowServlet extends HttpServlet {
 
         createShowArrayResult(shows, userShows, res);
 
-        for(ShowInterface show: res){
-            ((Show)show).setPicSizeList(cloudinary);
-        }
-
         Gson gson = new Gson();
         String showsStr = gson.toJson(res);
         String showNum = gson.toJson(res.size());
@@ -184,10 +180,6 @@ public class ShowServlet extends HttpServlet {
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
         List<ShowInterface> shows = showsManager.getAllShows(em);
-
-        for(ShowInterface show: shows) {
-            ((Show)show).setPicSizeIndex(cloudinary);
-        }
 
         Gson gson = new Gson();
         String showsStr = gson.toJson(shows);
@@ -200,8 +192,6 @@ public class ShowServlet extends HttpServlet {
         response.setContentType("application/json");
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
         Show show = showsManager.getShowByID(em, showID);
-
-        show.setPicSizeShowPage(cloudinary);
 
         Gson gson = new Gson();
         String showStr = gson.toJson(show);

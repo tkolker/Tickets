@@ -57,4 +57,6 @@ public enum Constants {
     public static final int IMG = 0;
     public static final String NUMBERS_OF_TICKETS_TO_BUY = "numOfTicketsToBuy";
     public static final int EMPTY_IMG = 2;
+    public static final int INDIVIDUAL_SELLER = 1;
+    public static final int COOPERATION_SELLER = 0;
 }

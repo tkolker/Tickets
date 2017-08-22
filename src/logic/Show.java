@@ -1,5 +1,7 @@
 package logic;
 
+import servlets.Constants;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,6 +22,7 @@ public class Show implements Serializable, ShowInterface {
     private Date m_Date;
     private String m_About;
     private int m_NumOfTickets;
+    private int m_Seller = Constants.INDIVIDUAL_SELLER;
 
     public Show(){
         m_ShowID = ShowNumber.showNumber++;
@@ -47,6 +50,10 @@ public class Show implements Serializable, ShowInterface {
         m_About = about;
     }
 
+    public void setSeller(int i_seller)
+    {
+        m_Seller = i_seller;
+    }
 
     public int getShowPrice() { return  m_Price; }
 

@@ -225,8 +225,6 @@ public class ShowServlet extends HttpServlet {
                 removeShowFromDB(request, response, show, showsManager);
                 break;
             case Constants.BUY_TICKET:
-                //TODO: implement buy
-                //show = (Show) request.getParameter(Constants.SHOW_ID);
                 try {
                     buyTicket(request, response /*show*/, showsManager);
                 } catch (MessagingException e) {
@@ -251,7 +249,7 @@ public class ShowServlet extends HttpServlet {
         if(showToBuy != null)
         {
             // Add the new show to Show Archive DB
-            ShowArchive showToAddToUserShowBought = new ShowArchive(showToBuy.getShowName(), showToBuy.getLocation(), showToBuy.getPictureUrl(), numOfTicketsToBuy, showToBuy.getShowPrice(), showToBuy.getShowDate(), showToBuy.getAbout());
+            ShowArchive showToAddToUserShowBought = new ShowArchive(showToBuy.getShowID(), showToBuy.getShowName(), showToBuy.getLocation(), showToBuy.getPictureUrl(), numOfTicketsToBuy, showToBuy.getShowPrice(), showToBuy.getShowDate(), showToBuy.getAbout());
             DBTrans.persist(em, showToAddToUserShowBought);
             // Add to user show bought DB
             UserShowBoughtManager userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());
@@ -260,7 +258,7 @@ public class ShowServlet extends HttpServlet {
             DBTrans.persist(em, userShowBought);
             String sellerMail =  userShowsManager.getUserByShowId(em, showID);
             String sellerName = usersManager.getUserNameByEmail(em, sellerMail);
-            emailToSeller(sellerMail,sellerName, showToAddToUserShowBought);
+            //emailToSeller(sellerMail,sellerName, showToAddToUserShowBought);
             if (showToBuy.getNumOfTickets() > numOfTicketsToBuy)
             {
                 // Update show DB

@@ -225,17 +225,27 @@ public class ShowServlet extends HttpServlet {
                 removeShowFromDB(request, response, show, showsManager);
                 break;
             case Constants.BUY_TICKET:
-                //TODO: implement buy
-                //show = (Show) request.getParameter(Constants.SHOW_ID);
                 try {
-                    buyTicket(request, response /*show*/, showsManager);
+                    buyTicket(request, response, showsManager);
                 } catch (MessagingException e) {
                     //e.printStackTrace();
                 }
                 break;
+            case Constants.CRAWLER_UPDATE:
+                writeCrawlResults(request, response, showsManager);
+                break;
         }
 
     }
+
+    private void writeCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
+        //File file = new File(request.getParameter(Constants.CRAWLER_SHOWS));
+        String json = ServletUtils.readUrl(request.getParameter(Constants.CRAWLER_SHOWS));
+        //TODO: read json from url (doesn't work)
+        Gson gson = new Gson();
+        Shows page = gson.fromJson(json, Shows.class);
+    }
+
 
     private void buyTicket(HttpServletRequest request, HttpServletResponse response, /*Show show*/ ShowsManager showsManager) throws IOException, MessagingException {
         response.setContentType("application/json");

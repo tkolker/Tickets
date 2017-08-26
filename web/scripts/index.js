@@ -1,4 +1,5 @@
 $(document).ready(function (){
+    //runCrawler();
     getShows();
     $('#buttonLoginWindow').on("click",gotoLogin);
     $('#buttonSingupWindow').on("click", gotoSignup);

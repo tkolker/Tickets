@@ -232,18 +232,43 @@ public class ShowServlet extends HttpServlet {
                 }
                 break;
             case Constants.CRAWLER_UPDATE:
-                writeCrawlResults(request, response, showsManager);
+                try {
+                    writeCrawlResults(request, response, showsManager);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 
     }
 
-    private void writeCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
+    private void writeCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws Exception {
         //File file = new File(request.getParameter(Constants.CRAWLER_SHOWS));
-        String json = ServletUtils.readUrl(request.getParameter(Constants.CRAWLER_SHOWS));
-        //TODO: read json from url (doesn't work)
+        ArrayList<Show> shows = new ArrayList<>();
+        String sStr = request.getParameter(Constants.CRAWLER_SHOWS);
+        String[] showsStr = sStr.split("(?<=})");
+        String[] parsedShows = new String[showsStr.length];
+
+        for(int i = 0; i < showsStr.length; i++){
+            if(i == showsStr.length-2){
+                parsedShows[i] = showsStr[i].substring(1, showsStr[i].length()-1);
+            }
+            else {
+                parsedShows[i] = showsStr[i].substring(1);
+            }
+        }
+
+        for(int i = 0; i< parsedShows.length; i++){
+            shows.add(parseShow(parsedShows[i]));
+        }
+    }
+
+    private Show parseShow(String s) {
         Gson gson = new Gson();
-        Shows page = gson.fromJson(json, Shows.class);
+        //TODO: DOESN'T WORK. CAN'T PARSE THE DATE
+        Show show =  gson.fromJson(s, Show.class);
+        return show;
+
     }
 
 

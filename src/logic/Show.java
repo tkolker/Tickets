@@ -4,10 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Entity
 public class Show implements Serializable, ShowInterface {
@@ -23,6 +26,13 @@ public class Show implements Serializable, ShowInterface {
 
     public Show(){
         m_ShowID = ShowNumber.showNumber++;
+    }
+
+    public Show(String name, String location, String url, int numOfTickets, int price, String date, String about) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date ddate = formatter.parse(date);
+        new Show(name, location, url, numOfTickets, price, ddate, about);
     }
 
     public Show(String name, String location, String url, int numOfTickets, int price, Date date, String about){

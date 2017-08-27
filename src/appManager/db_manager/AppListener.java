@@ -27,6 +27,7 @@ public class AppListener implements ServletContextListener,
          initialized(when the Web application is deployed).
          You can initialize servlet context related data here.
       */
+      //TODO: call crawler here in a different thread with a time interval
         com.objectdb.Enhancer.enhance("appManager.db_manager.*");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("$objectdb/db/AppDB.odb");
         sce.getServletContext().setAttribute("emf", emf);

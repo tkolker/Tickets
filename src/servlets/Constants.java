@@ -59,4 +59,6 @@ public enum Constants {
     public static final int EMPTY_IMG = 2;
     public static final String CRAWLER_UPDATE = "crawlerUpdate";
     public static final String CRAWLER_SHOWS = "crawlerShows";
+    public static final int INDIVIDUAL_SELLER = 1;
+    public static final int COOPERATION_SELLER = 0;
 }

@@ -16,6 +16,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/javax.mail-1.6.0.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/cloudinary-core-1.14.0.jar" />
           <element id="library" level="project" name="com.cloudinary:cloudinary-http44:1.14.0" />
+          <element id="file-copy" path="$PROJECT_DIR$/../objectdb-2.7.1/bin/objectdb.jar" />
         </element>
       </element>
     </root>

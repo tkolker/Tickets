@@ -25,6 +25,8 @@ function createBuyShowPage(show, i){
     $('#total').attr("totalAmount", show.m_Price*num);
     $('#showPicture').attr("src", show.m_PictureUrl);
     $('#ilovethis').text(show.m_Price);
+    $('#ilovethis').attr("sellerType", show.m_Seller);
+    $('#ilovethis').attr("buyRef", show.m_BuyRef);
 
     if(i == 1){
         var combo = $('#comboBox');

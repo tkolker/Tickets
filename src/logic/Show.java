@@ -1,8 +1,11 @@
 package logic;
 
+import appManager.ShowsManager;
+import com.google.gson.Gson;
 import servlets.Constants;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -12,7 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.List;
 
 @Entity
 public class Show implements Serializable, ShowInterface {
@@ -23,20 +26,16 @@ public class Show implements Serializable, ShowInterface {
     private String m_PictureUrl;
     private int m_Price;
     private Date m_Date;
+    private String m_DateStr;
     private String m_About;
     private int m_NumOfTickets;
     private int m_Seller = Constants.INDIVIDUAL_SELLER;
+    private String m_BuyRef;
 
     public Show(){
         m_ShowID = ShowNumber.showNumber++;
     }
 
-    public Show(String name, String location, String url, int numOfTickets, int price, String date, String about) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
-        Date ddate = formatter.parse(date);
-        new Show(name, location, url, numOfTickets, price, ddate, about);
-    }
 
     public Show(String name, String location, String url, int numOfTickets, int price, Date date, String about){
         m_ShowID = ShowNumber.showNumber++;
@@ -47,6 +46,7 @@ public class Show implements Serializable, ShowInterface {
         m_PictureUrl = url;
         m_NumOfTickets = numOfTickets;
         m_About = about;
+        m_BuyRef = "buyPage.html?id=" + m_ShowID;
     }
 
     public Show(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about){
@@ -172,5 +172,22 @@ public class Show implements Serializable, ShowInterface {
     public void setNumOfTickets(int numOfTickets) {
         this.m_NumOfTickets = numOfTickets;
     }
+
+    public void setDateFromStr() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        m_Date = formatter.parse(m_DateStr);
+        m_DateStr = null;
+    }
+
+    public static Show parseShow(EntityManager em, String s, ShowsManager showsManager) throws ParseException {
+        Gson gson = new Gson();
+        List<ShowInterface> shows = showsManager.getAllShows(em);
+        ShowNumber.showNumber = shows.get(shows.size() - 1).getShowID() + 1;
+        Show show =  gson.fromJson(s, Show.class);
+        show.setDateFromStr();
+        show.setSeller(Constants.CORPORATION_SELLER);
+        return show;
+    }
 }
+
 

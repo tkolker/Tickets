@@ -1,5 +1,4 @@
 $(document).ready(function (){
-    runCrawler();
     loadUserName();
     getShows();
     $('#buttonLogOutWindow').on("click",logout);

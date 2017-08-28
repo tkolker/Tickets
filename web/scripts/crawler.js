@@ -1,17 +1,5 @@
 var result =[];
-/*
-function runCrawler(){
-    $.ajax({
-        type: 'POST',
-        url: "https://api.apifier.com/v1/wgTzvTpaaZNctRxHQ/crawlers/Zappa-Tickets/execute?token=LxjPfmD8wpfNbbxGfNvn8PKst",
-        async : false,
-        success: function (data) {
-            writeToDB(data.resultsUrl);
-        }
-    });
-}
 
-*/
 function writeToDB(){
     $.ajax({
         type: 'POST',
@@ -95,8 +83,8 @@ function getSubPageData(url, page){
 function pushToResult( page, img, price, about, url){
     result.push({
         m_ShowName: $(page).find(".eventAction").find("h2").text(),
-        m_Date: $(page).find(".eventBox").find(".event_data").find(".row").find("meta").attr("content"),
-        buyRef: url,
+        m_DateStr: $(page).find(".eventBox").find(".event_data").find(".row").find("meta").attr("content"),
+        m_BuyRef: url,
         m_Location: $(page).find(".eventBox").find(".event_data").find("div").find("meta").attr("content"),
         m_PictureUrl: img,
         m_About: about,

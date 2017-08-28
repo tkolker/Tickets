@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.*;
-import java.net.URL;
 import java.util.Map;
 
 public class ServletUtils {
@@ -132,22 +131,41 @@ public class ServletUtils {
         return null;
     }
 
-    public static String readUrl(String urlString) throws IOException {
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuffer buffer = new StringBuffer();
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1)
-                buffer.append(chars, 0, read);
 
-            return buffer.toString();
-        } finally {
-            if (reader != null)
-                reader.close();
+    public static String[] parseRequestParams(String sStr) {
+        String[] showsStr = sStr.split("(?<=})");
+        String[] parsedShows = new String[showsStr.length - 1];
+
+        for(int i = 0; i < showsStr.length - 1; i++){
+            if(i == showsStr.length - 2){
+                parsedShows[i] = showsStr[i].substring(1, showsStr[i].length());
+            }
+            else {
+                parsedShows[i] = showsStr[i].substring(1);
+            }
         }
+
+        return parsedShows;
+    }
+
+    public static String uploadImageToCloud(String pictureUrl) {
+        String publicId;
+        Map uploadResult = null;
+
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "tickets",
+                "api_key", "363777688854323",
+                "api_secret", "Ug-k08JZjiPTcwcXEShfkLO1Eeo"));
+
+
+        try {
+                uploadResult = cloudinary.uploader().upload(pictureUrl.substring(1, pictureUrl.length()-1), ObjectUtils.emptyMap());
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        publicId = uploadResult.get("url").toString();
+        return publicId;
     }
 }
 

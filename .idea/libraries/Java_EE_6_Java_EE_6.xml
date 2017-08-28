@@ -14,7 +14,6 @@
       <root url="jar://$PROJECT_DIR$/gson-2.6.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/javax.mail-1.6.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/objectdb.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../objectdb-2.7.1/bin/objectdb.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

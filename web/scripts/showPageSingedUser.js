@@ -13,8 +13,16 @@ function getURLParameter(name) {
 
 function gotoBuyPage(){
     var id = $('#showID').attr("showNum");
-    var num = $('#comboBox').val();
-    window.location.replace("buyPage.html?id=" + id + "&quantity=" + num);
+    var buyRef = $('#ilovethis').attr("buyRef");
+    var sellerType = parseInt($('#ilovethis').attr("sellerType"));
+
+    if(sellerType) {
+        var num = $('#comboBox').val();
+        window.location.replace(buyRef + "&quantity=" + num);
+    }
+    else{
+        window.location.replace(buyRef);
+    }
 }
 
 

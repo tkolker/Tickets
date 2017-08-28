@@ -1,7 +1,6 @@
 package appManager;
 
 import logic.Show;
-import logic.ShowArchive;
 import logic.ShowInterface;
 
 import javax.persistence.EntityManager;
@@ -18,7 +17,7 @@ public class ShowsManager implements ShowsManagerInterface{
 
     public Show showLocationAndDateExist(List<ShowInterface> shows, Show showToSerch) {
         for(ShowInterface s: shows){
-            if(s.getShowDate() == showToSerch.getShowDate() && s.getLocation() == showToSerch.getLocation() &&
+            if(s.getShowDate().equals(showToSerch.getShowDate()) && s.getLocation().equals(showToSerch.getLocation()) &&
                     (s.getShowName().contains(showToSerch.getShowName()) || showToSerch.getShowName().contains(s.getShowName()))){
                 return (Show) s;
             }

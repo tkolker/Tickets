@@ -6,6 +6,8 @@ function createShowPage(show, i){
     $('#showAbout').text(show.m_About);
     $('#showPicture').attr("src", show.m_PictureUrl);
     $('#ilovethis span').text(show.m_Price + "₪");
+    $('#ilovethis').attr("sellerType", show.m_Seller);
+    $('#ilovethis').attr("buyRef", show.m_BuyRef);
 
     if(i == 1){
         var combo = $('#comboBox');

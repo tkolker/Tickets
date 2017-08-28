@@ -243,32 +243,23 @@ public class ShowServlet extends HttpServlet {
     }
 
     private void writeCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws Exception {
-        //File file = new File(request.getParameter(Constants.CRAWLER_SHOWS));
         ArrayList<Show> shows = new ArrayList<>();
         String sStr = request.getParameter(Constants.CRAWLER_SHOWS);
-        String[] showsStr = sStr.split("(?<=})");
-        String[] parsedShows = new String[showsStr.length];
 
-        for(int i = 0; i < showsStr.length; i++){
-            if(i == showsStr.length-2){
-                parsedShows[i] = showsStr[i].substring(1, showsStr[i].length()-1);
-            }
-            else {
-                parsedShows[i] = showsStr[i].substring(1);
-            }
+        String[] parsedShows = ServletUtils.parseRequestParams(sStr);
+
+        for(int i = 0; i< parsedShows.length - 1; i++){
+            shows.add(Show.parseShow(em, parsedShows[i], showsManager));
         }
 
-        for(int i = 0; i< parsedShows.length; i++){
-            shows.add(parseShow(parsedShows[i]));
+        for(Show s: shows){
+            if(showsManager.showLocationAndDateExist(showsManager.getAllShows(em),s) == null){
+                String picture = ServletUtils.uploadImageToCloud(s.getPictureUrl());
+                s.setPictureUrl(picture);
+                DBTrans.persist(em, s);
+            }
         }
-    }
-
-    private Show parseShow(String s) {
-        Gson gson = new Gson();
-        //TODO: DOESN'T WORK. CAN'T PARSE THE DATE
-        Show show =  gson.fromJson(s, Show.class);
-        return show;
-
+        em.close();
     }
 
 
@@ -383,8 +374,7 @@ public class ShowServlet extends HttpServlet {
         {
             ShowNumber.showNumber = 0;
         }
-        String picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
-        show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), picture, Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
+        show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
         showToAdd = showsManager.showLocationAndDateExist(shows, show);
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
         List<UserShows> userShows= ServletUtils.getUserShowsManager(getServletContext()).getAllShows(em);
@@ -393,6 +383,8 @@ public class ShowServlet extends HttpServlet {
         if(showToAdd == null) {
             validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
             request.getSession(true).setAttribute(Constants.SHOW, show);
+            String picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
+            show.setPictureUrl(picture);
             DBTrans.persist(em, show);
             userShowToUpdate = new UserShows(userShowNum, userFromSession.getEmail(), show.getShowID());
             DBTrans.persist(em, userShowToUpdate);
@@ -405,6 +397,8 @@ public class ShowServlet extends HttpServlet {
             {
                 request.getSession(true).setAttribute(Constants.SHOW, show);
                 validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+                String picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
+                show.setPictureUrl(picture);
                 DBTrans.persist(em, show);
                 em.close();
                 userShowToUpdate = new UserShows(userShowNum, userFromSession.getEmail(), show.getShowID());

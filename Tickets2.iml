@@ -47,7 +47,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -67,5 +66,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="com.cloudinary:cloudinary-http44:1.14.0" level="project" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
   </component>
 </module>

@@ -117,7 +117,7 @@ section#content #work-bio #links #ilovethis{-moz-borderradius:40px;-webkit-borde
 section#content #work-bio #links #ilovethis span{background:transparent;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
 section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.signed:hover{background:#212328 url(../images/buy.png) no-repeat center}
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
-section#content #work-bio #links #ilovethis.loved:hover{background-image:none}
+/*section#content #work-bio #links #ilovethis.loved:hover{background-image:none}*/
 section#content #work-bio #links #ilovethis.loved:hover span{display:inline}
 section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/home2.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
 section#content #work-visuals{float:right;width:60%}
@@ -146,7 +146,7 @@ nav#toc ul li a{color:#80807e;font:300 15px/2em museo-sans,sans-serif;text-decor
 nav#toc ul li a.active,nav#toc ul li a:hover{color:#fff}  nav#toc ul li:first-child{border-top:none}
 nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repeat left top;cursor:pointer;display:block;height:30px;left:-94px;position:absolute;text-indent:-8000px;top:60px;width:34px;z-index:5000}
 @media screen and (max-width:1200px){footer#msf .wrapper{margin:0 30px}  section#content header{padding:0 30px 60px}  section#content #pfd{padding-top:30px}  section#content #our-shows ul li .overlay summary{left:30px}  section#content #our-shows ul li .overlay .loves{right:30px;top:30px}  section#content #pfd-work footer{padding:50px 30px 0}  section#content #what-we-do header{padding:0 30px}  section#content #what-we-do article{padding:120px 30px}  section#content #what-we-do #web-design .parallax{background:#ededeb url(/images/logo.png) no-repeat 50% 0!important;height:750px}  section#content #what-we-do #identity article{padding:120px 30px}  nav#toc ul{padding-top:30px}  nav#toc a#toc-actuator{left:-64px;top:30px}}@media screen and (max-width:768px){section#content #work-bio{float:none;position:relative;width:auto}  section#content #work-visuals{float:none;width:auto}  section#content #pfd-work #links{display:none}  section#content #what-we-do section{height:auto!important}  section#content #what-we-do section article{padding:60px 30px}  section#content #what-we-do #web-design .parallax{background:#ededeb url(/images/logo.png) no-repeat 50% 0!important;height:460px}  section#content #what-we-do #identity{border-bottom:none}  section#content #what-we-do #identity article{padding:60px 30px}  section#content #pfd-about #example-photographs li,section#content #what-we-do #photography #example-photographs li{width:100%!important}  section#content p.em{font:300 15px/1.4em museo-sans,sans-serif!important}}@media screen and (max-width:460px){section#content{padding-bottom:234px}section#content #what-we-do #photography #example-photographs li{min-height:50px}footer#msf .wrapper{padding:20px 0}footer#msf ul#lets-be-social{float:none;width:auto;zoom:1}footer#msf ul#lets-be-social:after,footer#msf ul#lets-be-social:before{content:' ';display:table}footer#msf ul#lets-be-social:after{clear:both}footer#msf div#legal{float:none;width:auto}footer#msf div#legal span{display:block;padding-left:0;text-align:left}footer#msf li a,footer#msf span{line-height:2em}}
-
+footer#msf{bottom:0;left:0;position:absolute;width:100%;height: auto !important;}
 
 .button{
     font-family: Gisha;
@@ -161,6 +161,8 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     border: solid 1.5px #778899;
     border-radius: 4px;
  }
+
+h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 
 #buttonUpdateShow, #buttonGoToUpdate, #buttonDeleteShow{
     font-family: Gisha;
@@ -332,7 +334,33 @@ nav#toc a#toc-actuator{background:#f8f8f8 url(../images/pfd-sprites.png) no-repe
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
+    padding-bottom:20px;
+}
+
+#comboBox{
+    font-family: Gisha;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -webkit-padding-end: 20px;
+    -moz-padding-end: 20px;
+    -webkit-padding-start: 2px;
+    -moz-padding-start: 2px;
+    border: 1px solid #AAA; !important;
+    border-radius: 2px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); !important;
+    color: #555; !important;
+    font-size: 1.5em; !important;
+    width: 10%; !important;
+    height: 50%; !important;
+}
+
+#LoadMoreContainer {
+    align-items: center;
+    text-align:center;
+    padding-top: 30px
 }
 
 /* Add Animation */

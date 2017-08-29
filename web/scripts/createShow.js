@@ -1,13 +1,18 @@
 function createShowPage(show, i){
+    var preamble = $("#preamble");
+    var p = document.createElement("p");
     $('#showID').attr("showNum", show.m_ShowID);
     $('#showName').text(show.m_ShowName);
     $('#showDate').text(show.m_Date);
     $('#showLocation').text(show.m_Location);
-    $('#showAbout').text(show.m_About);
+    $(p).attr('id', 'showAbout');
+    $(p).attr('class', 'space-after');
+    $(p).text(show.m_About);
     $('#showPicture').attr("src", show.m_PictureUrl);
     $('#ilovethis span').text(show.m_Price + "₪");
     $('#ilovethis').attr("sellerType", show.m_Seller);
     $('#ilovethis').attr("buyRef", show.m_BuyRef);
+    $(preamble).append(p);
 
     var seller = show.m_Seller;
 

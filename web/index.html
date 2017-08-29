@@ -22,18 +22,18 @@
     <div id="container" style="left: 0px;">
         <section id="content">
             
-    <header>
-        <div id="pfd">
-            <a href="index.html">
-                <img src="images/logo.png" alt="מכרטסים">
-            </a>
-            <span>
-                <button id="buttonLoginWindow">התחברות</button>
-            </span>
-            <span>
-              <button id="buttonSingupWindow">להרשמה</button>
-            </span>
-        </div>
+<header>
+    <div id="pfd">
+        <a href="index.html">
+            <img src="images/logo.png" alt="מכרטסים">
+        </a>
+        <span>
+            <button id="buttonLoginWindow" onclick=window.location.replace("login.html?goto=indexSignedUser.html")>התחברות</button>
+        </span>
+        <span>
+            <button id="buttonSingupWindow" onclick=window.location.replace("signup.html")>להרשמה</button>
+        </span>
+    </div>
 
     <div style="text-align:center" id="searchContainer" class="home">
         <span>
@@ -68,9 +68,9 @@
             <li>
                 <a href="index.html">הופעות</a></li>
             <li>
-                <a href="login.html">אזור אישי</a></li>
+                <a href="login.html?goto=profile.html">אזור אישי</a></li>
             <li>
-                <a href="login.html">מכירה</a></li>
+                <a href="login.html?goto=addShow.html">מכירה</a></li>
         </ul>
 	</nav>
 

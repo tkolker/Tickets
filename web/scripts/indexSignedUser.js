@@ -78,7 +78,7 @@ function buildIndex(numOfShows, shows){
         $(img).attr("alt", "מכרטסים");
         $(div1).attr("class", "overlay");
         $(h2).text(shows[i].m_ShowName);
-        $(h3).text(shows[i].m_Date).append('<br').append(shows[i].m_Location);
+        $(h3).text(shows[i].m_Date).append('<br>').append(shows[i].m_Location);
         $(div2).attr("class", "loves");
         $(span).text(shows[i].m_Price);
 

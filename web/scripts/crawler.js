@@ -16,8 +16,7 @@ function writeToDB(){
 }
 
 function runCrawler() {
-    //if(hasOneDayPassed) {
-
+    if(hasOneDayPassed()) {
         var zappa = document.createElement("div");
 
         $.ajax({
@@ -30,7 +29,7 @@ function runCrawler() {
                 writeToDB();
             }
         });
-   // }
+    }
 }
 
 
@@ -51,7 +50,6 @@ function getSubPageData(url, page){
     var about, myData, img, price;
     var temp = [];
 
-    //var url
     myData = document.createElement('div');
 
     $.ajax({
@@ -97,9 +95,9 @@ function pushToResult( page, img, price, about, url){
 function hasOneDayPassed(){
     var date = new Date().toLocaleDateString();
 
-    if( localStorage.yourapp_date == date )
+    if( localStorage.getItem("date") == date )
         return false;
 
-    localStorage.yourapp_date = date;
+    localStorage.setItem("date", date);
     return true;
 }

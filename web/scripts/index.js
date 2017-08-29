@@ -1,13 +1,8 @@
 var counter = 0;
 
 $(document).ready(function (){
-    //if (!sessionStorage.alreadyClicked) {
-        runCrawler();
-    //    sessionStorage.alreadyClicked = "true";
-    //}
+    runCrawler();
     getShows();
-    $('#buttonLoginWindow').on("click",gotoLogin);
-    $('#buttonSingupWindow').on("click", gotoSignup);
     $('#buttonSearchShow').on("click", gotoSearchShow);
     $('#loadMore').on("click", getShows);
 });
@@ -59,7 +54,7 @@ function buildIndex(numOfShows, shows){
         $(img).attr("alt", "מכרטסים");
         $(div1).attr("class", "overlay");
         $(h2).text(shows[i].m_ShowName);
-        $(h3).text(shows[i].m_Date).append('<br').append(shows[i].m_Location);
+        $(h3).text(shows[i].m_Date).append('<br>').append(shows[i].m_Location);
         $(div2).attr("class", "loves");
         $(span).text(shows[i].m_Price);
 
@@ -104,17 +99,6 @@ function gotoSearchShow() {
     }
 }
 
-function buildHref(ref, show){
-    $('#' + ref).attr("href", "showPage.html?id=" + show.m_ShowID)
-}
-
-function gotoLogin(){
-    window.location.replace("login.html")
-}
-
-function gotoSignup(){
-    window.location.replace("signup.html")
-}
 
 function openPopup(msg) {
     $("#message").html(msg);

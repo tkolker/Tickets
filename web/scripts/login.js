@@ -1,6 +1,13 @@
+var goto;
+
 $(document).ready(function (){
+    goto = getURLParameter('goto');
     $('#buttonLogin').on("click", performLogin);
 });
+
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
 
 function performLogin(){
     var invalidInput = 0;
@@ -37,7 +44,7 @@ function showResponse(i, user) {
     }
     else if(i === 1) {
         $('#loggedInUserName').val(user.m_fName);
-        window.location.replace("indexSignedUser.html");
+        window.location.replace(goto);
     }
     else if(i === 2) {
         openPopup("משתמש קיים במערכת");
@@ -45,7 +52,7 @@ function showResponse(i, user) {
     else if (i === 3){
         $("#loggedInUserName").val(user.m_fName);
         openPopup("הרשמה בוצעה בהצלחה");
-        window.location.replace("indexSignedUser.html");
+        window.location.replace(goto);
     }
     else if (i == 4)
     {
@@ -54,15 +61,6 @@ function showResponse(i, user) {
     else {
         openPopup("סיסמא לא נכונה");
     }
-}
-
-
-function gotoLogin(){
-    window.location.replace("login.html")
-}
-
-function gotoSignup(){
-    window.location.replace("signup.html")
 }
 
 

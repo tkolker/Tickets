@@ -184,10 +184,10 @@ public class Show implements Serializable, ShowInterface {
         m_DateStr = null;
     }
 
-    public static Show parseShow(EntityManager em, String s, ShowsManager showsManager) throws ParseException {
+    public static Show parseShow(EntityManager em, String s, ShowsManager showsManager, int serialNumber) throws ParseException {
         Gson gson = new Gson();
         List<ShowInterface> shows = showsManager.getAllShows(em);
-        ShowNumber.showNumber = shows.get(shows.size() - 1).getShowID() + 1;
+        ShowNumber.showNumber = shows.get(shows.size() - 1).getShowID() + serialNumber;
         Show show =  gson.fromJson(s, Show.class);
         show.setDateFromStr();
         show.setSeller(Constants.CORPORATION_SELLER);

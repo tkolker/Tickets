@@ -260,8 +260,8 @@ public class ShowServlet extends HttpServlet {
 
         String[] parsedShows = ServletUtils.parseRequestParams(sStr);
 
-        for(int i = 0; i< parsedShows.length - 1; i++){
-            shows.add(Show.parseShow(em, parsedShows[i], showsManager));
+        for(int i = 0; i< parsedShows.length; i++){
+            shows.add(Show.parseShow(em, parsedShows[i], showsManager, i+1));
         }
 
         for(Show s: shows){

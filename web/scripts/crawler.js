@@ -16,7 +16,6 @@ function writeToDB(){
 }
 
 function runCrawler() {
-    // called on every page the crawler visits, use it to extract data from it
     var zappa = document.createElement("div");
 
     $.ajax({

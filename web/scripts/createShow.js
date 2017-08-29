@@ -9,6 +9,13 @@ function createShowPage(show, i){
     $('#ilovethis').attr("sellerType", show.m_Seller);
     $('#ilovethis').attr("buyRef", show.m_BuyRef);
 
+    var seller = show.m_Seller;
+
+    if(!seller) {
+        i =0;
+        $('#comboBox').hide();
+    }
+
     if(i == 1){
         var combo = $('#comboBox');
         var i, option;

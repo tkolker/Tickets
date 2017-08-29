@@ -25,10 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
+
 @MultipartConfig
 @WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
 public class ShowServlet extends HttpServlet {
@@ -52,7 +51,6 @@ public class ShowServlet extends HttpServlet {
         ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
 
         switch (actionType) {
-            //TODO: resize photo of show in every doGet method
             case Constants.GET_SHOW:
                 getShowDetails(request, response, showsManager, em);
                 break;
@@ -179,11 +177,18 @@ public class ShowServlet extends HttpServlet {
 
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
-        List<ShowInterface> shows = showsManager.getAllShows(em);
+        List<ShowInterface> allShows = showsManager.getAllShows(em);
+        ArrayList<ShowInterface> filteredShows = new ArrayList<>();
+
+        for(ShowInterface s:allShows){
+            if(s.getShowDate().after(new Date())){
+                filteredShows.add(s);
+            }
+        }
 
         Gson gson = new Gson();
-        String showsStr = gson.toJson(shows);
-        String showNum = gson.toJson(shows.size());
+        String showsStr = gson.toJson(filteredShows);
+        String showNum = gson.toJson(filteredShows.size());
         response.getWriter().write("[" + showNum + "," + showsStr + "]");
         response.getWriter().flush();
     }
@@ -267,7 +272,7 @@ public class ShowServlet extends HttpServlet {
         response.setContentType("application/json");
 
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
-        //TODO: need to update UserShow DB, Shows DB,
+        //TODO: need to update UserShow DB, Show DB,
         int numOfTicketsToBuy = Integer.parseInt(request.getParameter(Constants.NUMBERS_OF_TICKETS_TO_BUY));
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
         Show showToBuy = showsManager.getShowByID(em, showID);

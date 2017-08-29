@@ -1,5 +1,7 @@
 package logic;
 
+import servlets.Constants;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -56,6 +58,11 @@ public class ShowArchive implements Serializable, ShowInterface{
     public String getShowName()
     {
         return m_ShowName;
+    }
+
+    @Override
+    public int getSeller() {
+        return Constants.INDIVIDUAL_SELLER;
     }
 
     public String getLocation()

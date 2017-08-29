@@ -16,18 +16,21 @@ function writeToDB(){
 }
 
 function runCrawler() {
-    var zappa = document.createElement("div");
+    //if(hasOneDayPassed) {
 
-    $.ajax({
-        url: "https://www.zappa-club.co.il/",
-        datatype: 'html',
-        async: false,
-        success : function(data){
-            $(zappa).html(data);
-            getData(zappa)
-            writeToDB();
-        }
-    });
+        var zappa = document.createElement("div");
+
+        $.ajax({
+            url: "https://www.zappa-club.co.il/",
+            datatype: 'html',
+            async: false,
+            success: function (data) {
+                $(zappa).html(data);
+                getData(zappa)
+                writeToDB();
+            }
+        });
+   // }
 }
 
 
@@ -89,4 +92,14 @@ function pushToResult( page, img, price, about, url){
         m_About: about,
         m_Price: price,
     });
+}
+
+function hasOneDayPassed(){
+    var date = new Date().toLocaleDateString();
+
+    if( localStorage.yourapp_date == date )
+        return false;
+
+    localStorage.yourapp_date = date;
+    return true;
 }

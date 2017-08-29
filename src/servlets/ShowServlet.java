@@ -184,6 +184,13 @@ public class ShowServlet extends HttpServlet {
             if(s.getShowDate().after(new Date())){
                 filteredShows.add(s);
             }
+            else{
+                if(s.getSeller() == Constants.CORPORATION_SELLER){
+                    DBTrans.remove(em, s);
+                    em.close();
+                }
+            }
+
         }
 
         Gson gson = new Gson();

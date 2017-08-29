@@ -1,10 +1,10 @@
 var counter = 0;
 
 $(document).ready(function (){
-    if (!sessionStorage.alreadyClicked) {
+    //if (!sessionStorage.alreadyClicked) {
         runCrawler();
-        sessionStorage.alreadyClicked = "true";
-    }
+    //    sessionStorage.alreadyClicked = "true";
+    //}
     getShows();
     $('#buttonLoginWindow').on("click",gotoLogin);
     $('#buttonSingupWindow').on("click", gotoSignup);

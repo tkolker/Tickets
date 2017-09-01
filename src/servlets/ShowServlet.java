@@ -243,41 +243,18 @@ public class ShowServlet extends HttpServlet {
                     //e.printStackTrace();
                 }
                 break;
-            case Constants.CRAWLER_UPDATE:
-                try {
-                    writeCrawlResults(request, response, showsManager);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+
         }
 
     }
 
-    private void writeCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws Exception {
-        ArrayList<Show> shows = new ArrayList<>();
-        String sStr = request.getParameter(Constants.CRAWLER_SHOWS);
 
-        String[] parsedShows = ServletUtils.parseRequestParams(sStr);
-
-        for(int i = 0; i< parsedShows.length; i++){
-            shows.add(Show.parseShow(em, parsedShows[i], showsManager, i+1));
-        }
-
-        for(Show s: shows){
-            if(showsManager.showLocationAndDateExist(showsManager.getAllShows(em),s) == null){
-                String picture = ServletUtils.uploadImageToCloud(s.getPictureUrl());
-                s.setPictureUrl(picture);
-                DBTrans.persist(em, s);
-            }
-        }
-        em.close();
-    }
 
 
     private void buyTicket(HttpServletRequest request, HttpServletResponse response, /*Show show*/ ShowsManager showsManager) throws IOException, MessagingException {
         response.setContentType("application/json");
-
+        int requestStatus = Constants.SHOW_BOUGHT_SUCCESSFULLY;
+        int messageRequestStatus = Constants.MESSAGE_SENT_SUCCESSFULLY;
         User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
         //TODO: need to update UserShow DB, Show DB,
         int numOfTicketsToBuy = Integer.parseInt(request.getParameter(Constants.NUMBERS_OF_TICKETS_TO_BUY));
@@ -295,42 +272,32 @@ public class ShowServlet extends HttpServlet {
             UserShowBoughtManager userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());
             UserShowBoughtNumber.userShowNumber = userShowBoughtManager.getAllShows(em).size();
             UserShowBought userShowBought = new UserShowBought(UserShowsNumber.userShowNumber++, userFromSession.getEmail(), showToAddToUserShowBought.getShowID());
-            DBTrans.persist(em, userShowBought);
-            String sellerMail =  userShowsManager.getUserByShowId(em, showID);
-            String sellerName = usersManager.getUserNameByEmail(em, sellerMail);
-            //emailToSeller(sellerMail,sellerName, showToAddToUserShowBought);
-            if (showToBuy.getNumOfTickets() > numOfTicketsToBuy)
+            if (userShowBought == null)
             {
-                // Update show DB
-                DBTrans.updateShow(em, showID, showToBuy.getNumOfTickets() - numOfTicketsToBuy);
-                // Update user show DB
+                requestStatus = Constants.SHOW_BOUGHT_FAILURE;
             }
-            else if (showToBuy.getNumOfTickets() == numOfTicketsToBuy)
-            {
-                DBTrans.remove(em, showToBuy);
+            else {
+                DBTrans.persist(em, userShowBought);
+                String sellerMail = userShowsManager.getUserByShowId(em, showID);
+                String sellerName = usersManager.getUserNameByEmail(em, sellerMail);
+                if (!ServletUtils.sendEmail(sellerMail, sellerName, showToAddToUserShowBought))
+                    messageRequestStatus = Constants.MESSAGE_NOT_SEND;
+                if (showToBuy.getNumOfTickets() > numOfTicketsToBuy) {
+                    // Update show DB
+                    DBTrans.updateShow(em, showID, showToBuy.getNumOfTickets() - numOfTicketsToBuy);
+                    // Update user show DB
+                } else if (showToBuy.getNumOfTickets() == numOfTicketsToBuy) {
+                    DBTrans.remove(em, showToBuy);
+                }
             }
+            em.clear();
+            Gson gson = new Gson();
+            String res = gson.toJson(requestStatus);
+            String messageRes = gson.toJson(messageRequestStatus);
+            response.getWriter().write("["+res+","+messageRes+"]");
+            response.getWriter().flush();
         }
 
-    }
-
-    private void emailToSeller(String sellerMail, String sellerName, ShowArchive show) throws MessagingException {
-        Properties properties=new Properties();
-        Session session=Session.getDefaultInstance(properties,null);
-
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("sivan.izhar93@gmail.com"));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(sellerMail));
-            message.setHeader("מכרת כרטיס במכרטסים!", "מכרת כרטיס במכרטסים!");
-            int totalAmount = show.getShowPrice() * show.getShowTickets();
-            StringBuilder text = new StringBuilder("היי ").append(sellerName).
-                    append("\n").append("נמכרו ").append(show.getShowTickets()).append("כרטיסים להופעה ").append(show.getShowName()).append("שמכרת.")
-                    .append("\n").append("סך הכל הועבר לחשבונך").append(totalAmount).append("שקלים חדשים.").append("\n\n")
-                    .append("צוות מכרטסים");
-            message.setText(text.toString());
-            Transport.send(message);
-        }
-        catch (MessagingException mex) {mex.printStackTrace();}
     }
 
     //TODO: function needs to be checked after shows aren't fictive

@@ -3,11 +3,11 @@ var result =[];
 function writeToDB(){
     $.ajax({
         type: 'POST',
-        url: "SellTicket",
+        url: "Crawlers",
         async : false,
         data: {
             "crawlerShows": JSON.stringify(result),
-            "ActionType": "crawlerUpdate",
+            "ActionType": "crawlerZappaUpdate",
         },
         success: function () {
             var i = 0;
@@ -25,7 +25,7 @@ function runCrawler() {
             async: false,
             success: function (data) {
                 $(zappa).html(data);
-                getData(zappa)
+                getData(zappa);
                 writeToDB();
             }
         });

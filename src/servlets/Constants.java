@@ -33,6 +33,10 @@ public enum Constants {
     public static final int SHOW_UPDATE_SUCCESSFULLY = 3;
     public static final int SHOW_NOT_EXIST = 4;
     public static final int SHOW_DELETE_SUCCESSFULLY = 5;
+    public static final int SHOW_BOUGHT_SUCCESSFULLY = 6;
+    public static final int SHOW_BOUGHT_FAILURE = 7;
+    public static final int MESSAGE_SENT_SUCCESSFULLY = 1;
+    public static final int MESSAGE_NOT_SEND = 2;
     public static final int UserDB = 1;
     public static final int ShowsDB = 2;
     public static final String LOGIN_USER = "loginUser";
@@ -57,7 +61,8 @@ public enum Constants {
     public static final int IMG = 0;
     public static final String NUMBERS_OF_TICKETS_TO_BUY = "numOfTicketsToBuy";
     public static final int EMPTY_IMG = 2;
-    public static final String CRAWLER_UPDATE = "crawlerUpdate";
+    public static final String CRAWLER_ZAPPA_UPDATE = "crawlerZappaUpdate";
+    public static final String CRAWLER_BRAVO_UPDATE = "crawlerBravoUpdate";
     public static final String CRAWLER_SHOWS = "crawlerShows";
     public static final int INDIVIDUAL_SELLER = 1;
     public static final int CORPORATION_SELLER = 0;

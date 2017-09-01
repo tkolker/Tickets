@@ -67,7 +67,46 @@ function performPurchase(){
             "ActionType": actionType,
             "numOfTicketsToBuy" : num,
         },
-        success: window.location.replace("myBoughtTickets.html")
+        success: function (data) {
+            var requestStatus = data[0];
+            var  messageRequestStatus = data[1];
+            showResponse(requestStatus, messageRequestStatus);
 
+        }
     });
+}
+
+function showResponse(requestStatus, messageRequestStatus) {
+    if (requestStatus == 6)
+    {
+        if (messageRequestStatus == 1)
+        {
+            openPopup("הרכישה התבצעה בהצלחה. מייל נשלח למוכר");
+        }
+        else if(messageRequestStatus == 2)
+        {
+            openPopup("הרכישה התבצעה בהצלחה. אך המייל לא נשלח למוכר");
+        }
+    }
+    else if (requestStatus == 7)
+    {
+        openPopup("לא ניתן לבצע את הרכישה, אנא נסה מאוחר יותר");
+    }
+}
+
+function openPopup(msg) {
+    $("#message").html(msg);
+    document.getElementById('myModal').style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById('myModal').style.display = "none";
+}
+
+window.onclick = function(event) {
+    var modal = document.getElementById('myModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    window.location.replace("myBoughtTickets.html");
 }

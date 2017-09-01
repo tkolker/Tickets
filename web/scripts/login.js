@@ -2,6 +2,7 @@ var goto;
 
 $(document).ready(function (){
     goto = getURLParameter('goto');
+    runBravoCrawler();
     $('#buttonLogin').on("click", performLogin);
 });
 

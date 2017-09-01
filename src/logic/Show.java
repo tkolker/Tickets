@@ -193,6 +193,22 @@ public class Show implements Serializable, ShowInterface {
         show.setSeller(Constants.CORPORATION_SELLER);
         return show;
     }
+
+    public static Show parseShowFromBravo(EntityManager em, String s, ShowsManager showsManager, int serialNumber) throws ParseException {
+        Gson gson = new Gson();
+        List<ShowInterface> shows = showsManager.getAllShows(em);
+        ShowNumber.showNumber = shows.get(shows.size() - 1).getShowID() + serialNumber;
+        Show show =  gson.fromJson(s, Show.class);
+        show.setDateFromBravo();
+        show.setSeller(Constants.CORPORATION_SELLER);
+        return show;
+    }
+
+    private void setDateFromBravo() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        m_Date = formatter.parse(m_DateStr);
+        m_DateStr = null;
+    }
 }
 
 

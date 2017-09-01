@@ -2,9 +2,11 @@ var counter = 0;
 
 $(document).ready(function (){
     runCrawler();
+
     getShows();
     $('#buttonSearchShow').on("click", gotoSearchShow);
     $('#loadMore').on("click", getShows);
+    //runBravoCrawler();
 });
 
 

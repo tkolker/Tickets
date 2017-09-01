@@ -66,4 +66,9 @@ public enum Constants {
     public static final String CRAWLER_SHOWS = "crawlerShows";
     public static final int INDIVIDUAL_SELLER = 1;
     public static final int CORPORATION_SELLER = 0;
+    public static final String FAV_LOCATION = "favoriteLocation";
+    public static final String FAV_SHOW = "favoriteShow";
+    public static final String ADD_FAV_SHOW = "addFavoriteShow";
+    public static final String ADD_FAV_LOCATION = "addFavoriteLocation";
+    public static final String GET_FAVORITES = "getMyFavorites";
 }

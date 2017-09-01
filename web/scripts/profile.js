@@ -10,13 +10,3 @@ function getToSellTickets(){
 function getBuyedTickets(){
     window.location.replace("myBoughtTickets.html");
 }
-
-
-function openPopup(msg) {
-    $("#message").html(msg);
-    $("#popup").show();
-}
-
-function closePopup() {
-    window.hide();
-}

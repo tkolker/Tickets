@@ -19,9 +19,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="JPA 2.0-2.0" level="project" />
-    <orderEntry type="module" module-name="Tickets2" />
-    <orderEntry type="module-library">
+    <orderEntry type="library" scope="PROVIDED" name="JPA 2.0-2.0" level="project" />
+    <orderEntry type="module" module-name="Tickets2" scope="PROVIDED" />
+    <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../objectdb.jar!/" />
@@ -30,6 +30,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="com.cloudinary:cloudinary-http44:1.14.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="com.cloudinary:cloudinary-http44:1.14.0" level="project" />
   </component>
 </module>

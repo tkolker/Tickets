@@ -6,6 +6,7 @@ $(document).ready(function (){
     $('#paypal-button').on("click", performPurchase);
     id = getURLParameter('id');
     num = getURLParameter('quantity');
+    //$('#prev').attr('href', 'showPageSignedUser.html?id=' + id);
     getShow(id, 0);
 });
 

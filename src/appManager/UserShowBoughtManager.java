@@ -79,10 +79,17 @@ public class UserShowBoughtManager implements UserShowsManagerInterface {
     }
 
     public List<UserShowsInterface> getShowByUserID(EntityManager em, String userId) {
-        TypedQuery<UserShowsInterface> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShowsInterface.class);
+        TypedQuery<UserShowsInterface> query = em.createQuery("SELECT s FROM UserShowBought s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShowsInterface.class);
         query.setParameter("mail", userId);
-        return query.getResultList();
+        return (query.getResultList());
     }
+
+    public List<UserShowBought> getShowByEmail(EntityManager em, String userId) {
+        TypedQuery<UserShowBought> query = em.createQuery("SELECT s FROM UserShowBought s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID asc", UserShowBought.class);
+        query.setParameter("mail", userId);
+        return (query.getResultList());
+    }
+
 
     public List<UserShowBought> getShowByUserIDDesc(EntityManager em, String userId) {
         TypedQuery<UserShowBought> query = em.createQuery("SELECT s FROM UserShows s WHERE s.m_UserEmail=:mail ORDER BY s.m_ShowID desc", UserShowBought.class);

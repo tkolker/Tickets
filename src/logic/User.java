@@ -19,6 +19,8 @@ public class User implements Serializable {
     private String m_fName;
     private String m_lName;
     private String m_Password;
+    private String m_FavShows;
+    private String m_FavLocations;
 
     public User(String id, String fname, String lname, String pass) {
         this.m_Email = id;
@@ -53,6 +55,14 @@ public class User implements Serializable {
     public String getPassword() {
         return m_Password;
     }
+
+    public void setFavShows(String fav) { m_FavShows = fav; }
+
+    public void setFavLocations(String fav) { m_FavLocations = fav; }
+
+    public String getFavLocations() { return m_FavLocations; }
+
+    public String getFavShows() { return m_FavShows; }
 
     public boolean emailValidation(String email)
     {

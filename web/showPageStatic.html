@@ -4,14 +4,16 @@
 <head>
 
     <!-- Meta info
-
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta content="" name="description" />
     <link rel="Shortcut Icon" type="image/x-icon" href="#" />
     -->
+
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <title>כרטיסים שלי</title>
-    <link href="profile3.html" rel="prev" />
+    <link href="showPage.html" rel="next" />
+    <link href="index.html" rel="prev" />
+    <title>מופע</title>
 
     <!-- Styles -->
     <link href="styles/main.css" rel="stylesheet" media="screen, print" type="text/css" />
@@ -19,27 +21,53 @@
     <link rel="shortcut icon" href="/images/favicon_3.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon_3.ico" type="image/x-icon">
 </head>
-<body style="align:right" dir="rtl">
-<div id="container">
+<body style="align:right; position: relative; "; dir="rtl">
+<div id="container" style="overflow: auto">
     <section id="content">
+
         <div id="pfd-work">
             <div id="work-bio">
-                <header class="showList">
+                <header>
                     <div id="pfd">
-                        <a href="indexSignedUser.html">
+                        <a href="index.html">
                             <img src="images/logo.png" alt="מכרטסים">
                         </a>
                     </div>
+
                     <div id="preamble">
-                        <ul id="myShowsList" style="list-style-type: none"></ul>
+                        <a id="showID"></a>
+                        <h1 id="showName"></h1>
+                        <span>
+                    <h4 id="showDate"></h4><br>
+                    <h4 id="showLocation"></h4>
+                            <br>
+                            <h4 id="price"></h4>
+                            <h4 id="numOfTickets"></h4>
+                    <h4 id="total"></h4>
+                            <br>
+                </span>
+
                     </div>
+
+                    <ul id="links">
+                        <li>
+                            <a href="indexSignedUser.html" id="home">Home</a>
+                        </li>
+                    </ul>
+
                 </header>
+
             </div>
+            <section id="work-visuals">
+                <ul>
+                    <li data-visual="website-design-florentina-norfolk"><img id="showPicture" class="showPagePic">
+                        &nbsp;</li>
+                </ul>
+            </section>
         </div>
     </section>
-</div><!-- container -->
 
-<!--
+
     <footer id="msf">
         <div class="wrapper">
             <div id="legal">
@@ -47,15 +75,14 @@
             </div>
         </div>
     </footer>
--->
-
+</div><!-- container -->
 
 <nav id="toc">
     <ul>
         <li>
             <a href="indexSignedUser.html">הופעות</a></li>
         <li>
-            <a href="profile3.html" id="myProfileButton">אזור אישי</a></li>
+            <a href="profile3.html">אזור אישי</a></li>
         <li>
             <a href="addShow.html">מכירה</a></li>
     </ul>
@@ -68,7 +95,8 @@
 <script src="scripts/main.js"></script>
 <script src="scripts/menu.js"></script>
 <script src="scripts/createShow.js"></script>
-<script src="scripts/myBoughtTickets.js"></script>
+<script src="scripts/showPageStatic.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -77,6 +105,8 @@
 </script>
 
 <script src="scripts/work-bio.js"></script>
+
+
 
 
 </body>

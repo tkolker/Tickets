@@ -12,4 +12,6 @@ public interface ShowInterface {
     String getShowName();
 
     int getSeller();
+
+    String getUserId();
 }

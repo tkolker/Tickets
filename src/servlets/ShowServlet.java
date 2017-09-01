@@ -3,18 +3,11 @@ package servlets;
 
 import appManager.*;
 import appManager.db_manager.DBTrans;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.google.gson.Gson;
 import logic.*;
 import utils.ServletUtils;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -25,8 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 @MultipartConfig
 @WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
@@ -34,10 +29,6 @@ public class ShowServlet extends HttpServlet {
 
     EntityManagerFactory emf;
     EntityManager em;
-    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "tickets",
-            "api_key", "363777688854323",
-            "api_secret", "Ug-k08JZjiPTcwcXEShfkLO1Eeo"));
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,20 +48,75 @@ public class ShowServlet extends HttpServlet {
             case Constants.GET_SHOWS:
                 getAllShows(response, showsManager, em);
                 break;
-            case Constants.GET_SELL_SHOWS:
-                getMySellShows(request, response, showsManager, em);
-                break;
             case Constants.GET_SEARCH_SHOW:
                 getSearchShow(request, response, showsManager, em);
                 break;
             case Constants.GET_SHOW_EXIST:
                 isShowFound(request, response, showsManager, em);
                 break;
+            case Constants.GET_FAVORITES:
+                getRecommendedShows(request, response, showsManager);
+                break;
+            case Constants.GET_SELL_SHOWS:
+                getMySellShows(request, response, showsManager);
+                break;
             case Constants.GET_BOUGHT_TICKETS:
                 //TODO: debug
-                getBoughtTickets(request, response, showsManager, em);
+                getBoughtTickets(request, response, showsManager);
                 break;
         }
+    }
+
+    private void getRecommendedShows(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
+        response.setContentType("application/json");
+        ArrayList<ShowInterface> favorites = new ArrayList<>();
+        HashSet<ShowInterface> checkSet = new HashSet<>();
+        String favLocStr = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getFavLocations();
+        String favShowStr = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getFavShows();
+        List<ShowInterface> shows = showsManager.getAllShows(em);
+
+        String[] favLoc = favLocStr.split(",");
+        String[] favShow = favShowStr.split(",");
+
+        for(ShowInterface s: shows){
+            for(int i = 0; i < favLoc.length; i++){
+                if(s.getLocation().contains(favLoc[i])){
+                    favorites.add(s);
+                    checkSet.add(s);
+                }
+            }
+        }
+
+        for(ShowInterface s: shows){
+            for(int i = 0; i < favShow.length; i++){
+                if(s.getShowName().contains(favShow[i]) && !(checkSet.contains(s))){
+                    favorites.add(s);
+                }
+            }
+        }
+
+        Gson gson = new Gson();
+        String res = gson.toJson(favorites);
+        String size = gson.toJson(favorites.size());
+        response.getWriter().write("[" + res + "," + size + "]");
+        response.getWriter().flush();
+    }
+
+    private void getMySellShows(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
+        response.setContentType("application/json");
+        ArrayList<ShowInterface> res = new ArrayList<>();
+        String userId = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getEmail();
+        UserShowsManagerInterface userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
+        List<ShowInterface> shows = showsManager.getAllShows(em);
+        List<UserShowsInterface> userShows = userShowsManager.getShowByUserID(em, userId);
+
+        createShowArrayResult(shows, userShows, res);
+
+        Gson gson = new Gson();
+        String showsStr = gson.toJson(res);
+        String showNum = gson.toJson(res.size());
+        response.getWriter().write("[" + showNum + "," + showsStr + "]");
+        response.getWriter().flush();
     }
 
     private void createShowArrayResult(List<ShowInterface> shows, List<UserShowsInterface> userShowInList, ArrayList<ShowInterface> res)
@@ -87,21 +133,15 @@ public class ShowServlet extends HttpServlet {
         }
     }
 
-    private void createShowArchiveArrayResult(List<ShowInterface> shows, List<UserShowsInterface> userShowInList, ArrayList<ShowInterface> res)
-    {
-        for (UserShowsInterface u : userShowInList) {
-            res.addAll(shows.stream().filter(s -> s.getShowID() == u.getShowId()).collect(Collectors.toList()));
-        }
-    }
     //TODO : need to change to showArchive !!!! sivan's work :)
-    private void getBoughtTickets(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
+    private void getBoughtTickets(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
         response.setContentType("application/json");
         ArrayList<ShowInterface> res = new ArrayList<>();
         String userId = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getEmail();
-        UserShowsManagerInterface userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());
+        UserShowBoughtManager userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());
         ShowsArchiveManager showsArchiveManager = ServletUtils.getShowsArchiveManager(getServletContext());
         List<ShowInterface> shows = showsArchiveManager.getAllShows(em);
-        List<UserShowsInterface> userShowBought = userShowBoughtManager.getShowByUserID(em, userId);
+        List<UserShowBought> userShowBought = userShowBoughtManager.getShowByEmail(em, userId);
 
         createShowArchiveArrayResult(shows, userShowBought, res);
 
@@ -116,6 +156,17 @@ public class ShowServlet extends HttpServlet {
             response.getWriter().write("[" + showResultString + "]");
         }
         response.getWriter().flush();
+    }
+
+    private void createShowArchiveArrayResult(List<ShowInterface> shows, List<UserShowBought> userShowBought, ArrayList<ShowInterface> res)
+    {
+        int i,j = 0;
+        for (i = 0; i < shows.size(); i++) {
+            if(j < userShowBought.size() && shows.get(i).getShowID() == userShowBought.get(j).getShowId()){
+                res.add(shows.get(i));
+                j++;
+            }
+        }
     }
 
     private void isShowFound(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
@@ -158,22 +209,7 @@ public class ShowServlet extends HttpServlet {
         }
     }
 
-    private void getMySellShows(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
-        response.setContentType("application/json");
-        ArrayList<ShowInterface> res = new ArrayList<>();
-        String userId = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getEmail();
-        UserShowsManagerInterface userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
-        List<ShowInterface> shows = showsManager.getAllShows(em);
-        List<UserShowsInterface> userShows = userShowsManager.getShowByUserID(em, userId);
 
-        createShowArrayResult(shows, userShows, res);
-
-        Gson gson = new Gson();
-        String showsStr = gson.toJson(res);
-        String showNum = gson.toJson(res.size());
-        response.getWriter().write("[" + showNum + "," + showsStr + "]");
-        response.getWriter().flush();
-    }
 
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
@@ -187,11 +223,11 @@ public class ShowServlet extends HttpServlet {
             else{
                 if(s.getSeller() == Constants.CORPORATION_SELLER){
                     DBTrans.remove(em, s);
-                    em.close();
                 }
             }
 
         }
+        em.close();
 
         Gson gson = new Gson();
         String showsStr = gson.toJson(filteredShows);
@@ -222,6 +258,7 @@ public class ShowServlet extends HttpServlet {
         String actionType = request.getParameter(Constants.ACTION_TYPE);
         Show show;
         ShowsManager showsManager = ServletUtils.getShowsManager(getServletContext());
+        UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
 
         switch (actionType) {
             case Constants.ADD_SHOW:
@@ -243,9 +280,57 @@ public class ShowServlet extends HttpServlet {
                     //e.printStackTrace();
                 }
                 break;
+            case Constants.ADD_FAV_LOCATION:
+                addFavoriteLocation(request, response, usersManager);
+                break;
+            case Constants.ADD_FAV_SHOW:
+                addFavoriteShows(request, response, usersManager);
+                break;
+        }
+    }
 
+    private void addFavoriteLocation(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
+        response.setContentType("application/json");
+        User user = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER));
+        String loc = request.getParameter(Constants.FAV_LOCATION);
+        if(user.getFavLocations() == null){
+            user.setFavLocations(loc.toLowerCase()+ ",");
+        }
+        else{
+            user.setFavLocations(user.getFavLocations() + loc.toLowerCase() + ",");
+        }
+        updateUserOnDB(user.getEmail(), user, usersManager);
+
+        Gson gson = new Gson();
+        String locations = gson.toJson(user.getFavLocations());
+        response.getWriter().write(locations);
+        response.getWriter().flush();
+    }
+
+    private void addFavoriteShows(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
+        response.setContentType("application/json");
+        User user = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER));
+        String show = request.getParameter(Constants.FAV_SHOW);
+        if(user.getFavShows() == null){
+            user.setFavShows(show.toLowerCase() + ",");
+        }
+        else{
+            user.setFavShows(user.getFavShows() + show.toLowerCase() + ",");
         }
 
+        updateUserOnDB(user.getEmail(), user, usersManager);
+
+        Gson gson = new Gson();
+        String shows = gson.toJson(user.getFavShows());
+        response.getWriter().write(shows);
+        response.getWriter().flush();
+    }
+
+    private void updateUserOnDB(String id, User newUser, UsersManager usersManager) {
+        User userToUpdate = usersManager.getUserByEmail(id, em);
+        DBTrans.remove(em, userToUpdate);
+        DBTrans.persist(em, newUser);
+        em.close();
     }
 
 
@@ -266,7 +351,7 @@ public class ShowServlet extends HttpServlet {
         if(showToBuy != null)
         {
             // Add the new show to Show Archive DB
-            ShowArchive showToAddToUserShowBought = new ShowArchive(showToBuy.getShowID(), showToBuy.getShowName(), showToBuy.getLocation(), showToBuy.getPictureUrl(), numOfTicketsToBuy, showToBuy.getShowPrice(), showToBuy.getShowDate(), showToBuy.getAbout());
+            ShowArchive showToAddToUserShowBought = new ShowArchive(showToBuy.getShowID(), showToBuy.getShowName(), showToBuy.getLocation(), showToBuy.getPictureUrl(), numOfTicketsToBuy, showToBuy.getShowPrice(), showToBuy.getShowDate(), showToBuy.getAbout()/*, userFromSession.getEmail()*/);
             DBTrans.persist(em, showToAddToUserShowBought);
             // Add to user show bought DB
             UserShowBoughtManager userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());

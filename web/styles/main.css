@@ -162,6 +162,22 @@ footer#msf{bottom:0;left:0;position:absolute;width:100%;height: auto !important;
     border-radius: 4px;
  }
 
+.seeAllButton{
+    font-family: Gisha;
+    -webkit-appearance: none;
+    font-size: 1.5em;
+    width: 90px;
+    height: 35px;
+    color: #FA8072;
+    background-color: #f8f8f8;
+    position: relative;
+    bottom:5px;
+    right: 450px;
+    border: solid 1.5px #778899;
+    border-radius: 4px;
+}
+
+
 h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 
 #buttonUpdateShow, #buttonGoToUpdate, #buttonDeleteShow{
@@ -280,6 +296,16 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     margin: auto;
 }
 
+.showProfilePic {
+    width: 160px;
+    height: 100px; !important;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+    margin: 5px;
+
+}
+
 .showPagePic {
     width: 1600px; !important;
     height: auto;
@@ -289,6 +315,23 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     margin: auto;
 }
 
+.showBox {
+    font-family: Gisha;
+    width: 40%;
+    height:auto;
+    -webkit-appearance: none;
+    font-size: 1em;
+    color: #FA8072;
+    background-color: #f8f8f8;
+    position: relative;
+    top: 30px;
+    padding-bottom:20px;
+    padding-top:5px;
+    margin-bottom: 30px;
+    margin-inside: 5px;
+    border: solid 1.5px #778899;
+    border-radius: 10px;
+}
 
 .close {
     color: #aaa;

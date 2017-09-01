@@ -81,6 +81,11 @@ public class Show implements Serializable, ShowInterface {
         return m_Seller;
     }
 
+    @Override
+    public String getUserId() {
+        return null;
+    }
+
     public String getLocation()
     {
         return m_Location;
@@ -208,6 +213,10 @@ public class Show implements Serializable, ShowInterface {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         m_Date = formatter.parse(m_DateStr);
         m_DateStr = null;
+    }
+
+    public void setBuyRef(String buyRef) {
+        this.m_BuyRef = buyRef;
     }
 }
 

@@ -173,48 +173,5 @@ public class ServletUtils {
         return publicId;
     }
 
-    public static String builtEmailBody(String sellerName, ShowArchive show)
-    {
-        int totalAmount = show.getShowPrice() * show.getShowTickets();
-        StringBuilder text = new StringBuilder("היי ").append(sellerName).
-                append("\n").append("נמכרו ").append(show.getShowTickets()).append("כרטיסים להופעה ").append(show.getShowName()).append("שמכרת.")
-                .append("\n").append("סך הכל הועבר לחשבונך").append(totalAmount).append("שקלים חדשים.").append("\n\n")
-                .append("צוות מכרטסים");
-        return text.toString();
-    }
-
-    public static boolean sendEmail(String sellerEmail, String sellerName, ShowArchive show) {
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-
-        String body = builtEmailBody(sellerName, show);
-        String subject = "מכרת כרטיס במכרטסים!";
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("sivan.izhar93@gmail.com", "0506790666");
-                    }
-                });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("sivan.izhar93@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(sellerEmail)); //TODO userEmail - just to check
-            message.setSubject(subject);
-            message.setText(body);
-            Transport.send(message);
-
-        }
-        catch (MessagingException e) {
-            return false;
-        }
-
-        return true;
-    }
 }
 

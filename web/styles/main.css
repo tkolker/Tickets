@@ -98,7 +98,7 @@ section#content #our-shows ul li .overlay summary h3{color:#813815;font:300 15px
 section#content #our-shows ul li .overlay .loves{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fff;border-radius:40px;height:80px;position:absolute;right:60px;text-align:center;top:60px;width:80px}
 section#content #our-shows ul li .overlay .loves span{background:transparent url(../images/ils221.png) no-repeat right ;color:#ed7b47;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
 section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.notsigned:hover{background:#212328 url(../images/login.png) no-repeat center}
-section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.notsigned span{color:#fff; font-family: Gisha; font-size: large}
+section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.notsigned span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
 section#content #pfd-work{position:relative;zoom:1}
 section#content #pfd-work footer{bottom:-80px;padding:50px 60px 0;position:absolute;right:0}
 section#content #pfd-work footer #other-projects{float:right;list-style:none}
@@ -117,6 +117,7 @@ section#content #work-bio #links #ilovethis{-moz-borderradius:40px;-webkit-borde
 section#content #work-bio #links #ilovethis span{background:transparent;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
 section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.signed:hover{background:#212328 url(../images/buy.png) no-repeat center}
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
+section#content #work-bio #links #ilovethis.signed span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
 /*section#content #work-bio #links #ilovethis.loved:hover{background-image:none}*/
 section#content #work-bio #links #ilovethis.loved:hover span{display:inline}
 section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/home2.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
@@ -379,6 +380,18 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     animation-name: animatetop;
     animation-duration: 0.4s;
     padding-bottom:20px;
+}
+
+.tinyButton{
+    font-family: Gisha;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    width: 5px;
+    height: 5px;
+    color: #212328;
+    background-color: transparent;
+    border-bottom-color: #aaaaaa;
+    border-bottom-width: thin;
 }
 
 #comboBox{

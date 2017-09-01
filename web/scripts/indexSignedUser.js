@@ -130,7 +130,7 @@ function gotoSearchShow() {
                     window.location.replace("searchShowSignedUser.html?search=" + showNameToSearch);
                 }
                 else {
-                    openPopup("לא נמצאה הופעה");
+                    openPopup("לא נמצאו תוצאות");
                 }
             }
         });

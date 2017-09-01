@@ -84,11 +84,14 @@ function showResponse(i, show) {
         openPopup();
     }
     else if (i === 1) {
-
+        openPopup("המופע קיים במערכת");
     }
     else if (i === 2) {
         var url = "mySellShow.html?id=" + show.m_ShowID;
         window.location.replace(url);
+    }
+    else if (i == 8){
+        openPopup("תאריך המופע צריך להיות לכל היותר שבוע מהיום");
     }
 }
 

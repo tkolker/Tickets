@@ -33,7 +33,7 @@ public class UsersManager {
     {
         TypedQuery<User> query = em.createQuery("SELECT u FROM User u where u.m_Email=:mail", User.class);
         query.setParameter("mail", mail);
-        return query.getSingleResult().getFirstName();
+        return query.getSingleResult().getFirstName() + " " + query.getSingleResult().getLastName();
     }
 
     public User getUserByEmail(String id, EntityManager em) {

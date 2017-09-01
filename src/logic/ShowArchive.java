@@ -14,6 +14,7 @@ import static logic.ShowArchiveNumber.showArchiveNumber;
 public class ShowArchive implements Serializable, ShowInterface{
     @Id
     @GeneratedValue
+    private int m_Key;
     private int m_ShowID;
     private String m_ShowName;
     private String m_Location;
@@ -29,7 +30,7 @@ public class ShowArchive implements Serializable, ShowInterface{
     }
 
     public ShowArchive(String name, String location, String url, int numOfTickets, int price, Date date, String about){
-        m_ShowID = showArchiveNumber++;
+        m_Key = showArchiveNumber++;
         m_ShowName = name;
         m_Location = location;
         m_Price = price;
@@ -40,6 +41,7 @@ public class ShowArchive implements Serializable, ShowInterface{
     }
 
     public ShowArchive(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about/*, String email*/){
+        m_Key = showArchiveNumber++;
         m_ShowID = id;
         m_ShowName = name;
         m_Location = location;
@@ -90,5 +92,9 @@ public class ShowArchive implements Serializable, ShowInterface{
 
     public int getShowTickets() {
         return m_NumOfTickets;
+    }
+
+    public int getKey() {
+        return m_Key;
     }
 }

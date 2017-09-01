@@ -5,6 +5,9 @@ import javax.mail.internet.InternetAddress;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Entity
 public class User implements Serializable {
@@ -27,11 +30,13 @@ public class User implements Serializable {
         this.m_fName = fname;
         this.m_lName = lname;
         this.m_Password = pass;
+        //encryptPassword();
     }
 
     public User(String id, String pass) {
         this.m_Email = id;
         this.m_Password = pass;
+        //encryptPassword();
     }
 
     // String Representation:
@@ -53,6 +58,7 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
+
         return m_Password;
     }
 
@@ -74,6 +80,20 @@ public class User implements Serializable {
             result = false;
         }
         return result;
+    }
+
+    public void encryptPassword()
+    {
+        try {
+            byte[] bytesOfMessage = m_Password.getBytes("UTF-8");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] passEncrypt = md.digest(bytesOfMessage);
+            m_Password = passEncrypt.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void copyUser(String email, String firstName, String lastName, String password) {

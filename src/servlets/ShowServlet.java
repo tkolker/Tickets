@@ -5,6 +5,7 @@ import appManager.*;
 import appManager.db_manager.DBTrans;
 import com.google.gson.Gson;
 import logic.*;
+import utils.EmailUtils;
 import utils.ServletUtils;
 
 import javax.mail.MessagingException;
@@ -213,7 +214,7 @@ public class ShowServlet extends HttpServlet {
 
     private void getAllShows(HttpServletResponse response, ShowsManager showsManager, EntityManager em) throws IOException {
         response.setContentType("application/json");
-        List<ShowInterface> allShows = showsManager.getAllShows(em);
+        List<Show> allShows = showsManager.getAllShowsByDates(em);
         ArrayList<ShowInterface> filteredShows = new ArrayList<>();
 
         for(ShowInterface s:allShows){
@@ -221,9 +222,7 @@ public class ShowServlet extends HttpServlet {
                 filteredShows.add(s);
             }
             else{
-                if(s.getSeller() == Constants.CORPORATION_SELLER){
-                    DBTrans.remove(em, s);
-                }
+                DBTrans.remove(em, s);
             }
 
         }
@@ -333,9 +332,6 @@ public class ShowServlet extends HttpServlet {
         em.close();
     }
 
-
-
-
     private void buyTicket(HttpServletRequest request, HttpServletResponse response, /*Show show*/ ShowsManager showsManager) throws IOException, MessagingException {
         response.setContentType("application/json");
         int requestStatus = Constants.SHOW_BOUGHT_SUCCESSFULLY;
@@ -365,7 +361,8 @@ public class ShowServlet extends HttpServlet {
                 DBTrans.persist(em, userShowBought);
                 String sellerMail = userShowsManager.getUserByShowId(em, showID);
                 String sellerName = usersManager.getUserNameByEmail(em, sellerMail);
-                if (!ServletUtils.sendEmail(sellerMail, sellerName, showToAddToUserShowBought))
+                if (!EmailUtils.sendEmailToBuyer(sellerMail, sellerName, showToAddToUserShowBought, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName())
+                        || !EmailUtils.sendEmailToSeller(sellerMail, sellerName, showToAddToUserShowBought, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName()))
                     messageRequestStatus = Constants.MESSAGE_NOT_SEND;
                 if (showToBuy.getNumOfTickets() > numOfTicketsToBuy) {
                     // Update show DB
@@ -428,7 +425,7 @@ public class ShowServlet extends HttpServlet {
         Show show = null;
         Show showToAdd = null;
         UserShows userShowToUpdate = null;
-        int validInput;
+        int validInput, userShowNum;
 
         List<ShowInterface> shows = showsManager.getAllShows(em);
         if (shows.size() > 0) {
@@ -438,37 +435,46 @@ public class ShowServlet extends HttpServlet {
         {
             ShowNumber.showNumber = 0;
         }
-        show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
-        showToAdd = showsManager.showLocationAndDateExist(shows, show);
-        User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
-        List<UserShows> userShows= ServletUtils.getUserShowsManager(getServletContext()).getAllShows(em);
-        int userShowNum = userShows.get(userShows.size() - 1).getShowId() + 1;
-
-        if(showToAdd == null) {
-            validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
-            request.getSession(true).setAttribute(Constants.SHOW, show);
-            String picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
-            show.setPictureUrl(picture);
-            DBTrans.persist(em, show);
-            userShowToUpdate = new UserShows(userShowNum, userFromSession.getEmail(), show.getShowID());
-            DBTrans.persist(em, userShowToUpdate);
-            em.close();
+        if (!showDateValid(LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE))))
+        {
+            validInput = Constants.SHOW_DATE_INVALID;
         }
         else {
-            if (UserShowsManager.showIDExistInUser(em, userFromSession.getEmail(), showToAdd.getShowID())) {
-                validInput = Constants.SHOW_EXIST;
-            } else //if user is logged in, and want to add show, need to update userShowsManager, and do persist
-            {
-                request.getSession(true).setAttribute(Constants.SHOW, show);
+            show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT)/*ticketsList*/);
+            showToAdd = showsManager.showLocationAndDateExist(shows, show);
+            User userFromSession = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
+            List<UserShows> userShows = ServletUtils.getUserShowsManager(getServletContext()).getAllShows(em);
+            if (userShows.size() == 0) {
+                userShowNum = 1;
+            } else {
+                userShowNum = userShows.get(userShows.size() - 1).getShowId() + 1;
+            }
+
+            if (showToAdd == null) {
                 validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+                request.getSession(true).setAttribute(Constants.SHOW, show);
                 String picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
                 show.setPictureUrl(picture);
                 DBTrans.persist(em, show);
-                em.close();
                 userShowToUpdate = new UserShows(userShowNum, userFromSession.getEmail(), show.getShowID());
-                em = emf.createEntityManager();
                 DBTrans.persist(em, userShowToUpdate);
                 em.close();
+            } else {
+                if (UserShowsManager.showIDExistInUser(em, userFromSession.getEmail(), showToAdd.getShowID())) {
+                    validInput = Constants.SHOW_EXIST;
+                } else //if user is logged in, and want to add show, need to update userShowsManager, and do persist
+                {
+                    request.getSession(true).setAttribute(Constants.SHOW, show);
+                    validInput = Constants.SHOW_ADDED_SUCCESSFULLY;
+                    String picture = ServletUtils.uploadImageToCloud(request, Integer.parseInt(request.getParameter(Constants.PIC_TYPE)));
+                    show.setPictureUrl(picture);
+                    DBTrans.persist(em, show);
+                    em.close();
+                    userShowToUpdate = new UserShows(userShowNum, userFromSession.getEmail(), show.getShowID());
+                    em = emf.createEntityManager();
+                    DBTrans.persist(em, userShowToUpdate);
+                    em.close();
+                }
             }
         }
 
@@ -478,6 +484,14 @@ public class ShowServlet extends HttpServlet {
         String showJson = gson.toJson(show);
         response.getWriter().write("["+res+","+showJson+"]");
         response.getWriter().flush();
+    }
+
+    private boolean showDateValid(LocalDateTime dataToCheck) {
+        if(dataToCheck.isAfter(LocalDateTime.now().plusDays(7)))
+        {
+            return false;
+        }
+        return true;
     }
 
     private void removeShowFromDB(HttpServletRequest request, HttpServletResponse response, Show show, ShowsManager showsManager) throws IOException {

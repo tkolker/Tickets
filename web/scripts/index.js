@@ -94,7 +94,7 @@ function gotoSearchShow() {
                     window.location.replace("searchShow.html?search=" + showNameToSearch);
                 }
                 else {
-                    openPopup("לא נמצאה הופעה");
+                    openPopup("לא נמצאו תוצאות");
                 }
                 }
             });

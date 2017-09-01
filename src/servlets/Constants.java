@@ -35,10 +35,9 @@ public enum Constants {
     public static final int SHOW_DELETE_SUCCESSFULLY = 5;
     public static final int SHOW_BOUGHT_SUCCESSFULLY = 6;
     public static final int SHOW_BOUGHT_FAILURE = 7;
+    public static final int SHOW_DATE_INVALID = 8;
     public static final int MESSAGE_SENT_SUCCESSFULLY = 1;
     public static final int MESSAGE_NOT_SEND = 2;
-    public static final int UserDB = 1;
-    public static final int ShowsDB = 2;
     public static final String LOGIN_USER = "loginUser";
     public static final String SHOW = "currShow";
     public static final String GET_USER = "getUserFromSession";
@@ -46,8 +45,6 @@ public enum Constants {
     public static final String SHOW_ABOUT = "showAbout";
     public static final String LOGOUT = "logout";
     public static final String SIGNUP = "signup";
-    public static final int SHOW_TO_SELL = 1;
-    public static final int SHOW_TO_BUY = 2;
     public static final String GET_SHOWS = "getShows";
     public static final String GET_SHOW = "getShow";
     public static final String GET_SELL_SHOWS = "getMySellShows";

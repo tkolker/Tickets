@@ -17,9 +17,16 @@ function searchShow(showNameToSearch) {
             "showName": showNameToSearch,
         },
         success: function (shows) {
-            var numOfShows = shows[0];
-            var showsArr = shows[1];
-            buildSearchShows(numOfShows, showsArr);
+            if(shows.length == 2) {
+                var numOfShows = shows[0];
+                var showsArr = shows[1];
+                buildSearchShows(numOfShows, showsArr);
+            }
+            else{
+                if (shows[0] == 4){
+                    openPopup("לא נמצאו תוצאות");
+                }
+            }
         }
     });
 }

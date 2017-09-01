@@ -43,13 +43,26 @@ public class LoginServlet extends HttpServlet{
             case Constants.GET_USER:
                 getUserFromSessionData(request, response);
                 break;
+            case Constants.CHECK_LOGGED:
+                checkIfUserLoggedIn(request, response);
+                break;
         }
     }
 
     private void getUserFromSessionData(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        User user = (User)request.getSession(false).getAttribute(Constants.LOGIN_USER);
+        User user = SessionUtils.getParameter(request);
 
         response.getWriter().write(user.getFirstName());
+        response.getWriter().flush();
+    }
+
+    private void checkIfUserLoggedIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        User user = SessionUtils.getParameter(request);
+
+        int userLoggedIn = (user == null)? 0 : 1;
+
+        Gson gson = new Gson();
+        response.getWriter().write(gson.toJson(userLoggedIn));
         response.getWriter().flush();
     }
 

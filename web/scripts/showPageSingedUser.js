@@ -4,7 +4,9 @@ $(document).ready(function (){
     id = getURLParameter('id');
     getShow(id, 1);
     $('#ilovethis').on("click", gotoBuyPage);
+
 });
+
 
 function getURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;

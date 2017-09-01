@@ -68,4 +68,11 @@ public enum Constants {
     public static final String ADD_FAV_SHOW = "addFavoriteShow";
     public static final String ADD_FAV_LOCATION = "addFavoriteLocation";
     public static final String GET_FAVORITES = "getMyFavorites";
+    public static final String CHECK_LOGGED = "checkIfLoggedUser";
+    public static final String GET_FAV_SHOWS = "getFavoritesShows";
+    public static final String GET_FAV_LOCS = "getFavoritesLocations";
+    public static final String REMOVE_FAV_LOC = "removeLocFav";
+    public static final String FAV_LOC_TO_REMOVE = "locKeyword";
+    public static final String REMOVE_FAV_SHOW = "removeShowFav";
+    public static final String FAV_SHOW_TO_REMOVE = "showKeyword";
 }

@@ -16,20 +16,15 @@ function redirect(){
 
 
 function createShowPage(show, i){
-    var preamble = $("#preamble");
-    var p = document.createElement("p");
     $('#showID').attr("showNum", show.m_ShowID);
     $('#showName').text(show.m_ShowName);
     $('#showDate').text(show.m_Date);
     $('#showLocation').text(show.m_Location);
-    $(p).attr('id', 'showAbout');
-    $(p).attr('class', 'space-after');
-    $(p).text(show.m_About);
+    $('#about').text(show.m_About);
     $('#showPicture').attr("src", show.m_PictureUrl);
     $('#numOfTickets').text("מספר כרטיסים שנרכשו: " + show.m_NumOfTickets);
     $('#total').text("סך הכל שולם: " + show.m_NumOfTickets * show.m_Price + "₪");
     $('#price').text("מחיר כרטיס: " + show.m_Price + "₪");
-    $(preamble).append(p);
 
     var seller = show.m_Seller;
 

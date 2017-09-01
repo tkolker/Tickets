@@ -1,13 +1,26 @@
 var counter = 0;
 
 $(document).ready(function (){
+    checkSignedInUser();
     runCrawler();
-
     getShows();
     $('#buttonSearchShow').on("click", gotoSearchShow);
     $('#loadMore').on("click", getShows);
     //runBravoCrawler();
 });
+
+function checkSignedInUser(){
+    $.ajax({
+        url: "login",
+        data: {
+            "ActionType": "checkIfLoggedUser",
+        },
+        success: function (result) {
+            if(parseInt(result) == 1)
+                window.location.replace("indexSignedUser.html");
+        }
+    });
+}
 
 
 function getShows(){

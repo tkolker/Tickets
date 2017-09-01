@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @MultipartConfig
 @WebServlet(name = "ShowServlet", urlPatterns = {"/SellTicket"})
@@ -65,6 +62,32 @@ public class ShowServlet extends HttpServlet {
                 //TODO: debug
                 getBoughtTickets(request, response, showsManager);
                 break;
+            case Constants.GET_FAV_LOCS:
+                getFavoritesKeyWordsLocation(request, response);
+                break;
+            case Constants.GET_FAV_SHOWS:
+                getFavoritesKeyWordsShow(request, response);
+                break;
+        }
+    }
+
+    private void getFavoritesKeyWordsShow(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        User user = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
+        request.setCharacterEncoding("UTF-8");
+
+        if(user.getFavShows() != null) {
+            response.getWriter().write(user.getFavShows());
+            response.getWriter().flush();
+        }
+    }
+
+    private void getFavoritesKeyWordsLocation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        User user = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
+        request.setCharacterEncoding("UTF-8");
+
+        if(user.getFavLocations() != null) {
+            response.getWriter().write(user.getFavLocations());
+            response.getWriter().flush();
         }
     }
 
@@ -72,26 +95,33 @@ public class ShowServlet extends HttpServlet {
         response.setContentType("application/json");
         ArrayList<ShowInterface> favorites = new ArrayList<>();
         HashSet<ShowInterface> checkSet = new HashSet<>();
+        String[] favLoc = null;
+        String[] favShow = null;
+        int favLocLen = 0, favShowLen = 0;
         String favLocStr = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getFavLocations();
         String favShowStr = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER)).getFavShows();
         List<ShowInterface> shows = showsManager.getAllShows(em);
 
-        String[] favLoc = favLocStr.split(",");
-        String[] favShow = favShowStr.split(",");
+        if(favLocStr != null) { favLoc = favLocStr.split(","); favLocLen = favLoc.length; }
+        if(favShowStr != null) { favShow = favShowStr.split(","); favShowLen = favShow.length; }
 
-        for(ShowInterface s: shows){
-            for(int i = 0; i < favLoc.length; i++){
-                if(s.getLocation().contains(favLoc[i])){
-                    favorites.add(s);
-                    checkSet.add(s);
+        if(favLocLen > 0) {
+            for (ShowInterface s : shows) {
+                for (int i = 0; i < favLocLen; i++) {
+                    if (s.getLocation().contains(favLoc[i])) {
+                        favorites.add(s);
+                        checkSet.add(s);
+                    }
                 }
             }
         }
 
-        for(ShowInterface s: shows){
-            for(int i = 0; i < favShow.length; i++){
-                if(s.getShowName().contains(favShow[i]) && !(checkSet.contains(s))){
-                    favorites.add(s);
+        if(favShowLen > 0) {
+            for (ShowInterface s : shows) {
+                for (int i = 0; i < favShowLen; i++) {
+                    if (s.getShowName().contains(favShow[i]) && !(checkSet.contains(s))) {
+                        favorites.add(s);
+                    }
                 }
             }
         }
@@ -99,8 +129,8 @@ public class ShowServlet extends HttpServlet {
         Gson gson = new Gson();
         String res = gson.toJson(favorites);
         String size = gson.toJson(favorites.size());
-        response.getWriter().write("[" + res + "," + size + "]");
-        response.getWriter().flush();
+        response.getWriter().write("[" + size + "," + res + "]");
+            response.getWriter().flush();
     }
 
     private void getMySellShows(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
@@ -285,11 +315,76 @@ public class ShowServlet extends HttpServlet {
             case Constants.ADD_FAV_SHOW:
                 addFavoriteShows(request, response, usersManager);
                 break;
+            case Constants.REMOVE_FAV_LOC:
+                removeFavoriteLocation(request, response, usersManager);
+                break;
+            case Constants.REMOVE_FAV_SHOW:
+                removeFavoriteShows(request, response, usersManager);
+                break;
         }
+    }
+
+    private void removeFavoriteShows(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
+        User user = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
+        String showToRemove = request.getParameter(Constants.FAV_SHOW_TO_REMOVE);
+        response.setContentType("application/json");
+        response.setContentType("text/html;charset=UTF-8");
+        ArrayList<String> shows = new ArrayList<>(Arrays.asList(user.getFavShows().split(",")));
+
+        for(String s:shows){
+            if(s.equals(showToRemove)){
+                shows.remove(s);
+                break;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(String s:shows){
+            sb.append(s);
+            sb.append(',');
+        }
+
+        String str = sb.toString();
+        str = (str.equals(""))? null: str;
+        user.setFavShows(str);
+        DBTrans.updateUserFavShows(em, user.getEmail(), str);
+
+        response.getWriter().write(user.getFavShows());
+        response.getWriter().flush();
+    }
+
+    private void removeFavoriteLocation(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
+        User user = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
+        String locToRemove = request.getParameter(Constants.FAV_LOC_TO_REMOVE);
+        response.setContentType("application/json");
+        response.setContentType("text/html;charset=UTF-8");
+        ArrayList<String> locs = new ArrayList<>(Arrays.asList(user.getFavLocations().split(",")));
+
+        for(String s:locs){
+            if(s.equals(locToRemove)){
+                locs.remove(s);
+                break;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(String s:locs){
+            sb.append(s);
+            sb.append(',');
+        }
+
+        String str = sb.toString();
+        str = (str.equals(""))? null: str;
+        user.setFavLocations(str);
+        DBTrans.updateUserFavLocation(em, user.getEmail(), str);
+
+        response.getWriter().write(user.getFavLocations());
+        response.getWriter().flush();
     }
 
     private void addFavoriteLocation(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
         response.setContentType("application/json");
+        response.setContentType("text/html;charset=UTF-8");
         User user = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER));
         String loc = request.getParameter(Constants.FAV_LOCATION);
         if(user.getFavLocations() == null){
@@ -298,16 +393,15 @@ public class ShowServlet extends HttpServlet {
         else{
             user.setFavLocations(user.getFavLocations() + loc.toLowerCase() + ",");
         }
-        updateUserOnDB(user.getEmail(), user, usersManager);
+        DBTrans.updateUserFavLocation(em, user.getEmail(), user.getFavLocations());
 
-        Gson gson = new Gson();
-        String locations = gson.toJson(user.getFavLocations());
-        response.getWriter().write(locations);
+        response.getWriter().write(user.getFavLocations());
         response.getWriter().flush();
     }
 
     private void addFavoriteShows(HttpServletRequest request, HttpServletResponse response, UsersManager usersManager) throws IOException {
         response.setContentType("application/json");
+        response.setContentType("text/html;charset=UTF-8");
         User user = ((User) request.getSession(false).getAttribute(Constants.LOGIN_USER));
         String show = request.getParameter(Constants.FAV_SHOW);
         if(user.getFavShows() == null){
@@ -317,20 +411,12 @@ public class ShowServlet extends HttpServlet {
             user.setFavShows(user.getFavShows() + show.toLowerCase() + ",");
         }
 
-        updateUserOnDB(user.getEmail(), user, usersManager);
+        DBTrans.updateUserFavShows(em, user.getEmail(), user.getFavShows());
 
-        Gson gson = new Gson();
-        String shows = gson.toJson(user.getFavShows());
-        response.getWriter().write(shows);
+        response.getWriter().write(user.getFavShows());
         response.getWriter().flush();
     }
 
-    private void updateUserOnDB(String id, User newUser, UsersManager usersManager) {
-        User userToUpdate = usersManager.getUserByEmail(id, em);
-        DBTrans.remove(em, userToUpdate);
-        DBTrans.persist(em, newUser);
-        em.close();
-    }
 
     private void buyTicket(HttpServletRequest request, HttpServletResponse response, /*Show show*/ ShowsManager showsManager) throws IOException, MessagingException {
         response.setContentType("application/json");

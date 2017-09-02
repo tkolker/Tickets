@@ -130,7 +130,6 @@ function buildFav(shows, div, type){
     for(var i = 0; i < favs.length - 1; i++){
         var t = document.createElement("h4");
         var x = document.createElement("button");
-        //$(x).text("✖");
         $(x).text("✘");
         $(x).attr("class", "tinyButton");
         $(x).on("click", {param1:favs[i], param2:type}, removeKey)

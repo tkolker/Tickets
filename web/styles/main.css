@@ -134,7 +134,7 @@ section#content #work-bio #links #contactSeller.unloved,section#content #work-bi
 section#content #work-bio #links #ilovethis.loved span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
 section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/home2.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
 section#content #work-bio #links #priceStatic{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fc3e3c;border-radius:40px;cursor:pointer;display:block;height:80px;text-align:center;width:80px}
-section#content #work-bio #links #priceStatic span{color: black; font-family: Gisha; font-size: large; margin-right: -30px; padding-top: 30px}
+section#content #work-bio #links #priceStatic span{color:#fff ; font-family: Gisha; font-size:large; line-height:80px;}
 section#content #work-visuals{float:right;width:60%}
 section#content #work-visuals ul{list-style:none}
 section#content #work-visuals ul li{line-height:0;margin-bottom:10px}
@@ -480,7 +480,7 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 }
 
 .msgTable {
-    font-family: arial, sans-serif;
+    font-family: Gisha;
     border-collapse: collapse;
     width: 100%;
 }
@@ -489,6 +489,10 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     border: 1px solid #dddddd;
     text-align: right;
     padding: 8px;
+}
+
+.msgTableElem:hover {
+    background-color: #FA8072;
 }
 
 .msgTableToggleColor:nth-child(even) {

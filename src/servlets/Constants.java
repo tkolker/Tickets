@@ -75,4 +75,8 @@ public enum Constants {
     public static final String FAV_LOC_TO_REMOVE = "locKeyword";
     public static final String REMOVE_FAV_SHOW = "removeShowFav";
     public static final String FAV_SHOW_TO_REMOVE = "showKeyword";
+    public static final String SEND_MSG = "sendMsg";
+    public static final String MSG = "message";
+    public static final String GET_INBOX = "getInbox";
+    public static final String GET_PHOTO = "getPhoto";
 }

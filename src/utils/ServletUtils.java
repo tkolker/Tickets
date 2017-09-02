@@ -3,19 +3,14 @@ package utils;
 import appManager.*;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import logic.ShowArchive;
 import servlets.Constants;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.Map;
-import java.util.Properties;
 
 public class ServletUtils {
 
@@ -24,6 +19,7 @@ public class ServletUtils {
     private static final String USER_SHOWS_MANAGER_ATTRIBUTE_NAME = "userShowsManager";
     private static final String USER_SHOW_BOUGHT_MANAGER_ATTRIBUTE_NAME = "userShowBoughtManager";
     private static final String SHOWS_ARCHIVE_MANAGER_ATTRIBUTE_NAME = "userShowsArchiveManager";
+    private static final String MESSAGE_MANAGER_ATTRIBUTE_NAME = "messageManager";
 
     public static UsersManager getUsersManager(ServletContext servletContext) {
         if (servletContext.getAttribute(USERS_MANAGER_ATTRIBUTE_NAME) == null) {
@@ -58,6 +54,13 @@ public class ServletUtils {
             servletContext.setAttribute(USER_SHOWS_MANAGER_ATTRIBUTE_NAME, new UserShowsManager());
         }
         return (UserShowsManager) servletContext.getAttribute(USER_SHOWS_MANAGER_ATTRIBUTE_NAME);
+    }
+
+    public static MessageManager getMessageManager(ServletContext servletContext) {
+        if (servletContext.getAttribute(MESSAGE_MANAGER_ATTRIBUTE_NAME) == null) {
+            servletContext.setAttribute(MESSAGE_MANAGER_ATTRIBUTE_NAME, new MessageManager());
+        }
+        return (MessageManager) servletContext.getAttribute(MESSAGE_MANAGER_ATTRIBUTE_NAME);
     }
 
     public static String uploadImageToCloud(HttpServletRequest request, int type) throws IOException {

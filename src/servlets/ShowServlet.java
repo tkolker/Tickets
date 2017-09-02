@@ -68,7 +68,17 @@ public class ShowServlet extends HttpServlet {
             case Constants.GET_FAV_SHOWS:
                 getFavoritesKeyWordsShow(request, response);
                 break;
+            case Constants.GET_PHOTO:
+                getShowPhoto(request, response, showsManager);
+                break;
         }
+    }
+
+    private void getShowPhoto(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
+        String pic = showsManager.getShowByID(em, Integer.parseInt(request.getParameter(Constants.SHOW_ID))).getPictureUrl();
+
+        response.getWriter().write(pic);
+        response.getWriter().flush();
     }
 
     private void getFavoritesKeyWordsShow(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -345,11 +355,15 @@ public class ShowServlet extends HttpServlet {
         }
 
         String str = sb.toString();
-        str = (str.equals(""))? null: str;
-        user.setFavShows(str);
-        DBTrans.updateUserFavShows(em, user.getEmail(), str);
+        if(str.equals("")) {
+            user.setFavShows(null);
+        }
+        else {
+            user.setFavShows(str);
+        }
+        DBTrans.updateUserFavShows(em, user.getEmail(), user.getFavShows());
 
-        response.getWriter().write(user.getFavShows());
+        response.getWriter().write(str);
         response.getWriter().flush();
     }
 
@@ -374,11 +388,15 @@ public class ShowServlet extends HttpServlet {
         }
 
         String str = sb.toString();
-        str = (str.equals(""))? null: str;
-        user.setFavLocations(str);
-        DBTrans.updateUserFavLocation(em, user.getEmail(), str);
+        if(str.equals("")) {
+            user.setFavLocations(null);
+        }
+        else {
+            user.setFavLocations(str);
+        }
+        DBTrans.updateUserFavLocation(em, user.getEmail(), user.getFavLocations());
 
-        response.getWriter().write(user.getFavLocations());
+        response.getWriter().write(str);
         response.getWriter().flush();
     }
 

@@ -115,7 +115,7 @@ section#content #pfd-work footer #other-projects a.previous-work{background-posi
 section#content #pfd-work footer #other-projects a.next-work{background-position:0 -60px}
 section#content #pfd-work:after,section#content #pfd-work:before{content:' ';display:table}
 section#content #pfd-work:after{clear:both}
-section#content #work-bio{left:0;position:fixed;top:0;width:40%}
+section#content #work-bio{left:0;position:relative;top:0;width:40%}
 section#content #work-bio #preamble h1{line-height:1em;padding-bottom:0}
 section#content #work-bio #preamble h2,section#content #work-bio #preamble p.space-after{padding-bottom:50px}
 section#content #work-bio #links{height:80px;list-style:none;margin:40px 0}
@@ -125,6 +125,11 @@ section#content #work-bio #links #ilovethis span{background:transparent;color:#f
 section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #links #ilovethis.signed:hover{background:#212328 url(../images/buy.png) no-repeat center}
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
 section#content #work-bio #links #ilovethis.signed span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
+section#content #work-bio #links #contactSeller span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
+section#content #work-bio #links #contactSeller span{background:transparent;color:#fff;font:300 15px/1.4em museo-sans,sans-serif;line-height:80px;padding-right:25px}
+section#content #work-bio #links #contactSeller{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fc3e3c;background:#fc3e3c url(../images/contact.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-align:center;width:80px}
+section#content #work-bio #links #contactSeller.unloved,section#content #work-bio #links #contactSeller:hover{background:#212328 url(../images/sendMsg.png) no-repeat center}
+
 /*section#content #work-bio #links #ilovethis.loved:hover{background-image:none}*/
 section#content #work-bio #links #ilovethis.loved span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
 section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/home2.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
@@ -468,4 +473,24 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 @keyframes animatetop {
     from {top: -300px; opacity: 0}
     to {top: 0; opacity: 1}
+}
+
+.disable{
+    background-color:#dfdddd;
+}
+
+.msgTable {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.msgTableElem {
+    border: 1px solid #dddddd;
+    text-align: right;
+    padding: 8px;
+}
+
+.msgTableToggleColor:nth-child(even) {
+    background-color: #dddddd;
 }

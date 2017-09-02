@@ -1,10 +1,25 @@
+var id;
+
 $(document).ready(function (){
-    var id = getURLParameter('id');
+    id = getURLParameter('id');
     $('#showId').attr("showNum", id);
     $('#showId').hide();
-    getShow(id, 0);
+    getShowPhoto(id);
     $('#buttonUpdateShow').on("click", updateShow);
 });
+
+function getShowPhoto(){
+        $.ajax({
+            url: "SellTicket",
+            data: {
+                "ActionType": "getPhoto",
+                "showID": id,
+            },
+            success: function (res) {
+                $('#showPicture').attr("src", res);
+            }
+        });
+}
 
 function updateShow(){
     var invalidInput = 0;

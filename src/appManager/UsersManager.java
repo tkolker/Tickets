@@ -36,9 +36,9 @@ public class UsersManager {
         return query.getSingleResult().getFirstName() + " " + query.getSingleResult().getLastName();
     }
 
-    public User getUserByEmail(String id, EntityManager em) {
-        TypedQuery<User> query = em.createQuery("SELECT u FROM User u where u.m_Email=:id", User.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
+    public List<User> getUserByEmail(String mail, EntityManager em) {
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u where u.m_Email=:mail", User.class);
+        query.setParameter("mail", mail);
+        return query.getResultList();
     }
 }

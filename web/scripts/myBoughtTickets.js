@@ -78,5 +78,5 @@ function buildMyShows(n, shows){
 
 function redirect(event){
     var show = event.data.param;
-    window.location.replace("mySellShow.html?id="+show.m_ShowID);
+    window.location.replace("showPageStatic.html?id="+show.m_ShowID);
 }

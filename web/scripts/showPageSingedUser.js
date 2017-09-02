@@ -4,8 +4,12 @@ $(document).ready(function (){
     id = getURLParameter('id');
     getShow(id, 1);
     $('#ilovethis').on("click", gotoBuyPage);
-
+    $('#contactSeller').on("click", gotoSendMsg);
 });
+
+function gotoSendMsg() {
+    window.open("sendMessage.html?id=" + id, "Contact seller", 'width=450, height=300');
+}
 
 
 function getURLParameter(name) {

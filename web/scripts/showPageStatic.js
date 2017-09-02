@@ -16,33 +16,52 @@ function redirect(){
 
 
 function createShowPage(show, i){
-    $('#showID').attr("showNum", show.m_ShowID);
-    $('#showName').text(show.m_ShowName);
-    $('#showDate').text(show.m_Date);
-    $('#showLocation').text(show.m_Location);
-    $('#about').text(show.m_About);
+    var a, h1, span, img, h2first, h2second, h2third, divMain, p1, div1, a1, h2four, h2five;
+    a = document.createElement('a');
+    h1 = document.createElement('h1');
+    span = document.createElement('span');
+    img = document.createElement('img');
+    h2first = document.createElement('h4');
+    h2second = document.createElement('h4');
+    h2third = document.createElement('h4');
+    h2four = document.createElement('h4');
+    h2five = document.createElement('h4');
+    div1 = document.createElement('div');
+    p1 = document.createElement('p');
+    a1 = document.createElement('a');
+    divMain = $('#preamble');
+
+    a.setAttribute("showNum", show.m_ShowID);
+    $(divMain).append(a);
+    h1.setAttribute("id", "showName");
+    $(h1).text(show.m_ShowName);
+    $(divMain).append(h1);
+
+    h2first.setAttribute("id", "showDate");
+    $(h2first).text(show.m_Date);
+    span.appendChild(h2first);
+    h2second.setAttribute("id", "showLocation");
+    $(h2second).text(show.m_Location);
+    span.appendChild(h2second);
+    h2third.setAttribute("id", "price");
+    $(h2third).text("מחיר כרטיס: " + show.m_Price + "₪");
+    span.appendChild(h2third);
+    h2four.setAttribute("id", "numOfTickets");
+    $(h2four).text("מספר כרטיסים שנרכשו: " + show.m_NumOfTickets);
+    span.appendChild(h2four);
+    h2five.setAttribute("id", "total");
+    $(h2five).text("סך הכל שולם: " + show.m_NumOfTickets * show.m_Price + "₪");
+    span.appendChild(h2five);
+    div1.setAttribute("class", "DivToScroll");
+    $(p1).text(show.m_About);
+    div1.appendChild(p1);
+    span.appendChild(div1);
+    $(divMain).append(span);
+
     $('#showPicture').attr("src", show.m_PictureUrl);
-    $('#numOfTickets').text("מספר כרטיסים שנרכשו: " + show.m_NumOfTickets);
-    $('#total').text("סך הכל שולם: " + show.m_NumOfTickets * show.m_Price + "₪");
-    $('#price').text("מחיר כרטיס: " + show.m_Price + "₪");
-
-    var seller = show.m_Seller;
-
-    if(!seller) {
-        i =0;
-        $('#comboBox').hide();
-    }
-
-    if(i == 1){
-        var combo = $('#comboBox');
-        var i, option;
-        for(i = 0; i < show.m_NumOfTickets; i++){
-            option = document.createElement('option');
-            $(option).attr("value", i+1);
-            $(option).text(i+1);
-            $(combo).append(option);
-        }
-    }
+    $('#ilovethis span').text(show.m_Price + "₪");
+    $('#ilovethis').attr("sellerType", show.m_Seller);
+    $('#ilovethis').attr("buyRef", show.m_BuyRef);
 }
 
 function getShow(id, i){

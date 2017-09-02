@@ -25,7 +25,7 @@
     <div id="container" style="overflow: auto">
         <section id="content">
             
-<div id="pfd-work">
+<div id="pfd-work" style="overflow-scrolling: auto">
 	<div id="work-bio">
 		<header>
 			<div id="pfd">
@@ -35,14 +35,6 @@
             </div>
 
             <div id="preamble">
-                <a id="showID"></a>
-                <h1 id="showName"></h1>
-                <span>
-                    <h2 id="showDate"></h2><br>
-                    <h2 id="showLocation"></h2>
-                    <p id="showAbout"></p>
-                </span>
-
 			</div>
             
             <ul id="links">
@@ -105,8 +97,11 @@
     
     <script src="scripts/work-bio.js"></script>
 
-
-
+    <script>
+        $(document).ready(function () {
+            PfdMenu._ctor();
+        });
+    </script>
 
 </body>
 </html>

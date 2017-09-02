@@ -47,7 +47,7 @@ public class Show implements Serializable, ShowInterface {
         m_NumOfTickets = numOfTickets;
         m_About = about;
         m_BuyRef = "buyPage.html?id=" + m_ShowID;
-    }
+}
 
     public Show(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about){
         m_ShowID = id;

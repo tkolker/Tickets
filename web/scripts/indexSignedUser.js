@@ -56,7 +56,7 @@ function buildIndex(numOfShows, shows){
     var ul = document.createElement('ul');
     var our_shows = $("#our-shows").empty();
 
-    if(numOfShows < n){
+    if(numOfShows <= n){
         n = numOfShows;
         $('#loadMore').hide();
     }

@@ -9,6 +9,14 @@ import java.util.Properties;
 
 public class EmailUtils {
 
+    public static String builtEmailBodyForNewMessage(String sellerName, String buyerName)
+    {
+        StringBuilder text = new StringBuilder("היי ").append(sellerName).append(",").append("\n\n\n").
+                append("התקבלה הודעה חדשה מאת ").append(buyerName).append(".").append("\n\n\n").
+                append("★ צוות מכרטסים");
+        return text.toString();
+    }
+
     public static String builtEmailBodyForBuyer(String sellerEmail, String sellerName, ShowArchive show, String buyerName)
     {
         int totalAmount = show.getShowPrice() * show.getShowTickets();
@@ -16,7 +24,7 @@ public class EmailUtils {
                 append("\n\n\n").append("קנית ").append(show.getShowTickets()).append(" כרטיסים להופעה ").append(show.getShowName()).append(".")
                 .append("\n\n").append("סך הכל שולם ").append(totalAmount).append(" שקלים חדשים.").append("\n\n").append("מספר הזמנה: ").append(show.getKey()).append(".\n\n")
                 .append("ליצירת קשר עם המוכר: ").append("\n").append(sellerName).append(" ").append(sellerEmail).append("\n\n\n")
-                .append("צוות מכרטסים");
+                .append("★ צוות מכרטסים");
         return text.toString();
     }
 
@@ -25,8 +33,8 @@ public class EmailUtils {
         int totalAmount = show.getShowPrice() * show.getShowTickets();
         StringBuilder text = new StringBuilder("היי ").append(sellerName).append(",").
                 append("\n\n").append("נרכשו ").append(show.getShowTickets()).append(" כרטיסים להופעה ").append(show.getShowName()).append(" שפירסמת למכירה.")
-                .append("\n\n").append("סך הכל הועבר לחשבונך").append(totalAmount).append("שקלים חדשים.").append("\n\n").append("ליצירת קשר עם הקונה: ").append("\n").append(buyerName).append(" ").append(buyerEmail).append("\n\n\n")
-                .append("צוות מכרטסים");
+                .append("\n\n").append("סך הכל הועבר לחשבונך ").append(totalAmount).append(" שקלים חדשים.").append("\n\n").append("ליצירת קשר עם הקונה: ").append("\n").append(buyerName).append(" ").append(buyerEmail).append("\n\n\n")
+                .append("★ צוות מכרטסים");
         return text.toString();
     }
 
@@ -42,6 +50,14 @@ public class EmailUtils {
         String body = builtEmailBodyForBuyer(sellerEmail, sellerName, show, buyerName);
         String subject = "קנית כרטיס במכרטסים!";
         sendEmail(buyerEmail, subject, body);
+
+        return true;
+    }
+
+    public static boolean sendEmailOfNewMessage(String sellerEmail, String sellerName, String buyerName) {
+        String body = builtEmailBodyForNewMessage(sellerName, buyerName);
+        String subject = "התקבלה הודעה חדשה!";
+        sendEmail(sellerEmail, body, subject);
 
         return true;
     }

@@ -429,6 +429,15 @@ public class ShowServlet extends HttpServlet {
         Show showToBuy = showsManager.getShowByID(em, showID);
         UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
         UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
+        ShowsArchiveManager showsArchiveManager = ServletUtils.getShowsArchiveManager(getServletContext());
+
+        if (showsArchiveManager.getAllShows(em).size() > 0) {
+            ShowArchiveNumber.showArchiveNumber = showsArchiveManager.getAllShows(em).get(showsArchiveManager.getAllShows(em).size() - 1).getShowID() + 1;
+        }
+        else
+        {
+            ShowArchiveNumber.showArchiveNumber = 0;
+        }
 
         if(showToBuy != null)
         {

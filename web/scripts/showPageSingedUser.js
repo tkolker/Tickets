@@ -23,7 +23,7 @@ function gotoBuyPage(){
         window.location.replace(buyRef + "&quantity=" + num);
     }
     else{
-        window.location.replace(buyRef);
+        window.open(buyRef);
     }
 }
 

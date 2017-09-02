@@ -34,6 +34,13 @@ h1, h2, h3, h4, h5, h6 {
     font-family: Gisha;
 }
 
+h5 {
+    color:#80807e;
+    font:300 15px/1.4em museo-sans,sans-serif;
+    right: 30px;
+    position: relative;
+}
+
 img {
   border-style: none;
   vertical-align: bottom; }
@@ -72,7 +79,7 @@ section#content .strong{color:#212328;}
 section#content header{padding:0 30px 30px; font-family: Gisha;}
 section#content #pfd{padding:30px 0}
 section#content #pfd img{height:127px;width:270px;margin-right:70px}
-section#content #preamble,section#content article{max-width:1200px}
+section#content #preamble,section#content article{max-width:1300px}
 section#content #preamble h1,section#content article h1{color:#212328;font:300 22px/1.2em Source Sans Pro,sans-serif;padding-bottom:1em}
 section#content #preamble h2,section#content article h2{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;padding-bottom:1em}
 section#content #preamble h3,section#content article h3{color:#212328;font:300 15px/1.4em museo-sans,sans-serif}
@@ -119,13 +126,15 @@ section#content #work-bio #links #ilovethis.unloved,section#content #work-bio #l
 section#content #work-bio #links #ilovethis.unloved span,section#content #work-bio #links #ilovethis:hover span{display:none}
 section#content #work-bio #links #ilovethis.signed span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
 /*section#content #work-bio #links #ilovethis.loved:hover{background-image:none}*/
-section#content #work-bio #links #ilovethis.loved:hover span{display:inline}
+section#content #work-bio #links #ilovethis.loved span{color:#fff; font-family: Gisha; font-size: large; margin-right: -30px}
 section#content #work-bio #links #home{-moz-borderradius:40px;-webkit-borderradius:40px;background:#fc3e3c url(../images/home2.png) no-repeat center;border-radius:40px;cursor:pointer;display:block;height:80px;text-indent:-8000px;width:80px}
+section#content #work-bio #links #priceStatic{-moz-borderradius:40px;-webkit-borderradius:40px;background-color:#fc3e3c;border-radius:40px;cursor:pointer;display:block;height:80px;text-align:center;width:80px}
+section#content #work-bio #links #priceStatic span{color: black; font-family: Gisha; font-size: large; margin-right: -30px; padding-top: 30px}
 section#content #work-visuals{float:right;width:60%}
 section#content #work-visuals ul{list-style:none}
 section#content #work-visuals ul li{line-height:0;margin-bottom:10px}
 section#content #work-visuals ul li img{width:100%}
-section#content #preamble a.read-more{border-style:none;color:#212328;font:300 15px/1.4em Source Sans Pro,sans-serif;text-decoration:none}  section#content #preamble a.read-more:hover{color:#80807e}
+section#content #preamble a.read-more{border-style:none;color:#212328;text-decoration:none; font-size: large; font-family: Gisha;}  section#content #preamble a.read-more:hover{color:#80807e}
 section #what-we-do header{background:transparent url(../images/concert_crowd.jpg) no-repeat 50% bottom fixed;padding:0 60px}
 section#content #what-we-do header #preamble{padding-bottom:60px}
 section #what-we-do article{padding:120px 60px}
@@ -229,6 +238,19 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     font-family: Gisha;
     padding-right: 25px;
 }
+.inputBoxUpdate{
+    font-family: Gisha;
+    font-size: 1.5em;
+    width: 70%;
+    height: 5%;
+    padding-bottom:3px;
+    padding-top:3px;
+    border: solid 1.5px #778899;
+    border-radius: 4px;
+    right: 500px;
+    offset-start: 25px;
+}
+
 .inputBox{
     font-family: Gisha;
     font-size: 1.5em;
@@ -329,7 +351,7 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     padding-bottom:20px;
     padding-top:5px;
     margin-bottom: 30px;
-    margin-inside: 5px;
+    margin-inside: 150px;
     border: solid 1.5px #778899;
     border-radius: 10px;
 }
@@ -384,14 +406,18 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 
 .tinyButton{
     font-family: Gisha;
-    -webkit-appearance: button;
+    -webkit-appearance: none;
     -moz-appearance: button;
-    width: 5px;
-    height: 5px;
+    float: right;
+    font-size: 0.8em;
+    width: 3%;
+    height: 4%;
     color: #212328;
-    background-color: transparent;
-    border-bottom-color: #aaaaaa;
-    border-bottom-width: thin;
+    background-color: #fbfbfb;
+    padding-bottom:3px;
+    padding-top:3px;
+    border: solid 1px #aaaaaa;
+    border-radius: 2px;
 }
 
 #comboBox{
@@ -411,6 +437,20 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     font-size: 1.5em; !important;
     width: 10%; !important;
     height: 50%; !important;
+}
+
+.DivToScroll{
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #3B3C3E;
+    font-family: Gisha;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    overflow:scroll;
+    overflow-x:hidden;
+    height:72px;
+    alignment: right;
 }
 
 #LoadMoreContainer {

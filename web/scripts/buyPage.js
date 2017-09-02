@@ -1,6 +1,7 @@
 var id;
 var num;
 var price;
+var requestStatus;
 
 $(document).ready(function (){
     $('#paypal-button').on("click", performPurchase);
@@ -21,9 +22,9 @@ function createBuyShowPage(show, i){
     $('#showName').text(show.m_ShowName);
     $('#showDate').text(show.m_Date);
     $('#showLocation').text(show.m_Location);
-    $('#price').text("מחיר: " + show.m_Price + "ש\"ח");
+    $('#price').text("מחיר: " + show.m_Price + " ש\"ח");
     $('#quantity').text("מספר כרטיסים: " + num);
-    $('#total').text("סך הכל לתשלום: " + show.m_Price*num + "ש\"ח");
+    $('#total').text("סך הכל לתשלום: " + show.m_Price*num + " ש\"ח");
     $('#total').attr("totalAmount", show.m_Price*num);
     $('#showPicture').attr("src", show.m_PictureUrl);
     $('#ilovethis').text(show.m_Price);
@@ -70,7 +71,7 @@ function performPurchase(){
             "numOfTicketsToBuy" : num,
         },
         success: function (data) {
-            var requestStatus = data[0];
+            requestStatus = data[0];
             var  messageRequestStatus = data[1];
             showResponse(requestStatus, messageRequestStatus);
 
@@ -110,5 +111,7 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
-    window.location.replace("myBoughtTickets.html");
+    if(requestStatus != 7) {
+        window.location.replace("myBoughtTickets.html");
+    }
 }

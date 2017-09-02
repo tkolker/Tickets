@@ -56,11 +56,11 @@ function buildFav(shows, div, type){
     for(var i = 0; i < favs.length - 1; i++){
         var t = document.createElement("h4");
         var x = document.createElement("button");
-        $(x).text("x");
+        //$(x).text("✖");
+        $(x).text("✘");
         $(x).attr("class", "tinyButton");
         $(x).on("click", {param1:favs[i], param2:type}, removeKey)
         $(t).text(favs[i]);
-        $(t).attr("style", "padding:5px;");
         $(span).append(x);
         $(span).append(t);
     }
@@ -81,8 +81,8 @@ function getMyBoughtShows(){
             var numOfShows = shows[0];
             var showsArr = shows[1];
             var boughtDiv = $('#myBoughtShow').empty();
-            var header = document.createElement('h4');
-            $(header).text("כרטיסים שרכשתי");
+            var header = document.createElement('h5');
+            $(header).text("❯ כרטיסים שרכשתי");
             $(boughtDiv).append(header).append('<br>');
             var goto = "window.location.replace(\"myBoughtTickets.html\")";
             buildShows(numOfShows, showsArr, boughtDiv, 1, goto);
@@ -102,8 +102,8 @@ function getMySellShows(){
             var numOfShows = shows[0];
             var sellDiv = $('#mySellShow').empty();
             var showsArr = shows[1];
-            var header = document.createElement('h4');
-            $(header).text("כרטיסים שאני מוכר");
+            var header = document.createElement('h5');
+            $(header).text("❯ כרטיסים שאני מוכר");
             $(sellDiv).append(header).append('<br>');
             var goto = "window.location.replace(\"myShows.html\")";
             buildShows(numOfShows, showsArr, sellDiv, 0, goto);
@@ -152,8 +152,8 @@ function getMyFavorites(){
         success: function (shows) {
             var numOfShows = shows[0];
             var showsArr = shows[1];
-            var header = document.createElement('h4');
-            $(header).text("כרטיסים מומלצים");
+            var header = document.createElement('h5');
+            $(header).text("❯ כרטיסים מומלצים");
             var favDiv = $('#recommended').empty();
             $(favDiv).append(header).append('<br>');
             var goto = "window.location.replace(\"myFavorites.html\")";

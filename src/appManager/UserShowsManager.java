@@ -6,10 +6,6 @@ import logic.UserShowsInterface;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +17,11 @@ public class UserShowsManager implements UserShowsManagerInterface{
         return m_UserShowsList;
     }
 
-    public UserShows getUserShow(String userEmail, int showID)
+    public UserShows getUserShow(String userEmail, int showID, EntityManager em)
     {
-        for(UserShows u: m_UserShowsList){
+        List<UserShows> usList = getAllShows(em);
+
+        for(UserShows u: usList){
             if(u.getUserID().equals(userEmail)){
                 if(u.getShowId() == showID){
                     return u;

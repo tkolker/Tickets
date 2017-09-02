@@ -309,8 +309,7 @@ public class ShowServlet extends HttpServlet {
                 updateShow(request, response, showId, showsManager);
                 break;
             case Constants.DELETE_SHOW:
-                show = (Show) request.getSession(false).getAttribute(Constants.SHOW);
-                removeShowFromDB(request, response, show, showsManager);
+                removeShowFromDB(request, response, showsManager);
                 break;
             case Constants.BUY_TICKET:
                 try {
@@ -607,7 +606,7 @@ public class ShowServlet extends HttpServlet {
         return true;
     }
 
-    private void removeShowFromDB(HttpServletRequest request, HttpServletResponse response, Show show, ShowsManager showsManager) throws IOException {
+    private void removeShowFromDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
         response.setContentType("application/json");
 
         Show showToRemove;
@@ -626,9 +625,8 @@ public class ShowServlet extends HttpServlet {
             validInput = Constants.SHOW_DELETE_SUCCESSFULLY;
             showName = showToRemove.getShowName();
             DBTrans.remove(em, showToRemove);
-            int numOfShowUser = ServletUtils.getUserShowsManager(getServletContext()).countAll(em) + 1;
             UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
-            UserShows userShowToUpdate = userShowsManager.getUserShow(userFromSession.getEmail(), showID);
+            UserShows userShowToUpdate = userShowsManager.getUserShow(userFromSession.getEmail(), showID, em);
             DBTrans.remove(em, userShowToUpdate);
         }
 

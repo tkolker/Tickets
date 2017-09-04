@@ -4,8 +4,8 @@ function createShowPage(show, i){
     h1 = document.createElement('h1');
     span = document.createElement('span');
     img = document.createElement('img');
-    h2first = document.createElement('h2');
-    h2second = document.createElement('h2');
+    h2first = document.createElement('p');
+    h2second = document.createElement('p');
     div1 = document.createElement('div');
     p1 = document.createElement('p');
     a1 = document.createElement('a');

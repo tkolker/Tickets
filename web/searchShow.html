@@ -20,27 +20,34 @@
     <link rel="shortcut icon" href="/images/favicon_3.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon_3.ico" type="image/x-icon">
 </head>
-<body style="align:right" dir="rtl">
+<body style="align:right; position: relative;" dir="rtl">
 <div id="container">
     <section id="content">
-        <div id="pfd-work">
-            <div id="work-bio">
-                <header class="showList">
+        <div id="pfd-work" style="overflow-scrolling: auto">
+            <div>
+                <section>
+                <header>
                     <div id="pfd">
                         <a href="index.html">
                             <img src="images/logo.png" alt="מכרטסים">
                         </a>
+                        <span>
+                    <button id="buttonLogOutWindow">התנתק</button>
+                </span>
+                        <span>
+                    <h2 id="loggedInUserName" class="headerData"></h2>
+                </span>
                     </div>
-                    <div id="preamble">
-                        <ul id="myShowsList" style="list-style-type: none"></ul>
-                    </div>
+                        <h1 class="title">»  תוצאות החיפוש  «</h1>
+                        <div id="myShowList"></div>
                 </header>
+                    </section>
             </div>
         </div>
     </section>
-</div><!-- container -->
 
-<!--
+
+
     <footer id="msf">
         <div class="wrapper">
             <div id="legal">
@@ -48,8 +55,8 @@
             </div>
         </div>
     </footer>
--->
 
+</div><!-- container -->
 
 <nav id="toc">
     <ul>

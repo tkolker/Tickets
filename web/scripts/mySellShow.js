@@ -58,12 +58,13 @@ function closePopup() {
 
 window.onclick = function(event) {
     var modal = document.getElementById('myModal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-    if(removeShowRes != 4)
-    {
-        window.location.replace("myShows.html");
+    if(event.srcElement.getAttribute('id') != "buttonUpdateShow") {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        if (removeShowRes != 4) {
+            window.location.replace("myShows.html");
+        }
     }
 }
 

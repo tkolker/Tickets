@@ -1,5 +1,7 @@
 $(document).ready(function (){
     var searchNameShow = getURLParameter('search');
+    loadUserName();
+    $('#buttonLogOutWindow').on("click",logout);
     searchShow(searchNameShow);
 });
 
@@ -37,7 +39,10 @@ function buildSearchShows(n, shows){
     var date;
     var loc;
     var pic;
-    var list = $('#myShowsList');
+    var listDiv = $('#myShowList');
+    var list = document.createElement('ul');
+    $(list).attr("id", "showList");
+    $(list).attr("style", "list-style-type: none;padding-right:15px;");
     var i;
     var li, div1, div2, img, h2, p1, p2, p3;
 
@@ -54,9 +59,11 @@ function buildSearchShows(n, shows){
         div1.setAttribute("style", "display: inline-block");
         img.setAttribute("name", "showPicture");
         img.setAttribute("src", shows[i].m_PictureUrl);
-        img.setAttribute("class", "showListPic");
-        //img.setAttribute("width", "220");
-        //img.setAttribute("height", "160");
+        img.setAttribute("class", "showListPicListPage");
+        li.setAttribute("class", "showBoxListPage");
+        if(i%2 == 0 && n != 1){
+            li.setAttribute("style", "float:left");
+        }
         $(img).on("click", {param: shows[i]}, redirect);
 
 
@@ -65,6 +72,7 @@ function buildSearchShows(n, shows){
 
         div2.setAttribute("style", "display: inline-block");
         h2.setAttribute("name", "showName");
+        $(h2).attr("style", "overflow-wrap: break-word;");
         $(h2).text(shows[i].m_ShowName);
         $(h2).on("click", {param: shows[i]}, redirect);
 
@@ -85,6 +93,7 @@ function buildSearchShows(n, shows){
 
         $(list).append(li);
     }
+    $(listDiv).append(list);
 }
 
 function redirect(event){
@@ -100,4 +109,36 @@ function openPopup(msg) {
 function closePopup() {
     $('#searchBar').html("");
     document.getElementById('myModal').style.display = "none";
+}
+
+function logout(){
+    var actionType = "logout";
+
+    $.ajax({
+        url: "login",
+        type: "POST",
+        data: {
+            "ActionType": actionType,
+        },
+        success:
+            window.location.replace("index.html")
+    });
+}
+
+function loadUserName(){
+    var invalidInput = 0;
+
+    var actionType = "getUserFromSession"
+
+    if(invalidInput === 0) {
+        $.ajax({
+            url: "login",
+            data: {
+                "ActionType": actionType,
+            },
+            success: function (user){
+                $('#loggedInUserName').text(user);
+            }
+        });
+    }
 }

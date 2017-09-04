@@ -31,7 +31,7 @@ a:focus {
 
 h1, h2, h3, h4, h5, h6 {
   font-size: 100%;
-    font-family: Gisha;
+  font-family: Gisha;
 }
 
 h5 {
@@ -116,7 +116,7 @@ section#content #pfd-work footer #other-projects a.next-work{background-position
 section#content #pfd-work:after,section#content #pfd-work:before{content:' ';display:table}
 section#content #pfd-work:after{clear:both}
 section#content #work-bio{left:0;position:relative;top:0;width:40%}
-section#myShowList {right:30px ;position:relative;top:0;width:40%}
+/*section#myShowList {right:30px ;position:relative;top:0;width:40%}*/
 section#content #work-bio #preamble h1{line-height:1em;padding-bottom:0}
 section#content #work-bio #preamble h2,section#content #work-bio #preamble p.space-after{padding-bottom:50px}
 section#content #work-bio #links{height:80px;list-style:none;margin:40px 0}
@@ -250,6 +250,20 @@ div#message{
 
 
 h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
+
+.msgLabel{
+    font-family: Gisha;
+    font-size: 1.5em;
+    color: lightslategrey;
+    padding-right:20px;
+}
+
+.msgData{
+    font-family: Gisha;
+    font-size: 1.8em;
+    color: rgba(4, 2, 2, 0.99);
+    padding-right:30px;
+}
 
 #buttonUpdateShow, #buttonGoToUpdate, #buttonDeleteShow{
     font-family: Gisha;
@@ -393,6 +407,16 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     margin: auto;
 }
 
+.showListPicListPage {
+    width: 220px;
+    height: 160px; !important;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+    margin: auto;
+    padding-right: 20px;
+}
+
 .showProfilePic {
     width: 160px;
     height: 100px; !important;
@@ -417,8 +441,6 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     width: 100%;
     height:auto;
     -webkit-appearance: none;
-    font-size: 1em;
-    color: #FA8072;
     background-color: #f8f8f8;
     position: relative;
     top: 30px;
@@ -429,6 +451,33 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     border: solid 1.5px #778899;
     border-radius: 10px;
 }
+
+.showBoxListPage{
+    font-family: Gisha;
+    width: 47%;
+    height:auto;
+    -webkit-appearance: none;
+    font-size: 1em;
+    background-color: #f8efed;
+    position: relative;
+    top: 30px;
+    padding-bottom:20px;
+    padding-top:20px;
+    margin-bottom: 20px;
+    border: solid 1px rgba(99, 207, 202, 0.63);
+    border-radius: 10px;
+}
+
+.title{
+    font-family: Gisha;
+    font-size: 3em;
+    color: dimgrey;
+    position: relative;
+    top: 20px;
+    right: 100px;
+    padding-bottom: 20px;
+}
+
 
 .close {
     color: #aaa;

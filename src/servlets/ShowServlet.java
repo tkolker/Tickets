@@ -299,7 +299,6 @@ public class ShowServlet extends HttpServlet {
                 addShowToDB(request, response, showsManager);
                 break;
             case Constants.UPDATE_SHOW:
-                //show = Show.createShow(request.getParameter(Constants.SHOW_NAME), request.getParameter(Constants.SHOW_LOCATION), request.getParameter(Constants.PICTURE_URL), Integer.parseInt(request.getParameter(Constants.NUMBER_OF_TICKETS)), Integer.parseInt(request.getParameter(Constants.SHOW_PRICE)), LocalDateTime.parse(request.getParameter(Constants.SHOW_DATE)), request.getParameter(Constants.SHOW_ABOUT));
                 int showId = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
                 updateShow(request, response, showId, showsManager);
                 break;

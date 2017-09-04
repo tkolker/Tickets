@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import logic.Message;
 import logic.Show;
 import logic.User;
-import utils.EmailUtils;
 import utils.ServletUtils;
 
 import javax.persistence.EntityManager;
@@ -104,7 +103,7 @@ public class InboxServlet extends HttpServlet{
             msgId = msgs.get(msgs.size() - 1).getM_MsgId() + 1;
         }
 
-        EmailUtils.sendEmailOfNewMessage(receiver.getEmail(), receiverName, senderName);
+        //EmailUtils.sendEmailOfNewMessage(receiver.getEmail(), receiverName, senderName);
 
         Message newMsg = new Message(msgId, msg, sender.getEmail(), senderName, receiverID, receiverName, showId, showName);
         DBTrans.persist(em, newMsg);
@@ -137,8 +136,8 @@ public class InboxServlet extends HttpServlet{
         else {
             msgId = msgs.get(msgs.size() - 1).getM_MsgId() + 1;
         }
-
-        EmailUtils.sendEmailOfNewMessage(receiverId, receiverName, senderName);
+        //TODO:check why doesnt work
+        //EmailUtils.sendEmailOfNewMessage(receiverId, receiverName, senderName);
 
         Message newMsg = new Message(msgId, msg, sender.getEmail(), senderName, receiver.getEmail(), receiverName, showId, show.getShowName());
         DBTrans.persist(em, newMsg);

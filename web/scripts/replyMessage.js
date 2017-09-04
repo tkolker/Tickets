@@ -36,3 +36,8 @@ function sendMessage(){
 function closeSendMsg(){
     window.close();
 }
+
+window.onresize = function()
+{
+    window.resizeTo(450,300);
+}

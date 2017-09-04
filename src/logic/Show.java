@@ -81,11 +81,6 @@ public class Show implements Serializable, ShowInterface {
         return m_ShowName;
     }
 
-    @Override
-    public int getSeller() {
-        return m_Seller;
-    }
-
     public String getLocation() {
         return m_Location;
     }

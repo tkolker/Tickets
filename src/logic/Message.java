@@ -32,6 +32,8 @@ public class Message {
         m_ShowName = showName;
     }
 
+    public Message() {}
+
     public String getM_Msg() {
         return m_Msg;
     }

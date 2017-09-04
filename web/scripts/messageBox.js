@@ -8,8 +8,13 @@ $(document).ready(function (){
     show = getURLParameter('sh');
     msg = getURLParameter('m');
     buildMsg();
-    $('#sendMsgButton').on("click", gotoSendMessage);
     $('#closeMsgButton').on("click", closeSendMsg);
+    if(senderId == "mecartesim@gmail.com"){
+        $('#sendMsgButton').hide();
+    }
+    else {
+        $('#sendMsgButton').on("click", gotoSendMessage);
+    }
 });
 
 function buildMsg(){

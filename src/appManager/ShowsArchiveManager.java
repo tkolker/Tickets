@@ -18,7 +18,7 @@ public class ShowsArchiveManager implements ShowsManagerInterface{
 
     public List<ShowInterface> getAllShows(EntityManager entityManager)
     {
-        TypedQuery<ShowInterface> query = entityManager.createQuery("SELECT s FROM ShowArchive s ORDER BY s.m_ShowID", ShowInterface.class);
+        TypedQuery<ShowInterface> query = entityManager.createQuery("SELECT s FROM ShowArchive s ORDER BY s.m_Key", ShowInterface.class);
         return query.getResultList();
     }
 }

@@ -439,13 +439,14 @@ public class ShowServlet extends HttpServlet {
         int showID = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
         Show showToBuy = showsManager.getShowByID(em, showID);
         UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
+        MessageManager msgManager = ServletUtils.getMessageManager(request.getServletContext());
         UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
         ShowsArchiveManager showsArchiveManager = ServletUtils.getShowsArchiveManager(getServletContext());
         List<ShowInterface> showArchiveList = showsArchiveManager.getAllShows(em);
 
         if (showArchiveList.size() > 0) {
 
-            ShowArchiveNumber.showArchiveNumber = showArchiveList.get(showArchiveList.size()-1).getShowID() + 1;;
+            ShowArchiveNumber.showArchiveNumber = ((ShowArchive)showArchiveList.get(showArchiveList.size()-1)).getKey() + 1;;
         }
         else
         {
@@ -471,6 +472,7 @@ public class ShowServlet extends HttpServlet {
                 DBTrans.persist(em, userShowBought);
                 String sellerMail = userShowsManager.getUserByShowId(em, showID);
                 String sellerName = usersManager.getUserNameByEmail(em, sellerMail);
+                sendConfirmationMsg(msgManager, sellerMail, sellerName, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName(), showToBuy);
                 if (!EmailUtils.sendEmailToBuyer(sellerMail, sellerName, showToAddToUserShowBought, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName())
                         || !EmailUtils.sendEmailToSeller(sellerMail, sellerName, showToAddToUserShowBought, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName()))
                     messageRequestStatus = Constants.MESSAGE_NOT_SEND;
@@ -492,7 +494,31 @@ public class ShowServlet extends HttpServlet {
 
     }
 
-    //TODO: function needs to be checked after shows aren't fictive
+    private void sendConfirmationMsg(MessageManager msgManager, String sellerId, String sellerName, String buyerId, String buyerName, Show show) {
+        int msgSellerId, msgBuyerId;
+
+        List<Message> msgs = msgManager.getAllMessages(em);
+        if (msgs.size() == 0){
+            msgSellerId = 1;
+            msgBuyerId = 2;
+        }
+        else {
+            msgSellerId = msgs.get(msgs.size() - 1).getM_MsgId() + 1;
+            msgBuyerId = msgSellerId + 1;
+        }
+
+        String toSellerMsg = " היי" + sellerName + "\nנרכשו " + show.getNumOfTickets() + " כרטיסים להופעה " + show.getShowName() + " שפירסמת למכירה.\nסך הכל הועבר לחשבונך " + show.getNumOfTickets()*show.getShowPrice() + " ש\"ח\nליצירת קשר עם הקונה:\n" + buyerName + " " + buyerId + "\nצווחת מכרטסים";
+        String toBuyerMsg = " היי" + buyerName + "\nרכשת " + show.getNumOfTickets() + " כרטיסים להופעה " + show.getShowName() + " \nסך הכל חוייבת בחשבונך " + show.getNumOfTickets()*show.getShowPrice() + " ש\"ח\nליצירת קשר עם המוכר:\n" + sellerName + " " + sellerId + "\nצווחת מכרטסים";
+
+
+        Message toSeller = new Message(msgSellerId, toSellerMsg, "mecartesim@gmail.com", "מכרטסים", sellerId, sellerName, show.getShowID(), show.getShowName());
+        Message toBuyer = new Message(msgBuyerId, toBuyerMsg, "mecartesim@gmail.com", "מכרטסים", buyerId, buyerName, show.getShowID(), show.getShowName());
+        DBTrans.persist(em, toSeller);
+        DBTrans.persist(em, toBuyer);
+    }
+
+
+
     private void updateShow(HttpServletRequest request, HttpServletResponse response, int showID, ShowsManager showsManager) throws IOException {
         response.setContentType("application/json");
 

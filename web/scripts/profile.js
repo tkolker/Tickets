@@ -67,9 +67,19 @@ function buildInbox(n, msgs) {
         $(tr).append(td1);
         $(td2).text(msgs[i].m_SenderName);
         $(tr).append(td2);
-        $(td3).text(msgs[i].m_ShowName);
+        if(msgs[i].m_ShowName.length > 30){
+            $(td3).text("לחץ לפתיחת ההודעה");
+        }else {
+            $(td3).text(msgs[i].m_ShowName);
+        }
         $(tr).append(td3);
-        $(td4).text(msgs[i].m_Msg);
+
+        if(msgs[i].m_Msg.length > 30){
+            $(td4).text("לחץ לפתיחת ההודעה");
+        }else {
+            $(td4).text(msgs[i].m_Msg);
+        }
+
         $(tr).append(td4);
 
         $(table).append(tr);

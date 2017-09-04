@@ -81,7 +81,7 @@ section#content #pfd{padding:30px 0}
 section#content #pfd img{height:127px;width:270px;margin-right:70px}
 section#content #preamble,section#content article{max-width:1300px}
 section#content #preamble h1,section#content article h1{color:#212328;font:300 22px/1.2em Source Sans Pro,sans-serif;padding-bottom:1em}
-section#content #preamble h2,section#content article h2{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;padding-bottom:1em}
+section#content #preamble h2,section#content article h2{color:#80807e; font-size: small/*font:300 15px/1.4em museo-sans,sans-serif*/;padding-bottom:0.5em}
 section#content #preamble h3,section#content article h3{color:#212328;font:300 15px/1.4em museo-sans,sans-serif}
 section#content #preamble p,section#content article p{color:#80807e;font:300 15px/1.2em Source Sans Pro,sans-serif;padding-bottom:1em}
 section#content #preamble p.space-after,section#content article p.space-after{padding-bottom:50px}
@@ -481,7 +481,7 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 
 .msgTable {
     font-family: Gisha;
-    border-collapse: collapse;
+   /* border-collapse: collapse;*/
     width: 100%;
 }
 
@@ -491,7 +491,7 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     padding: 8px;
 }
 
-.msgTableElem:hover {
+.msgTable:hover {
     background-color: #FA8072;
 }
 

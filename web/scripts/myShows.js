@@ -26,7 +26,10 @@ function buildMyShows(n, shows){
     var date;
     var loc;
     var pic;
-    var list = $('#myShowsList');
+    var listDiv = $('#myShowList');
+    var list = document.createElement('ul');
+    $(list).attr("id", "showList");
+    $(list).attr("style", "list-style-type: none;padding-right:75px;");
     var i;
     var li, div1, div2, img, h2, p1, p2, p3;
 
@@ -35,17 +38,15 @@ function buildMyShows(n, shows){
         div1 = document.createElement('div');
         div2 = document.createElement('div');
         img = document.createElement('img');
-        h2 = document.createElement('h2');
-        p1 = document.createElement('p');
-        p2 = document.createElement('p');
-        p3 = document.createElement('p');
+        h2 = document.createElement('h5');
+        p1 = document.createElement('h5');
+        p2 = document.createElement('h5');
+        p3 = document.createElement('h5');
 
         div1.setAttribute("style", "display: inline-block");
         img.setAttribute("name", "showPicture");
         img.setAttribute("src", shows[i].m_PictureUrl);
         img.setAttribute("class", "showListPic");
-        //img.setAttribute("width", "220");
-        //img.setAttribute("height", "160");
         $(img).on("click", {param: shows[i]}, redirect);
 
 
@@ -74,6 +75,7 @@ function buildMyShows(n, shows){
 
         $(list).append(li);
     }
+    $(listDiv).append(list);
 }
 
 function redirect(event){

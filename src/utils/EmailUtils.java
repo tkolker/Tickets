@@ -6,6 +6,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.lang.String;
 
 public class EmailUtils {
 
@@ -81,6 +82,8 @@ public class EmailUtils {
             message.setFrom(new InternetAddress("mecartesim@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(mail));
+            //TODO: check if works
+            //message.setHeader("Content-Type", "text/plain; charset=\"utf-8\"");
             message.setSubject(subject);
             message.setText(body);
             Transport.send(message);

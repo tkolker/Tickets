@@ -116,6 +116,7 @@ section#content #pfd-work footer #other-projects a.next-work{background-position
 section#content #pfd-work:after,section#content #pfd-work:before{content:' ';display:table}
 section#content #pfd-work:after{clear:both}
 section#content #work-bio{left:0;position:relative;top:0;width:40%}
+section#myShowList {right:30px ;position:relative;top:0;width:40%}
 section#content #work-bio #preamble h1{line-height:1em;padding-bottom:0}
 section#content #work-bio #preamble h2,section#content #work-bio #preamble p.space-after{padding-bottom:50px}
 section#content #work-bio #links{height:80px;list-style:none;margin:40px 0}
@@ -189,6 +190,47 @@ footer#msf{bottom:0;left:0;position:absolute;width:100%;height: auto !important;
     padding-top:3px;
     border: solid 1.5px #778899;
     border-radius: 4px;
+}
+
+.buttonSmallWindow{
+    font-family: Gisha;
+    -webkit-appearance: none;
+    font-size: 1.5em;
+    width: 50px;
+    height: 30px;
+    color: #FA8072;
+    float:left;
+    position: fixed;
+    left:20px;
+    bottom:20px;
+    background-color: #f8f8f8;
+    margin-top:10px;
+    padding-bottom:3px;
+    padding-top:3px;
+    border: solid 1.5px #778899;
+    border-radius: 4px;
+}
+
+textarea#message{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+div#message{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .seeAllButton{

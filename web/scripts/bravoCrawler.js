@@ -1,20 +1,32 @@
 var result =[];
 
+
+
 function runBravoCrawler()
 {
-    $.ajax({
-        type: 'POST',
-        url: "https://api.apifier.com/v1/M6RWTHNRAEf9LEjnM/crawlers/Bravo/execute?token=8nbdTgSeXCkfk5tqyTZQeJ3hK",
-        async : false,
-        success: function(data){
-            var urlResults = data.resultsUrl;
-            getData(urlResults);
-        }
-    });
+        var request = new XMLHttpRequest();
 
+        request.open('GET', 'https://api.apifier.com/v1/wgTzvTpaaZNctRxHQ/crawlers/Bravo/lastExec?token=jdx5QZkCk7PcZ2WtL4Y6TNhPX');
+
+        request.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                var responseURL = this.responseURL;
+
+                $.ajax({
+                    url: responseURL,
+                    async: false,
+                    success: function (data) {
+                        var urlResults = data.resultsUrl;
+                        getBravoData(urlResults);
+                    }
+                });
+            }
+        };
+
+        request.send();
 }
 
-function getData(urlResults) {
+function getBravoData(urlResults) {
     var i = 0;
     $.ajax({
         type: 'GET',
@@ -23,7 +35,7 @@ function getData(urlResults) {
         async : false,
         success: function(data){
             while(data[i]!= null) {
-                writeToDB(data[i].pageFunctionResult);
+                writeBravoToDB(data[i].pageFunctionResult);
                 i++;
             }
         }
@@ -31,7 +43,7 @@ function getData(urlResults) {
 
 }
 
-function writeToDB(myData){
+function writeBravoToDB(myData){
     $.ajax({
         type: 'POST',
         url: "Crawlers",
@@ -45,6 +57,7 @@ function writeToDB(myData){
         }
     });
 }
+
 
 /*function runBravoCrawler() {
     // called on every page the crawler visits, use it to extract data from it

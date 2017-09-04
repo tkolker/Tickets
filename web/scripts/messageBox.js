@@ -1,21 +1,22 @@
-var id,d,s,sh,m;
+var showId,date,sender,show,msg, senderId;
 
 $(document).ready(function (){
-    id = getURLParameter('id');
-    d = getURLParameter('d');
-    s = getURLParameter('s');
-    sh = getURLParameter('sh');
-    m = getURLParameter('m');
+    showId = getURLParameter('id');
+    senderId = getURLParameter('sid');
+    date = getURLParameter('d');
+    sender = getURLParameter('s');
+    show = getURLParameter('sh');
+    msg = getURLParameter('m');
     buildMsg();
     $('#sendMsgButton').on("click", gotoSendMessage);
     $('#closeMsgButton').on("click", closeSendMsg);
 });
 
 function buildMsg(){
-    $('#from').text(s);
-    $('#date').text(d);
-    $('#show').text(sh);
-    $('#msg').text(m);
+    $('#from').text(sender);
+    $('#date').text(date);
+    $('#show').text(show);
+    $('#msg').text(msg);
 }
 
 function getURLParameter(name) {
@@ -23,7 +24,7 @@ function getURLParameter(name) {
 }
 
 function gotoSendMessage(){
-    window.location.replace("sendMessage.html?id=" + id);
+    window.location.replace("replyMessage.html?id=" + showId + "&sender=" + senderId);
 }
 
 function closeSendMsg(){

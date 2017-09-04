@@ -23,25 +23,14 @@ public class ShowArchive implements Serializable, ShowInterface{
     private Date m_Date;
     private String m_About;
     private int m_NumOfTickets;
-    private String m_Email;
 
     public ShowArchive(){
         m_ShowID = showArchiveNumber++;
     }
 
-    public ShowArchive(String name, String location, String url, int numOfTickets, int price, Date date, String about){
-        m_Key = showArchiveNumber++;
-        m_ShowName = name;
-        m_Location = location;
-        m_Price = price;
-        m_Date = date;
-        m_PictureUrl = url;
-        m_NumOfTickets = numOfTickets;
-        m_About = about;
-    }
 
-    public ShowArchive(int id, String name, String location, String url, int numOfTickets, int price, Date date, String about/*, String email*/){
-        m_Key = showArchiveNumber++;
+    public ShowArchive(int key, int id, String name, String location, String url, int numOfTickets, int price, Date date, String about){
+        m_Key = key;
         m_ShowID = id;
         m_ShowName = name;
         m_Location = location;
@@ -50,7 +39,6 @@ public class ShowArchive implements Serializable, ShowInterface{
         m_PictureUrl = url;
         m_NumOfTickets = numOfTickets;
         m_About = about;
-        //m_Email = email;
     }
 
     public int getShowPrice() { return  m_Price; }
@@ -67,11 +55,6 @@ public class ShowArchive implements Serializable, ShowInterface{
     @Override
     public int getSeller() {
         return Constants.INDIVIDUAL_SELLER;
-    }
-
-    @Override
-    public String getUserId() {
-        return m_Email;
     }
 
     public String getLocation()

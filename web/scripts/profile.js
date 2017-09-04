@@ -78,7 +78,7 @@ function buildInbox(n, msgs) {
 
 function openMsg(event){
     var msg = event.data.param;
-    window.open("messageBox.html?d=" + msg.m_Date + "&s=" + msg.m_SenderName + "&sh=" + msg.m_ShowName + "&m=" + msg.m_Msg + "&id=" + msg.m_ShowId, "Show message", 'width=450, height=300');
+    window.open("messageBox.html?d=" + msg.m_Date + "&s=" + msg.m_SenderName + "&sh=" + msg.m_ShowName + "&m=" + msg.m_Msg + "&id=" + msg.m_ShowId + "&sid=" + msg.m_SenderId, "Show message", 'width=450, height=300');
 }
 
 function addFavoriteLocation(){

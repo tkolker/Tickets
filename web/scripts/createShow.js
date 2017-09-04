@@ -48,6 +48,7 @@ function createShowPage(show, i){
         i =0;
         $(p2).hide();
         $(comboBox).hide();
+        $('#contactSeller').hide();
     }
 
     if(i == 1){

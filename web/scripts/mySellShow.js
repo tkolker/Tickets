@@ -61,7 +61,7 @@ window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
-    if(requestStatus != 4)
+    if(removeShowRes != 4)
     {
         window.location.replace("myShows.html");
     }
@@ -104,10 +104,6 @@ function createMySellShow(show, i) {
     h1.setAttribute("id", "showName");
     $(h1).text(show.m_ShowName);
     $(divMain).append(h1);
-    p1.setAttribute("id","showPrice");
-    $(p1).text(show.m_Price);
-    $(divMain).append(p1);
-    $(p1).hide();
     p2.setAttribute("id", "showDate");
     $(p2).text(show.m_Date);
     $(divMain).append(p2);

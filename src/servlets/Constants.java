@@ -79,4 +79,8 @@ public enum Constants {
     public static final String MSG = "message";
     public static final String GET_INBOX = "getInbox";
     public static final String GET_PHOTO = "getPhoto";
+    public static final String ZAPPA = "zappa";
+    public static final String BRAVO = "bravo";
+    public static final String REPLY_MSG = "replyMsg";
+    public static final String MSG_RECEIVER = "msgReceiver";
 }

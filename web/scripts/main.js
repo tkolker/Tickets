@@ -1,5 +1,5 @@
 ﻿//;(function($){
-	var ReadMore = {
+	/*var ReadMore = {
 		init: function(opts) {
 			$('.read-more').each(function () {
 			    var _p = $(this).parent();
@@ -38,4 +38,5 @@
 		    this._slideUp(e, _o);
 		}
 	};
+	*/
 //})(jQuery);

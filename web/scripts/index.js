@@ -1,13 +1,31 @@
 var counter = 0;
 
 $(document).ready(function (){
+    zappaDone = 0;
     checkSignedInUser();
-    runCrawler();
-    getShows();
+
+    if(hasOneDayPassed()) {
+        runBravoCrawler();
+        setTimeout(runZappaCrawler, 20000);
+        setTimeout(getShows,30000);
+    }
+    else {
+        getShows();
+    }
+
     $('#buttonSearchShow').on("click", gotoSearchShow);
     $('#loadMore').on("click", getShows);
-    //runBravoCrawler();
 });
+
+function hasOneDayPassed(){
+    var date = new Date().toLocaleDateString();
+
+    if( localStorage.getItem("date") == date )
+        return false;
+
+    localStorage.setItem("date", date);
+    return true;
+}
 
 function checkSignedInUser(){
     $.ajax({

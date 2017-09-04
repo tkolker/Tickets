@@ -162,14 +162,10 @@ public class ShowServlet extends HttpServlet {
 
     private void createShowArrayResult(List<ShowInterface> shows, List<UserShowsInterface> userShowInList, ArrayList<ShowInterface> res)
     {
-        int i = 0;
         for (ShowInterface s : shows) {
-            if (s.getShowID() == userShowInList.get(i).getShowId()) {
+            for(UserShowsInterface u:userShowInList)
+            if (s.getShowID() == u.getShowId()) {
                 res.add(s);
-                if (i < userShowInList.size() - 1)
-                    i++;
-                else
-                    break;
             }
         }
     }
@@ -201,11 +197,10 @@ public class ShowServlet extends HttpServlet {
 
     private void createShowArchiveArrayResult(List<ShowInterface> shows, List<UserShowBought> userShowBought, ArrayList<ShowInterface> res)
     {
-        int i,j = 0;
-        for (i = 0; i < shows.size(); i++) {
-            if(j < userShowBought.size() && shows.get(i).getShowID() == userShowBought.get(j).getShowId()){
-                res.add(shows.get(i));
-                j++;
+        for (ShowInterface s:shows) {
+            for(UserShowBought u:userShowBought)
+            if(s.getShowID() == u.getShowId()){
+                res.add(s);
             }
         }
     }
@@ -447,9 +442,11 @@ public class ShowServlet extends HttpServlet {
         UserShowsManager userShowsManager = ServletUtils.getUserShowsManager(getServletContext());
         UsersManager usersManager = ServletUtils.getUsersManager(getServletContext());
         ShowsArchiveManager showsArchiveManager = ServletUtils.getShowsArchiveManager(getServletContext());
+        List<ShowInterface> showArchiveList = showsArchiveManager.getAllShows(em);
 
-        if (showsArchiveManager.getAllShows(em).size() > 0) {
-            ShowArchiveNumber.showArchiveNumber = showsArchiveManager.getAllShows(em).get(showsArchiveManager.getAllShows(em).size() - 1).getShowID() + 1;
+        if (showArchiveList.size() > 0) {
+
+            ShowArchiveNumber.showArchiveNumber = showArchiveList.get(showArchiveList.size()-1).getShowID() + 1;;
         }
         else
         {
@@ -459,12 +456,14 @@ public class ShowServlet extends HttpServlet {
         if(showToBuy != null)
         {
             // Add the new show to Show Archive DB
-            ShowArchive showToAddToUserShowBought = new ShowArchive(showToBuy.getShowID(), showToBuy.getShowName(), showToBuy.getLocation(), showToBuy.getPictureUrl(), numOfTicketsToBuy, showToBuy.getShowPrice(), showToBuy.getShowDate(), showToBuy.getAbout()/*, userFromSession.getEmail()*/);
+            ShowArchive showToAddToUserShowBought = new ShowArchive(ShowArchiveNumber.showArchiveNumber, showToBuy.getShowID(), showToBuy.getShowName(), showToBuy.getLocation(), showToBuy.getPictureUrl(), numOfTicketsToBuy, showToBuy.getShowPrice(), showToBuy.getShowDate(), showToBuy.getAbout()/*, userFromSession.getEmail()*/);
             DBTrans.persist(em, showToAddToUserShowBought);
             // Add to user show bought DB
             UserShowBoughtManager userShowBoughtManager = ServletUtils.getUserShowBoughtManager(getServletContext());
-            UserShowBoughtNumber.userShowNumber = userShowBoughtManager.getAllShows(em).size();
-            UserShowBought userShowBought = new UserShowBought(UserShowsNumber.userShowNumber++, userFromSession.getEmail(), showToAddToUserShowBought.getShowID());
+            //TODO: check that query works properly
+            List<UserShowBought> userShowBoughtList = userShowBoughtManager.getAllShows(em);
+            int userShowNum = userShowBoughtList.get(userShowBoughtList.size()-1).getKey() + 1;
+            UserShowBought userShowBought = new UserShowBought(userShowNum, userFromSession.getEmail(), showToAddToUserShowBought.getShowID());
             if (userShowBought == null)
             {
                 requestStatus = Constants.SHOW_BOUGHT_FAILURE;

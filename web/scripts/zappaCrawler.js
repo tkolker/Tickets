@@ -1,6 +1,6 @@
 var result =[];
 
-function writeToDB(){
+function writeZappaToDB(){
     $.ajax({
         type: 'POST',
         url: "Crawlers",
@@ -10,13 +10,12 @@ function writeToDB(){
             "ActionType": "crawlerZappaUpdate",
         },
         success: function () {
-            var i = 0;
+            zappaDone = 1;
         }
     });
 }
 
-function runCrawler() {
-    if(hasOneDayPassed()) {
+function runZappaCrawler() {
         var zappa = document.createElement("div");
 
         $.ajax({
@@ -25,15 +24,14 @@ function runCrawler() {
             async: false,
             success: function (data) {
                 $(zappa).html(data);
-                getData(zappa);
-                writeToDB();
+                getZappaData(zappa);
+                writeZappaToDB();
             }
         });
-    }
 }
 
 
-function getData(zappa){
+function getZappaData(zappa){
 
     var url;
 
@@ -41,12 +39,12 @@ function getData(zappa){
     ($(zappa).find(".event.griditem.show_info_icon")).each(function(){
         url = $(this).find(".eventAction").find(".buyTicket").attr("href");
 
-        getSubPageData(url, this);
+        getSubPageDataZappa(url, this);
     });
 
 }
 
-function getSubPageData(url, page){
+function getSubPageDataZappa(url, page){
     var about, myData, img, price;
     var temp = [];
 
@@ -90,14 +88,4 @@ function pushToResult( page, img, price, about, url){
         m_About: about,
         m_Price: price,
     });
-}
-
-function hasOneDayPassed(){
-    var date = new Date().toLocaleDateString();
-
-    if( localStorage.getItem("date") == date )
-        return false;
-
-    localStorage.setItem("date", date);
-    return true;
 }

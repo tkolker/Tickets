@@ -5,11 +5,8 @@ import appManager.db_manager.DBTrans;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import logic.Show;
-import org.cloudinary.json.JSONArray;
-import org.json.simple.parser.JSONParser;
-import utils.ServletUtils;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import utils.ServletUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,9 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspContext;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -54,7 +49,7 @@ public class CrawlersServlet extends HttpServlet {
         switch (actionType) {
             case Constants.CRAWLER_ZAPPA_UPDATE:
                 try {
-                    writeCrawlResults(request, response, showsManager);
+                    writeZappaCrawlResults(request, response, showsManager);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -78,13 +73,16 @@ public class CrawlersServlet extends HttpServlet {
         String[] parsedShows = ServletUtils.parseRequestParams(ResultsStr);
 
         for (int i = 0; i < parsedShows.length; i++) {
-            shows.add(Show.parseShowFromBravo(em, parsedShows[i], showsManager, i + 1));
+            Show newShow = Show.parseShowFromBravo(em, parsedShows[i], showsManager, i + 1);
+            if(newShow != null) {
+                shows.add(newShow);
+            }
         }
 
-        addShowFromCrawler(shows, showsManager);
+        addShowFromCrawler(shows, showsManager, Constants.BRAVO);
     }
 
-    private void writeCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws Exception {
+    private void writeZappaCrawlResults(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws Exception {
         ArrayList<Show> shows = new ArrayList<>();
         String sStr = request.getParameter(Constants.CRAWLER_SHOWS);
 
@@ -94,14 +92,14 @@ public class CrawlersServlet extends HttpServlet {
             shows.add(Show.parseShow(em, parsedShows[i], showsManager, i + 1));
         }
 
-        addShowFromCrawler(shows, showsManager);
+        addShowFromCrawler(shows, showsManager, Constants.ZAPPA);
     }
 
 
-    private void addShowFromCrawler(ArrayList<Show> shows, ShowsManager showsManager) {
+    private void addShowFromCrawler(ArrayList<Show> shows, ShowsManager showsManager, String type) {
         for (Show s : shows) {
             if (showsManager.showLocationAndDateExist(showsManager.getAllShows(em), s) == null) {
-                String picture = ServletUtils.uploadImageToCloud(s.getPictureUrl());
+                String picture = ServletUtils.uploadImageToCloud(s.getPictureUrl(), type);
                 s.setPictureUrl(picture);
                 DBTrans.persist(em, s);
             }

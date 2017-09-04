@@ -4,7 +4,7 @@
     var PfdWorkBio = {
         _templates: {
             _visual: _.template('<img src="<%=data.src%>" alt="<%=data.alt%>" />'),
-            _readMore: _.template('<a href="#" class="read-more">Read more +</a>')
+           // _readMore: _.template('<a href="#" class="read-more">Read more +</a>')
         },
         _ctor: function () {
             $(window).on('desktop tablet', this._wide);
@@ -41,7 +41,7 @@
 
             // Hide read-more (and expand)
             $('#preamble a.read-more').fadeOut(function () {
-                ReadMore.slideDown($(this));
+                //ReadMore.slideDown($(this));
                 $(this).remove();
             });
         },
@@ -49,10 +49,11 @@
             $('#work-bio').css({ position: 'relative', float: '', top: '' });
             $(window).off('scroll');
             //Show read-more (and collapse)
-            if ($('#preamble a.read-more').length === 0)
-                $(PfdWorkBio._templates._readMore()).appendTo('#preamble').fadeIn(function () {
-                    ReadMore.init('slide');
-                });
+            //if ($('#preamble a.read-more').length === 0)
+                //$(PfdWorkBio._templates._readMore()).appendTo('#preamble').fadeIn(function () {
+                    //ReadMore.init('slide');
+               // }
+            //);
         }
     };
     PfdWorkBio._ctor();

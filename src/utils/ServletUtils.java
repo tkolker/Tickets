@@ -156,7 +156,7 @@ public class ServletUtils {
         return parsedShows;
     }
 
-    public static String uploadImageToCloud(String pictureUrl) {
+    public static String uploadImageToCloud(String pictureUrl, String type) {
         String publicId;
         Map uploadResult = null;
 
@@ -167,7 +167,12 @@ public class ServletUtils {
 
 
         try {
-                uploadResult = cloudinary.uploader().upload(pictureUrl.substring(1, pictureUrl.length()-1), ObjectUtils.emptyMap());
+            if(type.equals(Constants.ZAPPA)) {
+                uploadResult = cloudinary.uploader().upload(pictureUrl.substring(1, pictureUrl.length() - 1), ObjectUtils.emptyMap());
+            }
+            else{
+                uploadResult = cloudinary.uploader().upload(pictureUrl, ObjectUtils.emptyMap());
+            }
         } catch (IOException e1) {
             e1.printStackTrace();
         }

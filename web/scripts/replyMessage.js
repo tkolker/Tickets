@@ -1,7 +1,8 @@
-var id;
+var id, receiver;
 
 $(document).ready(function (){
     id = getURLParameter('id');
+    receiver = getURLParameter('sender');
     $('#sendMsgButton').on("click", sendMessage);
     $('#closeMsgButton').on("click", closeSendMsg);
 });
@@ -12,7 +13,7 @@ function getURLParameter(name) {
 
 function sendMessage(){
     var msg = $('#message').val();
-    var actionType = "sendMsg";
+    var actionType = "replyMsg";
 
     $.ajax({
         url: "inbox",
@@ -21,6 +22,7 @@ function sendMessage(){
             "ActionType": actionType,
             "message": msg,
             "showID": id,
+            "msgReceiver": receiver,
         },
         success: function () {
             $('#message').val("הודעה נשלחה בהצלחה");

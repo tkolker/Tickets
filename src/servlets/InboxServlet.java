@@ -42,8 +42,12 @@ public class InboxServlet extends HttpServlet{
             case Constants.SEND_MSG:
                 sendMsg(request, response, msgManager);
                 break;
+            case Constants.REPLY_MSG:
+                replyMsg(request, response, msgManager);
+                break;
         }
     }
+
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -75,6 +79,35 @@ public class InboxServlet extends HttpServlet{
         response.getWriter().write("[" + size + "," + msgs + "]");
         response.getWriter().flush();
     }
+
+    private void replyMsg(HttpServletRequest request, HttpServletResponse response, MessageManager msgManager) {
+        response.setContentType("text/html;charset=UTF-8");
+        User sender = (User) request.getSession(false).getAttribute(Constants.LOGIN_USER);
+        String receiverID = request.getParameter(Constants.MSG_RECEIVER);
+        int showId = Integer.parseInt(request.getParameter(Constants.SHOW_ID));
+        String msg = request.getParameter(Constants.MSG);
+        UsersManager usersManager = ServletUtils.getUsersManager(request.getServletContext());
+        ShowsManager showsManager = ServletUtils.getShowsManager(request.getServletContext());
+        User receiver = usersManager.getUserByEmail(receiverID, em).get(0);
+
+        String showName = showsManager.getShowByID(em, showId).getShowName();
+        String senderName = sender.getFirstName() + " " + sender.getLastName();
+        String receiverName = receiver.getFirstName() + " " + receiver.getLastName();
+
+        int msgId;
+        List<Message> msgs = msgManager.getAllMessages(em);
+        if (msgs.size() == 0){
+            msgId = 1;
+        }
+        else {
+            msgId = msgs.get(msgs.size() - 1).getM_MsgId() + 1;
+        }
+
+        Message newMsg = new Message(msgId, msg, sender.getEmail(), senderName, receiverID, receiverName, showId, showName);
+        DBTrans.persist(em, newMsg);
+        em.close();
+    }
+
 
     private void sendMsg(HttpServletRequest request, HttpServletResponse response, MessageManager msgManager) {
         response.setContentType("text/html;charset=UTF-8");

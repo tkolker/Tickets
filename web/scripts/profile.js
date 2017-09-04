@@ -32,7 +32,7 @@ function buildInbox(n, msgs) {
     var th2 = document.createElement('th');
     var th3 = document.createElement('th');
     var th4 = document.createElement('th');
-    $(tr1).attr("class", "msgTableToggleColor");
+    $(tr1).attr("class", "msgTableElemTitle");
     $(th1).attr("class", "msgTableElem");
     $(th2).attr("class", "msgTableElem");
     $(th3).attr("class", "msgTableElem");

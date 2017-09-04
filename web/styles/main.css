@@ -484,17 +484,22 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
    /* border-collapse: collapse;*/
     width: 100%;
 }
-
+/*td*/
 .msgTableElem {
     border: 1px solid #dddddd;
     text-align: right;
-    padding: 8px;
+}
+/*th*/
+.msgTableElemTitle {
+    border: 1px solid #dddddd;
+    text-align: right;
+    background-color: lavenderblush;
 }
 
-.msgTable:hover {
+.msgTableToggleColor:hover {
     background-color: #FA8072;
 }
-
+/*tr*/
 .msgTableToggleColor:nth-child(even) {
     background-color: #dddddd;
 }

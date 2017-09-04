@@ -51,8 +51,8 @@ function buildInbox(n, msgs) {
 
     for(var i = 0; i < n; i++){
         var tr = document.createElement('tr');
-        $(tr).attr("class", "msgTableToggleColor");
-        //$(tr).attr("class", "msgTable");
+        $(tr).attr("class", "msgTableTr");
+        //$(tr).attr("class", "msgTableTr");
         var td1 = document.createElement("td");
         var td2 = document.createElement("td");
         var td3 = document.createElement("td");

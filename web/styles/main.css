@@ -177,6 +177,20 @@ footer#msf{bottom:0;left:0;position:absolute;width:100%;height: auto !important;
     border-radius: 4px;
  }
 
+.buttonStatic{
+    font-family: Gisha;
+    -webkit-appearance: none;
+    font-size: 1.5em;
+    width: 45px;
+    height: 30px;
+    color: #FA8072;
+    background-color: #f8f8f8;
+    padding-bottom:3px;
+    padding-top:3px;
+    border: solid 1.5px #778899;
+    border-radius: 4px;
+}
+
 .seeAllButton{
     font-family: Gisha;
     -webkit-appearance: none;
@@ -187,7 +201,7 @@ footer#msf{bottom:0;left:0;position:absolute;width:100%;height: auto !important;
     background-color: #f8f8f8;
     position: relative;
     bottom:5px;
-    right: 450px;
+    right: 370px;
     border: solid 1.5px #778899;
     border-radius: 4px;
 }
@@ -261,6 +275,19 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
     font-size: 1.5em;
     width: 30%;
     height: 5%;
+    padding-bottom:3px;
+    padding-top:3px;
+    border: solid 1.5px #778899;
+    border-radius: 4px;
+    right: 500px;
+    offset-start: 25px;
+}
+
+.inputBoxStatic{
+    font-family: Gisha;
+    font-size: 1.5em;
+    width: 150px;
+    height: 20px;
     padding-bottom:3px;
     padding-top:3px;
     border: solid 1.5px #778899;
@@ -345,7 +372,7 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 
 .showBox {
     font-family: Gisha;
-    width: 40%;
+    width: 100%;
     height:auto;
     -webkit-appearance: none;
     font-size: 1em;
@@ -481,22 +508,24 @@ h4{color:#80807e;font:300 15px/1.4em museo-sans,sans-serif;}
 
 .msgTable {
     font-family: Gisha;
-   /* border-collapse: collapse;*/
+    border-collapse: collapse;
     width: 100%;
 }
 /*td*/
 .msgTableElem {
     border: 1px solid #dddddd;
     text-align: right;
+    padding: 8px;
 }
 /*th*/
 .msgTableElemTitle {
     border: 1px solid #dddddd;
     text-align: right;
     background-color: lavenderblush;
+    padding: 8px;
 }
 
-.msgTableToggleColor:hover {
+.msgTableTr:hover {
     background-color: #FA8072;
 }
 /*tr*/

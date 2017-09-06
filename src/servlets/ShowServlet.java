@@ -162,15 +162,15 @@ public class ShowServlet extends HttpServlet {
 
     private void createShowArrayResult(List<ShowInterface> shows, List<UserShowsInterface> userShowInList, ArrayList<ShowInterface> res)
     {
-        for (ShowInterface s : shows) {
-            for(UserShowsInterface u:userShowInList)
-            if (s.getShowID() == u.getShowId()) {
-                res.add(s);
+        for (int i = 0; i <shows.size(); i++) {
+            for(int j = 0; j < userShowInList.size(); j++)
+            if (shows.get(i).getShowID() == userShowInList.get(j).getShowId()) {
+                res.add(shows.get(i));
             }
         }
     }
 
-    //TODO : need to change to showArchive !!!! sivan's work :)
+
     private void getBoughtTickets(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
         response.setContentType("application/json");
         ArrayList<ShowInterface> res = new ArrayList<>();
@@ -197,10 +197,13 @@ public class ShowServlet extends HttpServlet {
 
     private void createShowArchiveArrayResult(List<ShowInterface> shows, List<UserShowBought> userShowBought, ArrayList<ShowInterface> res)
     {
-        for (ShowInterface s:shows) {
-            for(UserShowBought u:userShowBought)
-            if(s.getShowID() == u.getShowId()){
-                res.add(s);
+        HashSet<Integer> keys = new HashSet<>();
+
+        for (int i = 0; i < shows.size(); i++) {
+            for(int j = 0; j <userShowBought.size(); j++)
+                if(shows.get(i).getShowID() == userShowBought.get(j).getShowId() && !keys.contains((userShowBought.get(j)).getKey())){
+                    res.add(shows.get(i));
+                    keys.add((userShowBought.get(j)).getKey());
             }
         }
     }
@@ -356,6 +359,7 @@ public class ShowServlet extends HttpServlet {
         }
         DBTrans.updateUserFavShows(em, user.getEmail(), user.getFavShows());
 
+        em.close();
         response.getWriter().write(str);
         response.getWriter().flush();
     }
@@ -389,6 +393,8 @@ public class ShowServlet extends HttpServlet {
         }
         DBTrans.updateUserFavLocation(em, user.getEmail(), user.getFavLocations());
 
+
+        em.close();
         response.getWriter().write(str);
         response.getWriter().flush();
     }
@@ -406,6 +412,7 @@ public class ShowServlet extends HttpServlet {
         }
         DBTrans.updateUserFavLocation(em, user.getEmail(), user.getFavLocations());
 
+        em.close();
         response.getWriter().write(user.getFavLocations());
         response.getWriter().flush();
     }
@@ -424,6 +431,7 @@ public class ShowServlet extends HttpServlet {
 
         DBTrans.updateUserFavShows(em, user.getEmail(), user.getFavShows());
 
+        em.close();
         response.getWriter().write(user.getFavShows());
         response.getWriter().flush();
     }
@@ -472,7 +480,7 @@ public class ShowServlet extends HttpServlet {
                 DBTrans.persist(em, userShowBought);
                 String sellerMail = userShowsManager.getUserByShowId(em, showID);
                 String sellerName = usersManager.getUserNameByEmail(em, sellerMail);
-                sendConfirmationMsg(msgManager, sellerMail, sellerName, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName(), showToBuy);
+                sendConfirmationMsg(msgManager, sellerMail, sellerName, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName(), showToAddToUserShowBought);
                 if (!EmailUtils.sendEmailToBuyer(sellerMail, sellerName, showToAddToUserShowBought, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName())
                         || !EmailUtils.sendEmailToSeller(sellerMail, sellerName, showToAddToUserShowBought, userFromSession.getEmail(), userFromSession.getFirstName() + " " + userFromSession.getLastName()))
                     messageRequestStatus = Constants.MESSAGE_NOT_SEND;
@@ -484,6 +492,8 @@ public class ShowServlet extends HttpServlet {
                     DBTrans.remove(em, showToBuy);
                 }
             }
+
+            em.close();
             em.clear();
             Gson gson = new Gson();
             String res = gson.toJson(requestStatus);
@@ -494,7 +504,7 @@ public class ShowServlet extends HttpServlet {
 
     }
 
-    private void sendConfirmationMsg(MessageManager msgManager, String sellerId, String sellerName, String buyerId, String buyerName, Show show) {
+    private void sendConfirmationMsg(MessageManager msgManager, String sellerId, String sellerName, String buyerId, String buyerName, ShowArchive show) {
         int msgSellerId, msgBuyerId;
 
         List<Message> msgs = msgManager.getAllMessages(em);
@@ -507,9 +517,8 @@ public class ShowServlet extends HttpServlet {
             msgBuyerId = msgSellerId + 1;
         }
 
-        String toSellerMsg = " היי" + sellerName + "\nנרכשו " + show.getNumOfTickets() + " כרטיסים להופעה " + show.getShowName() + " שפירסמת למכירה.\nסך הכל הועבר לחשבונך " + show.getNumOfTickets()*show.getShowPrice() + " ש\"ח\nליצירת קשר עם הקונה:\n" + buyerName + " " + buyerId + "\nצווחת מכרטסים";
-        String toBuyerMsg = " היי" + buyerName + "\nרכשת " + show.getNumOfTickets() + " כרטיסים להופעה " + show.getShowName() + " \nסך הכל חוייבת בחשבונך " + show.getNumOfTickets()*show.getShowPrice() + " ש\"ח\nליצירת קשר עם המוכר:\n" + sellerName + " " + sellerId + "\nצווחת מכרטסים";
-
+        String toSellerMsg = EmailUtils.builtEmailBodyForSeller(sellerName, show, buyerId, buyerName);
+        String toBuyerMsg = EmailUtils.builtEmailBodyForBuyer(sellerId,sellerName,show, buyerName);
 
         Message toSeller = new Message(msgSellerId, toSellerMsg, "mecartesim@gmail.com", "מכרטסים", sellerId, sellerName, show.getShowID(), show.getShowName());
         Message toBuyer = new Message(msgBuyerId, toBuyerMsg, "mecartesim@gmail.com", "מכרטסים", buyerId, buyerName, show.getShowID(), show.getShowName());
@@ -583,7 +592,7 @@ public class ShowServlet extends HttpServlet {
             if (userShows.size() == 0) {
                 userShowNum = 1;
             } else {
-                userShowNum = userShows.get(userShows.size() - 1).getShowId() + 1;
+                userShowNum = userShows.get(userShows.size() - 1).getKey() + 1;
             }
 
             if (showToAdd == null) {
@@ -623,11 +632,11 @@ public class ShowServlet extends HttpServlet {
     }
 
     private boolean showDateValid(LocalDateTime dataToCheck) {
-        if(dataToCheck.isAfter(LocalDateTime.now().plusDays(7)))
+        if((LocalDateTime.now().plusDays(7)).isAfter(dataToCheck))
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void removeShowFromDB(HttpServletRequest request, HttpServletResponse response, ShowsManager showsManager) throws IOException {
@@ -654,7 +663,7 @@ public class ShowServlet extends HttpServlet {
             DBTrans.remove(em, userShowToUpdate);
         }
 
-
+        em.close();
         Gson gson = new Gson();
         String res = gson.toJson(validInput);
 

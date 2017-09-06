@@ -25,4 +25,6 @@ public class UserShows implements UserShowsInterface {
 
     public int getShowId() {return  m_ShowID;}
 
+    public int getKey() { return  m_Key; }
+
 }

@@ -39,6 +39,27 @@ public class EmailUtils {
         return text.toString();
     }
 
+    public static String builtEmailBodyForBuyerHtml(String sellerEmail, String sellerName, ShowArchive show, String buyerName)
+    {
+        int totalAmount = show.getShowPrice() * show.getShowTickets();
+        StringBuilder text = new StringBuilder("היי ").append(buyerName).append(",").
+                append("\n\n\n").append("קנית ").append(show.getShowTickets()).append(" כרטיסים להופעה ").append(show.getShowName()).append(".")
+                .append("\n\n").append("סך הכל שולם ").append(totalAmount).append(" שקלים חדשים.").append("\n\n").append("מספר הזמנה: ").append(show.getKey()).append(".\n\n")
+                .append("ליצירת קשר עם המוכר: ").append("\n").append(sellerName).append(" ").append(sellerEmail).append("\n\n\n")
+                .append("★ צוות מכרטסים");
+        return text.toString();
+    }
+
+    public static String builtEmailBodyForSellerHtml(String sellerName, ShowArchive show, String buyerEmail, String buyerName)
+    {
+        int totalAmount = show.getShowPrice() * show.getShowTickets();
+        StringBuilder text = new StringBuilder("היי ").append(sellerName).append(",").
+                append("<br><br>").append("נרכשו ").append(show.getShowTickets()).append(" כרטיסים להופעה ").append(show.getShowName()).append(" שפירסמת למכירה.")
+                .append("<br><br>").append("סך הכל הועבר לחשבונך ").append(totalAmount).append(" שקלים חדשים.").append("<br><br>").append("ליצירת קשר עם הקונה: ").append("<br>").append(buyerName).append(" ").append(buyerEmail).append("<br><br>")
+                .append("★ צוות מכרטסים");
+        return text.toString();
+    }
+
     public static boolean sendEmailToSeller(String sellerEmail, String sellerName, ShowArchive show, String buyerEmail, String buyerName) {
         String body = builtEmailBodyForSeller(sellerName, show, buyerEmail, buyerName);
         String subject = "מכרת כרטיס במכרטסים!";

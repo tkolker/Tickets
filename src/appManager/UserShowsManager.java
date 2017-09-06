@@ -47,7 +47,7 @@ public class UserShowsManager implements UserShowsManagerInterface{
 
     public List<UserShows> getAllShows(EntityManager entityManager)
     {
-        TypedQuery<UserShows> query = entityManager.createQuery("SELECT s FROM UserShows s ORDER BY s.m_ShowID", UserShows.class);
+        TypedQuery<UserShows> query = entityManager.createQuery("SELECT s FROM UserShows s ORDER BY s.m_Key", UserShows.class);
         return query.getResultList();
     }
 
